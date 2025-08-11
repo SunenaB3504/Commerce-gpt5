@@ -1,0 +1,27 @@
+### VS Code REST Client — Day 2 parsing
+@host = http://127.0.0.1:8002
+
+### Parse by uploading a PDF
+POST {{host}}/data/parse
+Content-Type: multipart/form-data
+
+--boundary
+Content-Disposition: form-data; name="subject"
+
+Economics
+--boundary
+Content-Disposition: form-data; name="chapter"
+
+1
+--boundary
+Content-Disposition: form-data; name="file"; filename="test.pdf"
+Content-Type: application/pdf
+
+< ./test.pdf
+--boundary--
+
+### Parse by referencing an already uploaded path (replace with your saved uploads path)
+POST {{host}}/data/parse
+Content-Type: application/x-www-form-urlencoded
+
+path=uploads%2Fexample.pdf&subject=Economics&chapter=1
