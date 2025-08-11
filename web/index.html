@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Commerce GPT5</title>
+  <link rel="stylesheet" href="/web/assets/css/styles.css" />
+</head>
+<body>
+  <header>
+    <h1>Commerce GPT5</h1>
+  </header>
+  <main>
+    <section>
+      <h2>Upload PDFs</h2>
+      <form id="uploadForm">
+        <label>Subject <input name="subject" placeholder="Economics" /></label>
+        <label>Chapter <input name="chapter" placeholder="1" /></label>
+  <label for="pdfFile">PDF File</label>
+  <input id="pdfFile" type="file" name="file" accept="application/pdf" aria-label="PDF File" required />
+        <button type="submit">Upload</button>
+      </form>
+      <pre id="uploadResult"></pre>
+    </section>
+  </main>
+  <script src="/web/assets/js/config.js" type="module"></script>
+  <script src="/web/assets/js/upload.js" type="module"></script>
+</body>
+</html>

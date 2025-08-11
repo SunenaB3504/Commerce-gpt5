@@ -1,0 +1,24 @@
+### VS Code REST Client requests (install extension: humao.rest-client)
+@host = http://127.0.0.1:8000
+
+### Health
+GET {{host}}/health
+
+### Upload a PDF (ensure server is running)
+POST {{host}}/data/upload
+Content-Type: multipart/form-data
+
+--boundary
+Content-Disposition: form-data; name="subject"
+
+Economics
+--boundary
+Content-Disposition: form-data; name="chapter"
+
+1
+--boundary
+Content-Disposition: form-data; name="file"; filename="test.pdf"
+Content-Type: application/pdf
+
+< ./test.pdf
+--boundary--
