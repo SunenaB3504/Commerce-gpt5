@@ -1,0 +1,19 @@
+### Day 4: Ask with synthesis and streaming
+
+@host = http://127.0.0.1:8003
+# If using 8004 locally, change to: http://127.0.0.1:8004
+
+### Ensure health
+GET {{host}}/health/
+
+### Re-index Economics Ch.1 (optional - by path)
+POST {{host}}/data/index
+Content-Type: application/x-www-form-urlencoded
+
+path=uploads%2F18a9c7c4-0587-4e8d-a951-813338ed4822_keec101.pdf&subject=Economics&chapter=1
+
+### Ask with synthesis
+GET {{host}}/ask?q=two-fold%20motive%20behind%20the%20deindustrialisation&subject=Economics&chapter=1&k=6&answer_synthesis=true
+
+### Ask stream (SSE)
+GET {{host}}/ask/stream?q=two-fold%20motive%20behind%20the%20deindustrialisation&subject=Economics&chapter=1&k=6

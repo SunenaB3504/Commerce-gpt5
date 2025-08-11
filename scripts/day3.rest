@@ -1,0 +1,30 @@
+### VS Code REST Client — Day 3 indexing and ask
+@host = http://127.0.0.1:8003
+
+### Build index by path
+POST {{host}}/data/index
+Content-Type: application/x-www-form-urlencoded
+
+path=uploads%2Fkeec101.pdf&subject=Economics&chapter=1&chunk_size=1200&chunk_overlap=200&model=all-MiniLM-L6-v2
+
+### Build index by uploading
+POST {{host}}/data/index
+Content-Type: multipart/form-data
+
+--boundary
+Content-Disposition: form-data; name="subject"
+
+Economics
+--boundary
+Content-Disposition: form-data; name="chapter"
+
+1
+--boundary
+Content-Disposition: form-data; name="file"; filename="keec101.pdf"
+Content-Type: application/pdf
+
+< ./keec101.pdf
+--boundary--
+
+### Ask a question
+GET {{host}}/ask?q=What%20was%20the%20two-fold%20motive%20behind%20deindustrialisation%3F&subject=Economics&chapter=1&k=4

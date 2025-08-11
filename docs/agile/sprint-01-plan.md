@@ -32,6 +32,9 @@ Sprint dates
 - Start: 2025-08-11 (2 weeks/10 working days)
 - Review/Retro: 2025-08-22
 
+Status checkpoint (2025-08-11)
+- Current day: Day 3 completed.
+
 Team & roles
 - Product/QA: Validates ACs, demo, and coverage on sample PDFs
 - Dev: Full-stack (backend FastAPI + web PWA)
@@ -123,3 +126,29 @@ Next up (Day 2)
 - Add proper 400/413 error responses for size/type; logging
 - Unit tests for parsing rules and basic text normalization
 - Optional: small UI control to trigger parse after upload
+
+Day 2 status (done)
+- /data/parse implemented; uses PyMuPDF if available else pdfminer.six fallback.
+- Parsed keec101.pdf successfully; saved page-wise JSON at parse-keec101.json.
+- REST client added (scripts/day2.rest); verified on 127.0.0.1:8002.
+
+Day 3 status (done)
+- Chunking implemented with overlap and page-span metadata (services/api/utils/chunker.py).
+- Indexing + retrieval implemented:
+	- Primary path: ChromaDB + MiniLM (if installed).
+	- Fallback path: Pure-Python JSON index with TF-IDF/token overlap; no heavy deps required.
+- Routes live: POST /data/index (build index and persist chunks JSON), GET /ask (top-k passages with metadata).
+- Validation: Indexed keec101.pdf; /ask returned non-empty results for queries like “two-fold motive behind deindustrialisation,” showing text snippets from the chapter.
+- Tooling: scripts/day3.rest; scripts/smoke-day3.ps1.
+- Note: API running on 127.0.0.1:8003 locally.
+
+Next up (Day 4)
+~ Day 4 status (in progress)
+- Added answer synthesis utility with MMR and extractive sentence picking; inline citations.
+- Extended GET /ask to return answer + citations; added /ask/stream (SSE) simple stream.
+- Web: minimal Ask UI on index.html; day4 REST and smoke scripts.
+
+Next up (Day 4 → Day 5)
+- Improve ranking quality (install scikit-learn for TF-IDF or enable Chroma vectors; then re-index).
+- Add unit tests for chunker and retrieval; add an E2E ask test.
+- Optional: add simple reranker (BM25) if TF-IDF not installed.

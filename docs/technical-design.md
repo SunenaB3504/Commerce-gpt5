@@ -29,3 +29,11 @@
 
 ## 8. Risks
 - OCR quality, CPU inference latency, wake-word reliability; mitigations per approach paper
+
+## 9. HTTP API (snapshot)
+- GET /health/ — liveness
+- POST /data/upload — save PDF, return path/id
+- POST /data/parse — parse PDF to pages
+- POST /data/index — chunk + index; persist chunks JSON for web
+- GET /ask — retrieve passages; returns { namespace, results[], answer?, citations? }
+- GET /ask/stream — SSE stream with selected passages and final answer

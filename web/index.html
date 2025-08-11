@@ -22,8 +22,22 @@
       </form>
       <pre id="uploadResult"></pre>
     </section>
+    <hr />
+    <section>
+      <h2>Ask</h2>
+      <form id="askForm">
+        <label>Subject <input id="askSubject" name="subject" value="Economics" /></label>
+        <label>Chapter <input id="askChapter" name="chapter" value="1" /></label>
+        <label>Question <input id="askQ" name="q" placeholder="Ask a question..." /></label>
+        <button type="submit">Ask</button>
+      </form>
+      <div id="askAnswer" class="answer"></div>
+      <pre id="askCitations"></pre>
+      <pre id="askPassages"></pre>
+    </section>
   </main>
   <script src="/web/assets/js/config.js" type="module"></script>
   <script src="/web/assets/js/upload.js" type="module"></script>
+  <script src="/web/assets/js/ask.js" type="module"></script>
 </body>
 </html>
