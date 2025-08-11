@@ -1,0 +1,7 @@
+{
+  "document": {"subject": "Economics", "chapter": "1", "source": "Economics_Ch1.pdf", "pages": [1, 2]},
+  "chunks": [
+    {"id": "eco1-0001", "text": "Sample chunk text for development.", "pageStart": 1, "pageEnd": 1, "tokens": 32, "meta": {"topic": "Introduction"}},
+    {"id": "eco1-0002", "text": "Another sample chunk.", "pageStart": 2, "pageEnd": 2, "tokens": 22, "meta": {"topic": "Basics"}}
+  ]
+}

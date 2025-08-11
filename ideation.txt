@@ -1,0 +1,168 @@
+A chatbot for CBSE 12th standard Commerce stream.
+
+1. Content : Fine tune a SLM with the subjects.
+	a) Subjects : Accountancy, Business Studies, and economics
+	b) Input : Chapters in PDF format
+	c) Output : An Android app with chatbot functionality
+	
+2. Chatbot features:
+	a) A Tecah me option
+		a1) Input : Type and voice
+		a2)	Output : Text and voice 
+		a3) Facility to select the Edducation Board, Subject, Chapter, Question types
+		a4) UI for upload of chapters in PDF
+		a5) Webapp with all features (Android mobile app can be phase 2).
+		a6) Since my system has poor configuration, plan in resouce intensive activities in Google colab. Following is my system configuration.
+			      Time of this report: 8/11/2025, 09:31:51
+             Machine name: DESKTOP-Q776IQ1
+               Machine Id: {F5C064F4-021F-4BDF-8A58-2EEF616EE243}
+         Operating System: Windows 11 Home Single Language 64-bit (10.0, Build 26100) (26100.ge_release.240331-1435)
+                 Language: English (Regional Setting: English)
+      System Manufacturer: LENOVO
+             System Model: 81X2
+                     BIOS: EECN44WW (type: UEFI)
+                Processor: AMD Ryzen 5 4500U with Radeon Graphics          (6 CPUs), ~2.4GHz
+                   Memory: 8192MB RAM
+      Available OS Memory: 7550MB RAM
+                Page File: 16885MB used, 9096MB available
+              Windows Dir: C:\WINDOWS
+          DirectX Version: DirectX 12
+      DX Setup Parameters: Not found
+         User DPI Setting: 96 DPI (100 percent)
+       System DPI Setting: 144 DPI (150 percent)
+          DWM DPI Scaling: UnKnown
+                 Miracast: Available, with HDCP
+Microsoft Graphics Hybrid: Not Supported
+ DirectX Database Version: 1.7.3
+   Auto Super Res Version: Unknown
+       System Mux Support: Mux Support Inactive - Ok
+           Mux Target GPU: dGPU
+    Mux Incompatible List: 
+           DxDiag Version: 10.00.26100.4484 64bit Unicode
+
+		a7) Facility for one one by question and answers.
+		a8) Facility to provide the full details of the chapter.
+			a5.1) For example, a questions like teach me chapter 1 of economics. It will first brief the chapter then it will provide the question answers like one word answers, Short answers etc. refer below the full list of question types and answer explectations.
+				a5.1.1) For Economics :
+				The types of questions, based on the provided sources, are primarily categorized by their format, the marks they carry, and their recommended word limits. The entire question paper is divided into two main sections: **Section A – Macro Economics** and **Section B – Indian Economic Development**.
+
+Here is a detailed breakdown of each type:
+
+*   **Multiple Choice Type Questions (MCQ)**
+    *   These questions carry **1 mark each**.
+    *   There are a total of **20 Multiple Choice Type Questions**.
+    *   They come in various formats:
+        *   **Standard MCQs**: These typically involve choosing the correct option from a set of alternatives. Examples include identifying a budgetary objective like "Redistribution of income", filling in blanks regarding economic terms such as "Net Product Taxes" or the "flexible" exchange rate system, interpreting diagrams to identify a "Reference Line" at 45 degrees, or identifying the correct type of deficit like "fiscal" deficit. They also involve evaluating the truthfulness of statements, like "Statement 1 is true and Statement 2 is false" regarding Marginal Propensity to Consume (MPC).
+        *   **Assertion (A) and Reason (R) Questions**: As discussed, this is a specific type of MCQ. You are presented with an Assertion (a statement) and a Reason (another statement). You must then choose an option that correctly describes the truthfulness of both statements and whether the Reason correctly explains the Assertion. For instance, you might encounter a question where "Assertion (A) is false, but Reason (R) is true" concerning government securities and the central bank's role. Another example involves evaluating statements about foreign grants-in-aid and disposal of equity by Public Sector Undertakings.
+
+*   **Short Answer Type Questions (3 Marks)**
+    *   Each of these questions is worth **3 marks**.
+    *   There are **4 Short Answer Type Questions** of this specific value.
+    *   Answers for these questions should be concise, falling within a **60 to 80-word limit**.
+    *   Content for these questions often requires brief explanations or justifications. Examples include: categorizing and explaining "Direct Taxes" and "Indirect Taxes", explaining where "Foreign Portfolio Investments" are recorded in the Balance of Payments and defining a "Balance of Payments deficit", critically appraising the "disinvestment policy" or justifying "globalisation as an essential outcome of liberalisation", and discussing the importance of "liberty indicators" in measuring development. Other topics could involve explaining the "Saansad Adarsh Gram Yojana (SAGY)" or identifying sources of workforce data.
+
+*   **Short Answer Type Questions (4 Marks)**
+    *   These questions carry **4 marks each**.
+    *   There are **6 Short Answer Type Questions** of this type.
+    *   The recommended word limit for these answers is **80 to 100 words**.
+    *   These questions typically require a more detailed explanation, a short calculation, or a more elaborate justification. Examples include: justifying the derivation of the saving curve from the consumption curve with steps, calculating "Break-even level of income" or "Equilibrium level of income" given specific economic parameters, explaining the working process of the "increase in investment on the National Income" (multiplier effect), discussing the evolution and forms of money, and evaluating the benefits and risks of "Central Bank Digital Currency (CBDC)". Other questions may involve calculating "percentage change in Real GDP", discussing the impact of "public investment" on GDP and welfare, defending or refuting statements about the classification of final goods, identifying types of capital loss, discussing reforms leading to China's "rapid economic growth", explaining the rationale behind G-20 nations' commitment to "sustainable development", and justifying industrial licensing or discussing estimates of national income during colonial rule.
+
+*   **Long Answer Type Questions (6 Marks)**
+    *   Each of these questions is allocated **6 marks**.
+    *   The paper contains **4 Long Answer Type Questions** of this type.
+    *   Answers are expected to be more comprehensive, with a recommended word limit of **100 to 150 words**.
+    *   While the general instructions indicate the presence of 6-mark questions, the specific detailed examples provided in the sources for individual questions primarily extend up to 4 marks. However, a 6-mark question would typically involve a more in-depth analysis, a broader discussion of interconnected concepts, or a more elaborate explanation requiring a lengthier response compared to the shorter answer types.
+
+				a5.1.2) For Business studies:
+				Based on the provided sources, the types of questions you will encounter include a variety of formats designed to test different levels of understanding:
+
+*   **Objective Type Questions:** These are typically worth one mark each and test direct recall or basic understanding.
+    *   **Multiple Choice Questions (MCQs):** You choose the correct option from a given set of alternatives. These can cover a wide range of topics, including identifying concepts, characteristics, or benefits from a given statement or short scenario.
+    *   **Assertion (A) and Reason (R) Questions:** You evaluate two statements, an Assertion and a Reason, to determine if both are true and if the Reason correctly explains the Assertion.
+    *   **Statement Analysis Questions:** You evaluate two given statements (Statement I and Statement II) to determine their truthfulness.
+    *   **Matching Questions:** You match items from one column to another based on their relationship.
+*   **Short Answer Questions:** These questions require concise explanations or direct answers, usually carrying 3 marks. Answers for these should typically be between **50 to 75 words**. They might ask you to:
+    *   State the meaning or definition of a concept.
+    *   Provide specific situations or examples.
+    *   Perform calculations with clear working steps.
+*   **Descriptive/Explanatory Questions:** These require more detailed answers, discussions, or analyses. They come in different mark allocations with corresponding word limits:
+    *   **4-mark questions:** Answers should be about **150 words**. These often ask for explanations of features, factors, processes, or the identification and explanation of concepts from a given scenario.
+    *   **6-mark questions:** Answers should be about **200 words**. These demand comprehensive answers, often involving detailed explanations, differentiation between concepts, or a thorough analysis of multiple elements or factors.
+    *   Within this category, you will find:
+        *   **Explanation of Concepts:** Defining and elaborating on business terms or principles.
+        *   **Feature-based Questions:** Describing characteristics of a concept.
+        *   **Importance/Significance Questions:** Explaining why a particular concept or function is crucial.
+        *   **Difference-based Questions:** Comparing and contrasting two related concepts on various parameters.
+        *   **Factor-based Questions:** Discussing the various factors that influence a particular decision or situation.
+        *   **Benefit-based Questions:** Explaining the advantages of certain practices or processes.
+        *   Many descriptive questions offer an **"OR" option**, providing a choice between two related topics or aspects.
+*   **Calculation-based Questions:** These questions require numerical computations, such as calculating financial ratios like Return on Investment (ROI) and Interest Coverage Ratio (ICR) using provided financial data.
+*   **Case Study Questions:** These present a realistic business scenario, and you are required to apply your theoretical knowledge to analyze the situation, identify relevant business concepts, and explain their application or implications within the context of the case. These can vary in marks, often combining identification with explanation.
+
+				a5.1.3) For Accountancy:
+				Based on the sources, the Accountancy Class XII examination features different types of questions, varying in format, complexity, and marks. The question paper is structured into two main parts: Part A and Part B.
+
+Here's a breakdown of the question types:
+
+*   **Objective/Multiple Choice Questions (1 Mark Each)**:
+    *   These are short questions that often require choosing the correct option from a given set (A, B, C, D).
+    *   Examples include questions on:
+        *   Calculations of specific amounts like profits, goodwill, or capital.
+        *   Identification of correct journal entries or accounting treatments.
+        *   Conceptual understanding of accounting principles, such as capital adjustments or share forfeiture.
+        *   Classification of financial statement items or effects on ratios.
+        *   Computerised accounting functions or terminology.
+    *   Questions 1 to 16 in Part A and 27 to 30 in Part B (for both options) fall into this category.
+
+*   **Problem-Solving Questions requiring Journal Entries, Account Preparation, or Detailed Calculations (3, 4, or 6 Marks)**:
+    *   These questions require more detailed working, including passing journal entries, preparing specific accounts (like Realisation Account, Capital Accounts, Profit & Loss Appropriation Account), or performing multi-step calculations.
+    *   Examples include:
+        *   Calculating and passing journal entries for complex transactions such as remuneration payable to a partner during dissolution, business takeover with debenture issuance, investment fluctuation reserve adjustments, share forfeiture and reissue, or executor payments.
+        *   Preparing financial statements or specific accounts like Realisation Account, Revaluation Account, and Partner Capital Accounts.
+        *   Calculating specific financial ratios or completing comparative statements.
+        *   Calculating cash flow from operating or investing activities.
+    *   These questions carry 3, 4, or 6 marks, indicating a need for comprehensive answers with workings. Questions 17 to 20, 31, 32 carry 3 marks; 21, 22, 33 carry 4 marks; and 23 to 26, 34 carry 6 marks.
+
+*   **Conceptual/Descriptive Questions (Varying Marks)**:
+    *   These questions require explanations, descriptions of features, or differentiation between concepts. They are common in Part B, especially for Computerised Accounting.
+    *   Examples include:
+        *   Stating headings and sub-headings for balance sheet items.
+        *   Describing requirements for database suitability.
+        *   Explaining features of computerized accounting systems or the use of specific functions like 'Conditional Formatting'.
+        *   Describing and differentiating between depreciation methods.
+        *   Stating types of accounting vouchers.
+
+The question paper provides **internal choices** for some questions, allowing students to choose between alternatives for certain 1-mark, 3-mark, 4-mark, and 6-mark questions.
+	b) A wake word "Pappu"
+	c) Use the voice call flow similar to Alexa
+
+3) Ask me features
+	a) Both voice and text.
+	b) Validation of both voice and text
+	c) One word questions and MCQs
+	d) Feedback with correct answer and explantion.
+	e) chapter readiness for exam : Ask random questions from various chapters and after, validate the answer and identify which chapter require further revision 
+
+4. 	Content 
+	a) Pulbic exam ready (Cmprehensive and covers all the points and subpoints of the chapters)
+	b) Strictly from the book
+	c) Age appropriate
+
+
+
+Please update the following in the documents.
+
+I need a prototype with the following features:
+
+a) Two chapters of each subjects.(I will provide chapter 1 Economics PDF).
+b) PDF upload and parcing UI.
+c) Finetune the data with those chapters.
+c) Webapp with all features (Android mobile app can be done later).
+
+
+
+Couple of suggestions, please update the documents accordingly:
+
+1) Contents should be exam ready with comprehensive coverage of each points in the chapter.
+2) Develop wbn interface with HTML, CSS and js.
+3) The application shall be hosted in github as public access.

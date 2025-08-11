@@ -1,0 +1,20 @@
+{
+  "version": "v1",
+  "generatedAt": "2025-08-11T00:00:00Z",
+  "subjects": ["Economics"],
+  "chapters": [
+    {
+      "subject": "Economics",
+      "chapter": "1",
+      "title": "Sample Chapter",
+      "files": [
+        {
+          "url": "/web/data/subjects/Economics/chapters/1/chunks-001.json",
+          "sha256": "dev-sample",
+          "bytes": 256,
+          "purpose": "chunks"
+        }
+      ]
+    }
+  ]
+}
