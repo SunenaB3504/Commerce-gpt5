@@ -9,6 +9,12 @@ def _clean(text: str) -> str:
     import re
     text = text.replace("\r\n", "\n").replace("\r", "\n")
     text = re.sub(r"[\t\x0b\x0c]", " ", text)
+    # Remove PDF artifact tokens like (cid:216) and similar
+    text = re.sub(r"\(cid:[^\)]+\)", " ", text)
+    # Fix common hyphen-space breaks like "de- industrialisation" -> "de-industrialisation"
+    text = re.sub(r"(\w)-\s+(\w)", r"\1-\2", text)
+    # Remove stray spaces before punctuation
+    text = re.sub(r"\s+([,.;:!?])", r"\1", text)
     text = re.sub(r"\s+", " ", text).strip()
     return text
 

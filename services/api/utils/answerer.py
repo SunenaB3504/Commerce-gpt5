@@ -68,7 +68,7 @@ def _split_sentences(text: str) -> List[str]:
 
 
 def synthesize_answer(query: str, passages: List[Dict[str, Any]], max_chars: int = 900) -> Tuple[str, List[Dict[str, Any]]]:
-    """Extractive synthesis: pick salient sentences from top passages with citations.
+    """Extractive synthesis: globally rank clean sentences from top passages and attach citations.
 
     Returns (answer_text, citations[])
     citations: [{page_start, page_end, filename, source_path}]
@@ -76,48 +76,99 @@ def synthesize_answer(query: str, passages: List[Dict[str, Any]], max_chars: int
     if not passages:
         return ("No supporting passages found for this question.", [])
 
+    import re
     q_terms = set(w.lower() for w in query.split())
-    chosen: List[str] = []
-    citations: List[Dict[str, Any]] = []
-    added_pages = set()  # to dedupe citations
 
+    # Filters and bonuses
+    interrogative_re = re.compile(r"\?$|^(what|why|how|when|where|who|name|explain|discuss|enumerate|give reasons|identify|prepare|compare)\b", re.I)
+    exercise_re = re.compile(r"(exercise|work (these|this) out|short\s*answer|very\s*short|fill in|choose the correct|critically\s+appraise|match\s+the|state\s+whether|on\s+a\s+map\s+of\s+india)", re.I)
+    heading_re = re.compile(r"^\d+(?:\.[\d]+)*\s+[A-Z][A-Z\s]+$")
+    artifact_re = re.compile(r"\(cid:[^\)]+\)")
+    motive_bonus_re = re.compile(r"(raw\s+material|supplier\s+of\s+raw|market\s+for\s+british\s+goods|market\s+for\s+british)", re.I)
+
+    def is_noise_sentence(s: str) -> bool:
+        s_clean = s.strip()
+        if len(s_clean) < 5:
+            return True
+        if interrogative_re.search(s_clean) or exercise_re.search(s_clean):
+            return True
+        if heading_re.match(s_clean):
+            return True
+        letters = [ch for ch in s_clean if ch.isalpha()]
+        if letters:
+            upper_ratio = sum(1 for ch in letters if ch.isupper()) / len(letters)
+            if upper_ratio > 0.8 and len(letters) > 8:
+                return True
+        # Avoid overlong instruction-like lines
+        if len(s_clean) > 300 and (";" in s_clean or ":" in s_clean):
+            return True
+        return False
+
+    # Gather candidates across all passages
+    candidates: List[Tuple[str, Dict[str, Any]]] = []
     for h in passages:
-        text = h.get("text", "")
+        text = artifact_re.sub(" ", h.get("text", ""))
         meta = h.get("metadata", {}) or {}
-        p_start = meta.get("page_start")
-        p_end = meta.get("page_end")
-        fname = meta.get("filename")
-        src = meta.get("source_path")
-        sent_list = _split_sentences(text)
-        if not sent_list:
-            continue
-        # Rank sentences by overlap with query terms
-        def s_score(s: str) -> float:
-            st = set(s.lower().split())
-            return len(q_terms & st) / (len(q_terms) or 1)
+        for s in _split_sentences(text):
+            s = s.strip()
+            if not s:
+                continue
+            if is_noise_sentence(s):
+                continue
+            if len(s) > 260:
+                continue
+            candidates.append((s, meta))
 
-        sent_list.sort(key=s_score, reverse=True)
-        # Take top 1-2 sentences per passage
-        take = 2 if len(sent_list) > 1 else 1
-        for s in sent_list[:take]:
-            if len(" ".join(chosen) + " " + s) > max_chars:
-                break
-            chosen.append(s)
-        key = (p_start, p_end, fname)
-        if key not in added_pages:
-            citations.append({
-                "page_start": p_start,
-                "page_end": p_end,
-                "filename": fname,
-                "source_path": src,
-            })
-            added_pages.add(key)
-        if len(" ".join(chosen)) >= max_chars:
+    if not candidates:
+        return ("No direct answer found in retrieved passages.", [])
+
+    # Score and rank candidates
+    def s_score(s: str) -> float:
+        st = set(s.lower().split())
+        overlap = len(q_terms & st) / (len(q_terms) or 1)
+        declarative_bonus = 0.1 if s.endswith('.') else 0.0
+        definitional_bonus = 0.0
+        if re.match(r"^(what\s+is|define)\b", query.strip(), re.I):
+            if re.search(r"\b(is|are|refers\s+to|means)\b", s, re.I):
+                definitional_bonus = 0.2
+        motive_bonus = 0.2 if motive_bonus_re.search(s) else 0.0
+        return overlap + declarative_bonus + definitional_bonus + motive_bonus
+
+    ranked = sorted(candidates, key=lambda t: s_score(t[0]), reverse=True)
+
+    # Greedy selection with redundancy suppression
+    def _norm(x: str) -> str:
+        return re.sub(r"\s+", " ", x.strip().lower())
+
+    chosen: List[Tuple[str, Dict[str, Any]]] = []
+    for s, m in ranked:
+        if len(" ".join([c[0] for c in chosen]) + " " + s) > max_chars:
+            break
+        s_n = _norm(s)
+        if any(_norm(c[0]) == s_n for c in chosen):
+            continue
+        if any(_jaccard(c[0], s) > 0.75 for c in chosen):
+            continue
+        chosen.append((s, m))
+        if len(chosen) >= 3 and len(" ".join([c[0] for c in chosen])) > max_chars * 0.6:
             break
 
-    answer = " ".join(chosen).strip()
+    citations: List[Dict[str, Any]] = []
+    added_pages = set()
+    for _, meta in chosen:
+        key = (meta.get("page_start"), meta.get("page_end"), meta.get("filename"))
+        if key in added_pages:
+            continue
+        citations.append({
+            "page_start": meta.get("page_start"),
+            "page_end": meta.get("page_end"),
+            "filename": meta.get("filename"),
+            "source_path": meta.get("source_path"),
+        })
+        added_pages.add(key)
+
+    answer = " ".join([c[0] for c in chosen]).strip()
     if citations:
-        # Append inline citation bracket at the end summarizing pages
         refs = [
             f"p{c.get('page_start')}-{c.get('page_end')}" if c.get('page_start') and c.get('page_end') else "p?"
             for c in citations

@@ -4,18 +4,26 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Commerce GPT5</title>
+  <link rel="manifest" href="/web/manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="/web/assets/icons/icon-192.png" />
+  <link rel="icon" href="/web/assets/icons/icon-192.png" sizes="192x192" type="image/png" />
   <link rel="stylesheet" href="/web/assets/css/styles.css" />
 </head>
 <body>
   <header>
     <h1>Commerce GPT5</h1>
+    <div class="header-tools">
+      <span id="netStatus" class="net-dot" title="Network status">● online</span>
+  <button id="installBtn">Install app</button>
+  <span id="installMsg" class="note"></span>
+    </div>
   </header>
   <main>
     <section>
       <h2>Upload PDFs</h2>
       <form id="uploadForm">
-        <label>Subject <input name="subject" placeholder="Economics" /></label>
-        <label>Chapter <input name="chapter" placeholder="1" /></label>
+        <label>Subject <input id="uploadSubject" name="subject" value="Economics" required /></label>
+        <label>Chapter <input id="uploadChapter" name="chapter" value="1" required /></label>
   <label for="pdfFile">PDF File</label>
   <input id="pdfFile" type="file" name="file" accept="application/pdf" aria-label="PDF File" required />
         <button type="submit">Upload</button>
@@ -39,5 +47,13 @@
   <script src="/web/assets/js/config.js" type="module"></script>
   <script src="/web/assets/js/upload.js" type="module"></script>
   <script src="/web/assets/js/ask.js" type="module"></script>
+  <script src="/web/assets/js/pwa.js" type="module"></script>
+  <script>
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker.register("/web/service-worker.js").catch(console.error);
+      });
+    }
+  </script>
 </body>
 </html>

@@ -44,6 +44,19 @@ class DiskIndex:
         d.mkdir(parents=True, exist_ok=True)
         return d
 
+    def _reset_ns(self, namespace: str) -> None:
+        # Remove all files under namespace directory
+        d = self._ns_dir(namespace)
+        for p in d.glob("*"):
+            try:
+                if p.is_file():
+                    p.unlink()
+                elif p.is_dir():
+                    import shutil
+                    shutil.rmtree(p, ignore_errors=True)
+            except Exception:
+                pass
+
     def _get_st_model(self, model: str):
         # Retained for Chroma path; not used in pure-Python fallback
         if model in _MODEL_CACHE:
@@ -56,9 +69,15 @@ class DiskIndex:
         _MODEL_CACHE[model] = m
         return m
 
-    def _simple_upsert(self, namespace: str, chunks: List[Chunk], model: str) -> Dict[str, Any]:
+    def _simple_upsert(self, namespace: str, chunks: List[Chunk], model: str, *, reset: bool = False) -> Dict[str, Any]:
         ns_dir = self._ns_dir(namespace)
         items_path = ns_dir / "items.json"
+
+        if reset and items_path.exists():
+            try:
+                items_path.unlink()
+            except Exception:
+                pass
 
         # Load existing
         if items_path.exists():
@@ -105,12 +124,18 @@ class DiskIndex:
         try:
             from sklearn.feature_extraction.text import TfidfVectorizer  # type: ignore
             import math
+            import re
             # Fit vectorizer on corpus
-            vec = TfidfVectorizer(max_features=4096)
+            vec = TfidfVectorizer(max_features=4096, stop_words='english', ngram_range=(1, 2))
             X = vec.fit_transform(texts)  # shape: (n_docs, n_terms)
             q = vec.transform([query])    # shape: (1, n_terms)
             # Compute cosine similarity: (X * q.T).toarray().ravel()
             sims = (X @ q.T).toarray().ravel()
+            # Down-rank exercise/appendix/noise content
+            noise_re = re.compile(r"(exercise|suggested\s+additional\s+activities|work\s+(these|this)\s+out|short\s*answer|very\s*short|fill\s*in|choose\s*the\s*correct|objective\s*type|match\s*the|give\s+reasons|identify\s+the\s+major|prepare\s+a\s+list|compare\s+it\s+with|on\s+a\s+map\s+of\s+india)", re.I)
+            for i, t in enumerate(texts):
+                if noise_re.search(t):
+                    sims[i] *= 0.2
             # Build top-k indices
             top_idx = sorted(range(len(sims)), key=lambda i: sims[i], reverse=True)[:k]
             out = []
@@ -139,6 +164,7 @@ class DiskIndex:
             # Document frequency for query terms
             import math
             from collections import Counter
+            import re
             dfs = {}
             for qt in set(q_terms):
                 df = sum(1 for dt in doc_tokens if qt in set(dt))
@@ -149,6 +175,7 @@ class DiskIndex:
             k1 = 1.5
             b = 0.75
             scores = []
+            noise_re = re.compile(r"(exercise|suggested\s+additional\s+activities|work\s+(these|this)\s+out|short\s*answer|very\s*short|fill\s*in|choose\s*the\s*correct|objective\s*type|match\s*the)", re.I)
             for i, dt in enumerate(doc_tokens):
                 if not dt:
                     scores.append(0.0)
@@ -162,6 +189,9 @@ class DiskIndex:
                         continue
                     denom = tf_q + k1 * (1 - b + b * (dl / avgdl))
                     score += idf(qt) * ((tf_q * (k1 + 1)) / denom)
+                # Down-rank exercises/noise
+                if noise_re.search(texts[i]):
+                    score *= 0.2
                 scores.append(score)
             # Normalize scores to [0,1] for distance
             max_s = max(scores) if scores else 1.0
@@ -178,11 +208,18 @@ class DiskIndex:
                 })
             return {"namespace": namespace, "results": out}
 
-    def upsert(self, chunks: List[Chunk], *, subject: Optional[str], chapter: Optional[str], model: str = "all-MiniLM-L6-v2") -> Dict[str, Any]:
+    def upsert(self, chunks: List[Chunk], *, subject: Optional[str], chapter: Optional[str], model: str = "all-MiniLM-L6-v2", reset: bool = False) -> Dict[str, Any]:
         ns = self._ns(subject, chapter)
         try:
             client = self._client(ns)
             coll = self._collection(client, name="chunks", model=model)
+            if reset:
+                try:
+                    # Attempt to delete and recreate the collection
+                    client.delete_collection(name="chunks")
+                    coll = self._collection(client, name="chunks", model=model)
+                except Exception:
+                    pass
             ids = [c.id for c in chunks]
             texts = [c.text for c in chunks]
             metadatas = [c.metadata for c in chunks]
@@ -194,7 +231,7 @@ class DiskIndex:
         except RuntimeError as e:
             # Fallback if chroma unavailable
             if str(e) == "chromadb_unavailable":
-                return self._simple_upsert(ns, chunks, model)
+                return self._simple_upsert(ns, chunks, model, reset=reset)
             raise
 
     def query(self, *, subject: Optional[str], chapter: Optional[str], query: str, k: int = 5, model: str = "all-MiniLM-L6-v2") -> Dict[str, Any]:

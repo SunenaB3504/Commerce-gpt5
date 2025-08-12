@@ -18,7 +18,7 @@ form.addEventListener('submit', async (e) => {
     url.searchParams.set('q', q);
     if (subject) url.searchParams.set('subject', subject);
     if (chapter) url.searchParams.set('chapter', chapter);
-    url.searchParams.set('k', '6');
+  url.searchParams.set('k', '10');
     url.searchParams.set('answer_synthesis', 'true');
     const res = await fetch(url);
     if (!res.ok) throw new Error(await res.text());

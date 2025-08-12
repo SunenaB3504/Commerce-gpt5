@@ -33,7 +33,7 @@ Sprint dates
 - Review/Retro: 2025-08-22
 
 Status checkpoint (2025-08-12)
-- Current day: Day 4 completed.
+- Current day: Day 5 in progress (ranking & synthesis polish; E2E tests added). Remaining Day 5 polish moved to backlog. Starting Day 6 (PWA shell).
 
 Team & roles
 - Product/QA: Validates ACs, demo, and coverage on sample PDFs
@@ -187,6 +187,10 @@ Day 4 status (done)
 - Validation: Ran scripts/smoke-day4-8004.ps1 against http://127.0.0.1:8004; received namespace, synthesized answer, citations, and top passages.
 
 Next up (Day 5)
-- Improve ranking quality (install scikit-learn for TF-IDF or enable Chroma vectors; then re-index).
-- Add unit tests for chunker and retrieval; add an E2E ask test.
-- Optional: add simple reranker (BM25) if TF-IDF not installed.
+- Done: TF-IDF installed; BM25 fallback; unit tests; E2E ask tests; synthesis noise filters.
+- Backlog: TF-IDF caching; stopwords; retriever toggle; evaluation script.
+
+Day 6 plan (start now)
+- PWA shell: manifest.webmanifest, service-worker.js, offline.html, icons placeholders
+- Register SW in index.html and link manifest; basic shell caching
+- Manual install test; offline page check

@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 
 from .routes.health import router as health_router
 from .routes.upload import router as upload_router
@@ -23,3 +24,6 @@ app.include_router(upload_router, prefix="/data", tags=["data"])
 app.include_router(parse_router, prefix="/data", tags=["data"])
 app.include_router(index_router, prefix="/data", tags=["data"])
 app.include_router(ask_router, tags=["ask"]) 
+
+# Serve the web app statically at /web
+app.mount("/web", StaticFiles(directory="web", html=True), name="web")

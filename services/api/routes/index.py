@@ -36,6 +36,7 @@ async def build_index(
     chunk_size: int = Form(1200),
     chunk_overlap: int = Form(200),
     model: str = Form("all-MiniLM-L6-v2"),
+    reset: bool = Form(False, description="If true, clear existing index for this namespace before upserting"),
 ):
     # Resolve source path
     source_path: Optional[Path] = None
@@ -101,7 +102,7 @@ async def build_index(
     # Index via ChromaDB
     index = DiskIndex()
     try:
-        res = index.upsert(chunks, subject=subject, chapter=chapter, model=model)
+        res = index.upsert(chunks, subject=subject, chapter=chapter, model=model, reset=reset)
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Index failed: {e}")
 
