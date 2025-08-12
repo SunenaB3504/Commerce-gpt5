@@ -32,8 +32,8 @@ Sprint dates
 - Start: 2025-08-11 (2 weeks/10 working days)
 - Review/Retro: 2025-08-22
 
-Status checkpoint (2025-08-11)
-- Current day: Day 3 completed.
+Status checkpoint (2025-08-12)
+- Current day: Day 4 completed.
 
 Team & roles
 - Product/QA: Validates ACs, demo, and coverage on sample PDFs
@@ -111,6 +111,44 @@ Demo script
 
 ---
 
+## Demo setup (Day 4)
+
+Prerequisites
+- Windows with PowerShell (pwsh)
+- Python venv at `.venv` and dependencies from `requirements.txt`
+- Sample PDF present under `uploads/` (e.g., `uploads/18a9c7c4-..._keec101.pdf`)
+
+Steps
+1) Start the API (use 8004 locally)
+	```powershell
+	C:/Users/Admin/Sunil/llm/Commerce-gpt5/.venv/Scripts/python.exe -m uvicorn services.api.main:app --host 127.0.0.1 --port 8004
+	```
+	Health: `GET http://127.0.0.1:8004/health/` → `{ "status": "ok" }`
+
+2) Index the sample (optional if already indexed)
+	- VS Code REST Client: open `scripts/day4.rest`, set `@host` to `http://127.0.0.1:8004`, run “Re-index … by path”.
+	- or call `POST /data/index` with form fields: `path`, `subject=Economics`, `chapter=1`.
+
+3) Ask with synthesis (smoke script)
+	```powershell
+	./scripts/smoke-day4-8004.ps1
+	```
+	Expect: Namespace (e.g., `Economics-ch1`), a synthesized Answer ending with `[Sources: …]`, Citations list, and Top passages.
+
+4) Web Ask UI (optional)
+	- Open `web/index.html` in a browser.
+	- In DevTools Console: `window.API_BASE_OVERRIDE = 'http://127.0.0.1:8004'` and reload.
+	- Use Ask form: Subject `Economics`, Chapter `1`, enter your question.
+
+5) Streaming (optional)
+	- Open in browser: `http://127.0.0.1:8004/ask/stream?q=two-fold%20motive%20behind%20the%20deindustrialisation&subject=Economics&chapter=1&k=6`
+	- Observe meta → passage events → final answer.
+
+Troubleshooting
+- If port 8003 is busy, keep using 8004 and update scripts/REST host.
+- Empty results: re-index by path via `scripts/day4.rest`.
+- Ranking weak: install scikit-learn (TF‑IDF) or enable Chroma vectors, then re-index.
+
 Day 1 status (done)
 - Backend skeleton with FastAPI created; CORS enabled
 - Routes: /health and /data/upload implemented and tested
@@ -142,13 +180,13 @@ Day 3 status (done)
 - Tooling: scripts/day3.rest; scripts/smoke-day3.ps1.
 - Note: API running on 127.0.0.1:8003 locally.
 
-Next up (Day 4)
-~ Day 4 status (in progress)
+Day 4 status (done)
 - Added answer synthesis utility with MMR and extractive sentence picking; inline citations.
 - Extended GET /ask to return answer + citations; added /ask/stream (SSE) simple stream.
 - Web: minimal Ask UI on index.html; day4 REST and smoke scripts.
+- Validation: Ran scripts/smoke-day4-8004.ps1 against http://127.0.0.1:8004; received namespace, synthesized answer, citations, and top passages.
 
-Next up (Day 4 → Day 5)
+Next up (Day 5)
 - Improve ranking quality (install scikit-learn for TF-IDF or enable Chroma vectors; then re-index).
 - Add unit tests for chunker and retrieval; add an E2E ask test.
 - Optional: add simple reranker (BM25) if TF-IDF not installed.

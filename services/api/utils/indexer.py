@@ -125,25 +125,56 @@ class DiskIndex:
                 })
             return {"namespace": namespace, "results": out}
         except Exception:
-            # Fallback to token-overlap similarity
-            def tok(s: str) -> set:
-                return set(t.lower() for t in s.split())
-            qset = tok(query)
-            scored = []
-            for i, t in enumerate(texts):
-                s = tok(t)
-                inter = len(qset & s)
-                uni = len(qset | s) or 1
-                jacc = inter / uni
-                scored.append((jacc, i))
-            scored.sort(key=lambda x: x[0], reverse=True)
+            # Fallback to BM25-like similarity (pure Python)
+            def toks(s: str) -> list[str]:
+                return [t.lower() for t in s.split() if t]
+            q_terms = toks(query)
+            if not q_terms:
+                return {"namespace": namespace, "results": []}
+            # Precompute doc tokens and lengths
+            doc_tokens = [toks(t) for t in texts]
+            doc_lens = [len(dt) or 1 for dt in doc_tokens]
+            avgdl = sum(doc_lens) / max(1, len(doc_lens))
+            N = len(doc_tokens)
+            # Document frequency for query terms
+            import math
+            from collections import Counter
+            dfs = {}
+            for qt in set(q_terms):
+                df = sum(1 for dt in doc_tokens if qt in set(dt))
+                dfs[qt] = df
+            def idf(term: str) -> float:
+                df = dfs.get(term, 0)
+                return math.log((N - df + 0.5) / (df + 0.5) + 1.0)
+            k1 = 1.5
+            b = 0.75
+            scores = []
+            for i, dt in enumerate(doc_tokens):
+                if not dt:
+                    scores.append(0.0)
+                    continue
+                tf = Counter(dt)
+                score = 0.0
+                dl = doc_lens[i]
+                for qt in q_terms:
+                    tf_q = tf.get(qt, 0)
+                    if tf_q == 0:
+                        continue
+                    denom = tf_q + k1 * (1 - b + b * (dl / avgdl))
+                    score += idf(qt) * ((tf_q * (k1 + 1)) / denom)
+                scores.append(score)
+            # Normalize scores to [0,1] for distance
+            max_s = max(scores) if scores else 1.0
+            order = sorted(range(len(scores)), key=lambda i: scores[i], reverse=True)[:k]
             out = []
-            for score, i in scored[:k]:
+            for i in order:
                 it = items[i]
+                s = scores[i]
+                dist = float(1.0 - (s / max_s if max_s > 0 else 0.0))
                 out.append({
                     "text": it.get("text", ""),
                     "metadata": it.get("metadata", {}),
-                    "distance": float(1.0 - score),
+                    "distance": dist,
                 })
             return {"namespace": namespace, "results": out}
 
