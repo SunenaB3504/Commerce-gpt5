@@ -1,11 +1,11 @@
 # Functional specification
 
 ## 1. Personas & flows
-- Student: Learn (Teach me), Practice (Ask me), Review progress.
+ Student: Learn (Teach me), Practice (assessment), Doubts (quick answers), Review progress.
 
-## 2. Feature list
-- Upload & parse PDFs
-- Teach me: chapter brief, guided study, practice set, recap
+ Teach me: chapter brief, guided study, practice set, recap
+ Practice: drills, exam simulator, weak-areas; validation: MCQ keys, word limits, rubric checks, citations
+ Doubts: ad-hoc quick answers with citations
 - Ask me: drills, exam simulator, weak-areas
 - Validation: MCQ keys, word limits, rubric checks, citations
 - Progress: mastery per chapter, attempts history

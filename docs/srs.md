@@ -115,13 +115,12 @@ IDs use FR-<AREA>-###.
 - FR-AND-003: The Android app shall optionally include offline ASR/TTS.
 
 ## 7. External interface requirements
-### 7.1 User interface
-- Mobile-first HTML/CSS/JS pages: Upload/Parse, Teach, Practice, Progress, Settings.
+- Mobile-first HTML/CSS/JS pages: Upload/Parse, Teach, Doubts (quick answers), Practice (assessment), Progress, Settings.
 - Components: mic button, wake word indicator, token streaming view, citations panel, word-count meter, readiness dashboard.
 
-### 7.2 API interface (illustrative)
 - POST /upload, POST /parse, POST /index
-- POST /ask, POST /teach, POST /evaluate
+- GET /ask, GET /ask/stream, POST /teach
+- POST /mcq/validate, POST /answer/validate, POST /practice/start, GET /practice/next, POST /practice/submit
 - GET /progress, GET /health
 - Auth optional for prototype; CORS enabled for Pages domain.
 
@@ -168,9 +167,11 @@ IDs use FR-<AREA>-###.
 - Storage quotas: repo < 1 GB; single JSON < 100 MB (or LFS); split into ≤10 MB files preferred.
 
 ## 10. System models (informal)
-- Use cases: Upload & parse, Teach me session, Practice drill, Voice interaction, Readiness review.
+- Use cases: Upload & parse, Teach me session, Doubts (quick answers), Practice drill (assessment), Voice interaction, Readiness review.
 - State machines: Voice states (Idle → Listening → Thinking → Speaking; barge-in allowed).
-- Sequence: UI → /ask → retrieve → prompt → generate → validate → cite → respond.
+- Sequences:
+	- Doubts: UI → /ask → retrieve → synthesize extractive answer → cite → respond.
+	- Practice: UI → /practice/start → /practice/next → user answer → /mcq/validate or /answer/validate → feedback → next.
 
 ## 11. Quality assurance
 - Unit tests: parsing, chunking, retrieval filters, validators.

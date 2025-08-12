@@ -4,7 +4,7 @@
 CBSE Class 12 Commerce learning assistant with Web (HTML/CSS/JS) interface and RAG + SLM fine-tune. Exam-ready, book-only, with voice and wake word.
 
 ## 2. Goals & non-goals
-- Goals: Exam alignment, comprehensive chapter coverage, MCQ/3/4/6-mark support, Teach me & Ask me, voice UX.
+- Goals: Exam alignment, comprehensive chapter coverage, MCQ/3/4/6-mark support, Teach me, Doubts (quick answer), Practice (assessment), voice UX.
 - Non-goals: Full Android app (phase 2), non-CBSE content.
 
 ## 3. Users & scenarios
@@ -13,7 +13,8 @@ CBSE Class 12 Commerce learning assistant with Web (HTML/CSS/JS) interface and R
 ## 4. Requirements
 - Ingest PDFs; parse, chunk, index; strict citations.
 - Teach me (overview, guided study, practice, recap).
-- Ask me (drills, simulator, weak-area focus) with validation & feedback.
+- Practice (drills, simulator, weak-area focus) with validation & feedback.
+- Doubts (quick answers with citations) for ad-hoc questions.
 - Voice with wake word “Pappu” and Alexa-like flow.
 - Public GitHub Pages frontend; backend API.
 

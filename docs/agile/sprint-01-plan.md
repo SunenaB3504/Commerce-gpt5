@@ -9,11 +9,11 @@ Scope (stories)
 - US-007 PWA shell (manifest, service worker, icons)
 
 Out of scope
-- OCR fallback (US-002) unless time allows
+- OCR fallback (US-002) unless time allows — Basic OCR fallback delivered on Day 9
 - Teach me v1 (US-005) — next sprint
 
 Deliverables
-- Backend: /upload, /parse, /index, /ask (streaming tokens; retriever toggle; TF‑IDF cache; runtime guards for size/timeout)
+- Backend: /upload, /parse, /index, /ask (streaming tokens; retriever toggle; TF‑IDF cache; runtime guards for size/timeout; OCR fallback option)
 - Frontend: index.html with upload; ask UI with mobile layout; installable PWA
 - Tests: unit for parsing/chunking; simple E2E ask
 - Tooling: scripts/eval_retrieval.py; custom stopwords at docs/data/stopwords.txt; scripts/smoke-day8.ps1
@@ -38,6 +38,8 @@ Status checkpoint (2025-08-12)
 - Day 6: Completed (PWA shell + Ask UI). App is installable; shell cached; offline fallback served.
 - Day 7: Completed (Upload UI wiring end-to-end, UI toasts/busy states, retriever selector on Ask, improved errors). Tests remain green.
 - Day 8: Completed (server upload size limit 413; request timeout 504; client fetch timeouts; Day 8 smoke script). Tests remain green.
+- Day 9: Completed (OCR fallback end-to-end: parser + API flags + Upload UI toggle; Pillow added). Tests remain green.
+- Day 10: In progress — demo/retro artifacts being prepared (demo guide, retro doc, Sprint 02 plan).
 
 Team & roles
 - Product/QA: Validates ACs, demo, and coverage on sample PDFs
@@ -94,7 +96,7 @@ QA mapping to SRS
 
 Environments & config
 - Local dev: Windows, Python 3.11+; simple static server for /web
-- Env vars: API_BASE, INDEX_PATH, EMBEDDING_MODEL, CHUNK_SIZE, CHUNK_OVERLAP, RETRIEVAL_K, USE_MMR, MAX_UPLOAD_MB (default 16), REQUEST_TIMEOUT_SEC (default 45)
+- Env vars: API_BASE, INDEX_PATH, EMBEDDING_MODEL, CHUNK_SIZE, CHUNK_OVERLAP, RETRIEVAL_K, USE_MMR, MAX_UPLOAD_MB (default 16), REQUEST_TIMEOUT_SEC (default 45), OCR_MIN_CHARS (default 40), OCR_ZOOM (default 2.0)
 
 Risks & mitigations
 - PDF variance → fallback parser; cleanup rules; test multiple samples
@@ -239,3 +241,12 @@ Day 8 status (done)
 - Tooling:
 	- Added scripts/smoke-day8.ps1 to exercise upload→index→ask (params: -Base, -Subject, -Chapter, -PdfPath, -K, -Retriever).
 - Quality: All tests passing (unit + E2E); no breaking API changes.
+
+Day 9 status (done)
+- OCR fallback end-to-end:
+	- Parser: Uses PyMuPDF text per page; for low-text pages (< OCR_MIN_CHARS), rasterizes (zoom=OCR_ZOOM) and runs Tesseract; keeps the better cleaned text.
+	- API: `ocr` flag available on `/data/parse`, `/data/index`, and `/data/upload` (with auto-index path).
+	- UI: Upload form includes “Enable OCR fallback (slower)” checkbox.
+	- Dependencies: Pillow added to support image conversion.
+- Tunables: OCR_MIN_CHARS (default 40), OCR_ZOOM (default 2.0).
+- Quality: Tests remain green.

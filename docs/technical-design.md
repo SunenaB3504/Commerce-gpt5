@@ -7,16 +7,16 @@
 - Voice: Web Speech API, Porcupine Web wake word
 
 ## 2. Components
-- services/api: upload, parse, index, ask, validate, teach, progress
+- services/api: upload, parse, index, doubts (ask), validate (mcq/short), teach, practice, progress
 - services/rag: chunker, embedder, retriever, re-ranker (MMR), prompts
 - web/assets/js: api.js, state.js, ui.js, voice.js, teach.js, practice.js
 
 ## 3. Data flows
-- Upload → Parse/OCR → Clean → Chunk → Embed → Index → Ask/Teach → Validate → Store attempts
+- Upload → Parse/OCR → Clean → Chunk → Embed → Index → Doubts/Teach → Validate → Store attempts
 
-## 4. Sequence diagrams
-- Ask flow: UI → /ask → retrieve → prompt → generate → validate → citations → response
+- Doubts (quick answer) flow: UI → /ask → retrieve → synthesize extractive answer → citations → response
 - Teach flow: UI → /teach → outline → sections → practice set → recap
+- Practice flow: UI → /practice/start → /practice/next → user answer → /mcq/validate or /answer/validate → feedback + citations → next
 
 ## 5. Data model
 - See docs/data/schema.md
@@ -35,5 +35,10 @@
 - POST /data/upload — save PDF, return path/id
 - POST /data/parse — parse PDF to pages
 - POST /data/index — chunk + index; persist chunks JSON for web
-- GET /ask — retrieve passages; returns { namespace, results[], answer?, citations? }
-- GET /ask/stream — SSE stream with selected passages and final answer
+- GET /ask — quick answers with citations (formerly Ask me; now Doubts)
+- GET /ask/stream — SSE stream for quick answers
+- POST /mcq/validate — validate MCQ answers
+- POST /answer/validate — validate short answers with rubric scoring
+- POST /practice/start — start a practice session
+- GET /practice/next — get next question in a session
+- POST /practice/submit — submit an answer in a session
