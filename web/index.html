@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Commerce GPT5</title>
   <link rel="manifest" href="/web/manifest.webmanifest" />
-  <link rel="apple-touch-icon" href="/web/assets/icons/icon-192.png" />
-  <link rel="icon" href="/web/assets/icons/icon-192.png" sizes="192x192" type="image/png" />
+  <link rel="apple-touch-icon" href="/web/assets/icons/icon.svg" />
+  <link rel="icon" href="/web/assets/icons/icon.svg" type="image/svg+xml" />
   <link rel="stylesheet" href="/web/assets/css/styles.css" />
 </head>
 <body>
@@ -16,9 +16,13 @@
       <span id="netStatus" class="net-dot" title="Network status">● online</span>
   <button id="installBtn">Install app</button>
   <span id="installMsg" class="note"></span>
+  <button id="clearCacheBtn" title="Clear service worker caches and reload">Clear cache</button>
     </div>
   </header>
   <main>
+  <aside id="updateBanner" class="hidden update-banner">
+      A new version is available. <button id="reloadBtn">Reload</button>
+    </aside>
     <section>
       <h2>Upload PDFs</h2>
       <form id="uploadForm">
@@ -26,6 +30,8 @@
         <label>Chapter <input id="uploadChapter" name="chapter" value="1" required /></label>
   <label for="pdfFile">PDF File</label>
   <input id="pdfFile" type="file" name="file" accept="application/pdf" aria-label="PDF File" required />
+  <label><input type="checkbox" name="auto_index" checked /> Auto-index after upload</label>
+  <label><input type="checkbox" name="reset" /> Reset chapter index</label>
         <button type="submit">Upload</button>
       </form>
       <pre id="uploadResult"></pre>
@@ -37,6 +43,12 @@
         <label>Subject <input id="askSubject" name="subject" value="Economics" /></label>
         <label>Chapter <input id="askChapter" name="chapter" value="1" /></label>
         <label>Question <input id="askQ" name="q" placeholder="Ask a question..." /></label>
+        <label>K
+          <input id="askK" name="k" type="range" min="3" max="15" value="10" oninput="document.getElementById('askKVal').textContent=this.value" />
+          <span id="askKVal">10</span>
+        </label>
+  <label><input id="askFilter" type="checkbox" checked /> Filter exercise/instruction text</label>
+  <label><input id="askStream" type="checkbox" /> Stream</label>
         <button type="submit">Ask</button>
       </form>
       <div id="askAnswer" class="answer"></div>
@@ -48,6 +60,45 @@
   <script src="/web/assets/js/upload.js" type="module"></script>
   <script src="/web/assets/js/ask.js" type="module"></script>
   <script src="/web/assets/js/pwa.js" type="module"></script>
+  <script type="module">
+    // Clear caches + unregister SW, then reload
+    const btn = document.getElementById('clearCacheBtn');
+    btn?.addEventListener('click', async () => {
+      try {
+        if ('caches' in window) {
+          const keys = await caches.keys();
+          await Promise.all(keys.map(k => caches.delete(k)));
+        }
+        if ('serviceWorker' in navigator) {
+          const regs = await navigator.serviceWorker.getRegistrations();
+          await Promise.all(regs.map(r => r.unregister()));
+        }
+      } catch (e) {
+        console.warn('Clear cache error', e);
+      } finally {
+        location.reload();
+      }
+    });
+
+    // About dialog and SW update hook
+    const updateBanner = document.getElementById('updateBanner');
+    const reloadBtn = document.getElementById('reloadBtn');
+    reloadBtn?.addEventListener('click', () => location.reload());
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.getRegistration().then(reg => {
+        if (!reg) return;
+        if (reg.waiting) updateBanner.classList.remove('hidden');
+        reg.addEventListener('updatefound', () => {
+          const nw = reg.installing;
+          nw?.addEventListener('statechange', () => {
+            if (nw.state === 'installed' && navigator.serviceWorker.controller) {
+              updateBanner.classList.remove('hidden');
+            }
+          });
+        });
+      });
+    }
+  </script>
   <script>
     if ("serviceWorker" in navigator) {
       window.addEventListener("load", () => {

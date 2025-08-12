@@ -29,19 +29,22 @@ async def ask(
     chapter: Optional[str] = Query(None),
     k: int = Query(5, ge=1, le=20),
     model: str = Query("all-MiniLM-L6-v2"),
+    retriever: str = Query("auto", description="Retriever to use: auto|tfidf|bm25|chroma"),
     answer_synthesis: bool = Query(True, description="Whether to synthesize an answer from top passages"),
+    filter_noise: bool = Query(True, description="Filter exercise/instruction/headings in synthesis"),
 ):
     index = DiskIndex()
     try:
-        res = index.query(subject=subject, chapter=chapter, query=q, k=k, model=model)
+        res = index.query(subject=subject, chapter=chapter, query=q, k=k, model=model, retriever=retriever)
     except Exception as e:
         from fastapi import HTTPException
         raise HTTPException(status_code=500, detail=f"Query failed: {e}")
     hits_dicts = res.get("results", [])
     hits = [AskHit(**r) for r in hits_dicts]
     out = AskResponse(namespace=res.get("namespace", ""), results=hits)
-    if answer_synthesis and hits_dicts:
-        built = build_answer(q, hits_dicts, mmr=True, max_passages=min(5, k), max_chars=900)
+    # Always attempt synthesis so curated answers can return even if retrieval yields no hits
+    if answer_synthesis:
+        built = build_answer(q, hits_dicts, mmr=True, max_passages=min(5, k), max_chars=900, filter_noise=filter_noise, subject=subject, chapter=chapter)
         out.answer = built.get("answer")
         out.citations = built.get("citations")
     return out
@@ -58,16 +61,18 @@ async def ask_stream(
     chapter: Optional[str] = Query(None),
     k: int = Query(5, ge=1, le=20),
     model: str = Query("all-MiniLM-L6-v2"),
+    retriever: str = Query("auto"),
+    filter_noise: bool = Query(True),
 ):
     index = DiskIndex()
     try:
-        res = index.query(subject=subject, chapter=chapter, query=q, k=k, model=model)
+        res = index.query(subject=subject, chapter=chapter, query=q, k=k, model=model, retriever=retriever)
     except Exception as e:
         from fastapi import HTTPException
         raise HTTPException(status_code=500, detail=f"Query failed: {e}")
 
     hits = res.get("results", [])
-    built = build_answer(q, hits, mmr=True, max_passages=min(5, k), max_chars=900)
+    built = build_answer(q, hits, mmr=True, max_passages=min(5, k), max_chars=900, filter_noise=filter_noise, subject=subject, chapter=chapter)
 
     async def event_gen():
         import json

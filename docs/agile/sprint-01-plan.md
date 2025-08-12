@@ -13,9 +13,10 @@ Out of scope
 - Teach me v1 (US-005) — next sprint
 
 Deliverables
-- Backend: /upload, /parse, /index, /ask (streaming tokens)
+- Backend: /upload, /parse, /index, /ask (streaming tokens; retriever toggle; TF‑IDF cache)
 - Frontend: index.html with upload; ask UI with mobile layout; installable PWA
 - Tests: unit for parsing/chunking; simple E2E ask
+- Tooling: scripts/eval_retrieval.py; custom stopwords at docs/data/stopwords.txt
 
 Risks
 - PDF parsing variance; fallback path documented
@@ -33,7 +34,8 @@ Sprint dates
 - Review/Retro: 2025-08-22
 
 Status checkpoint (2025-08-12)
-- Current day: Day 5 in progress (ranking & synthesis polish; E2E tests added). Remaining Day 5 polish moved to backlog. Starting Day 6 (PWA shell).
+- Day 5: Completed + backlog cleared (TF‑IDF caching, custom stopwords, retriever toggle, eval script); tests green.
+- Day 6: Completed (PWA shell + Ask UI). App is installable; shell cached; offline fallback served.
 
 Team & roles
 - Product/QA: Validates ACs, demo, and coverage on sample PDFs
@@ -186,11 +188,29 @@ Day 4 status (done)
 - Web: minimal Ask UI on index.html; day4 REST and smoke scripts.
 - Validation: Ran scripts/smoke-day4-8004.ps1 against http://127.0.0.1:8004; received namespace, synthesized answer, citations, and top passages.
 
-Next up (Day 5)
-- Done: TF-IDF installed; BM25 fallback; unit tests; E2E ask tests; synthesis noise filters.
-- Backlog: TF-IDF caching; stopwords; retriever toggle; evaluation script.
+Day 5 status (done)
+- TF‑IDF installed; BM25-like fallback; unit tests/E2E ask added; synthesis noise filters.
+- Backlog cleared:
+	- TF‑IDF caching with on-disk persistence per-namespace (auto invalidated on upsert).
+	- Custom stopwords loaded from docs/data/stopwords.txt (merged with English list).
+	- Retriever toggle on /ask and /ask/stream: auto|tfidf|bm25|chroma.
+	- Evaluation script at scripts/eval_retrieval.py (reports hit@k and answer presence).
 
-Day 6 plan (start now)
-- PWA shell: manifest.webmanifest, service-worker.js, offline.html, icons placeholders
-- Register SW in index.html and link manifest; basic shell caching
-- Manual install test; offline page check
+How to use (new)
+```powershell
+# Force TF‑IDF retriever via API
+GET /ask?q=...&subject=Economics&chapter=3&retriever=tfidf
+
+# Run the local eval (with API running, default http://127.0.0.1:8000)
+python scripts/eval_retrieval.py --k 5 --retriever tfidf --subject Economics --chapter 3
+```
+
+Day 6 status (done)
+- PWA shell implemented:
+	- manifest.webmanifest (name, start_url=/web/index.html, scope=/web, theme/background, icons incl. maskable).
+	- service-worker.js: caches shell assets (versioned cache), bypasses API, offline.html for navigations, old caches cleared on activate.
+	- offline.html present and styled; icons available (SVGs).
+- Web UI wired:
+	- index.html registers SW; includes install button, network status dot, cache clear; links manifest and icons.
+	- Ask and Upload forms present with basic mobile layout; JS modules (config/upload/ask/pwa) loaded.
+- Result: App passes manual install and offline fallback checks. Lighthouse pass optional.

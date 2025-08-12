@@ -1,0 +1,46 @@
+{
+  "entries": [
+    {
+      "subject": "Economics",
+      "chapter": "3",
+      "q": "distinguish between sacrificing ratio and gaining ratio",
+      "aliases": [
+        "difference between sacrificing ratio and gaining ratio",
+        "sacrificing ratio vs gaining ratio",
+        "gaining vs sacrificing ratio"
+      ],
+      "a": "Meaning: Sacrifice = Old share − New share (admission); Gain = New share − Old share (retirement/death). Effect: Sacrifice reduces future share; Gain increases future share. Use: Basis for goodwill compensation. When: Sacrifice at admission; Gain at retirement/death. Formulae: Sacrificeᵢ = Oldᵢ − Newᵢ; Gainᵢ = Newᵢ − Oldᵢ.",
+      "pages": "p2-3"
+    },
+    {
+      "subject": "Economics",
+      "chapter": "3",
+      "q": "why revalue assets and reassess liabilities at retirement or death",
+      "aliases": [
+        "why revaluation at retirement",
+        "revaluation purpose at retirement/death"
+      ],
+      "a": "To ensure fair settlement for the exiting partner: record current values and unrecorded items so the outgoing partner bears/receives the correct share; transfer net revaluation gain/loss to all partners in old PSR.",
+      "pages": "p12-14"
+    },
+    {
+      "subject": "Economics",
+      "chapter": "3",
+      "q": "why is retiring or deceased partner entitled to share of goodwill",
+      "aliases": ["goodwill entitlement at retirement or death"],
+      "a": "Goodwill is jointly created by all partners; on exit the partner surrenders future benefits arising from goodwill. Therefore, continuing partners (who gain) compensate the outgoing partner for their share of goodwill in the gaining ratio.",
+      "pages": "p6-8"
+    },
+    {
+      "subject": "Economics",
+      "chapter": "3",
+      "q": "methods of computing share of profit for intervening period",
+      "aliases": [
+        "share of profit till date of retirement",
+        "profit for the period between last balance sheet and retirement"
+      ],
+      "a": "Methods: (i) Last-year profit basis (time apportionment), (ii) Average of past few years’ profit, (iii) Sales-based apportionment. Post via P&L Suspense to outgoing partner; allocate suspense to gaining partners.",
+      "pages": "p16-18"
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+# Custom domain stopwords appended to English list when available
+# Add common instruction words and noise phrases to down-rank
+please
+explain
+write
+short
+very
+answer
+state
+define
+list
+choose
+correct
+match
+fill
+blanks
+objective
+type
+suggested
+additional
+activities
+work
+out
+map
+india
+prepare
+compare
+identify
+major
+give
+reasons

@@ -1,9 +1,27 @@
-from typing import List, Dict, Any, Optional
+from typing import List, Dict, Any, Optional, Tuple
 from pathlib import Path
 import json
 from .chunker import Chunk
+import os
 
 _MODEL_CACHE: Dict[str, Any] = {}
+_TFIDF_CACHE: Dict[str, Tuple[Any, Any, float, int]] = {}
+# cache: namespace -> (vectorizer, X_sparse, items_mtime, n_docs)
+
+
+def _load_custom_stopwords() -> Optional[List[str]]:
+    # Load optional custom stopwords from docs/data/stopwords.txt
+    try:
+        p = Path("docs/data/stopwords.txt")
+        if p.exists():
+            return [
+                w.strip()
+                for w in p.read_text(encoding="utf-8").splitlines()
+                if w.strip() and not w.strip().startswith("#")
+            ]
+    except Exception:
+        return None
+    return None
 
 
 class DiskIndex:
@@ -103,56 +121,132 @@ class DiskIndex:
         with items_path.open("w", encoding="utf-8") as f:
             json.dump(new_items, f, ensure_ascii=False)
 
+        # Invalidate TF-IDF cache for this namespace
+        try:
+            if namespace in _TFIDF_CACHE:
+                _TFIDF_CACHE.pop(namespace, None)
+        except Exception:
+            pass
+
         return {"namespace": namespace, "count": len(new_items)}
 
-    def _simple_query(self, namespace: str, query: str, k: int, model: str) -> Dict[str, Any]:
-        ns_dir = self._ns_dir(namespace)
-        items_path = ns_dir / "items.json"
+    def _get_items_and_mtime(self, items_path: Path) -> Tuple[List[Dict[str, Any]], float]:
         if not items_path.exists():
-            return {"namespace": namespace, "results": []}
-
+            return [], 0.0
         with items_path.open("r", encoding="utf-8") as f:
             try:
                 items = json.load(f)
             except Exception:
                 items = []
+        try:
+            mtime = items_path.stat().st_mtime
+        except Exception:
+            mtime = 0.0
+        return (items if isinstance(items, list) else []), mtime
 
-        if not isinstance(items, list) or not items:
+    def _ensure_tfidf_cache(self, namespace: str, texts: List[str], items_mtime: float):
+        # Build/refresh TF-IDF cache if needed
+        try:
+            cached = _TFIDF_CACHE.get(namespace)
+            if cached is not None:
+                _, _, cached_mtime, cached_n = cached
+                if abs(cached_mtime - items_mtime) < 1e-6 and cached_n == len(texts):
+                    return  # cache valid
+            from sklearn.feature_extraction.text import TfidfVectorizer  # type: ignore
+            custom_sw = _load_custom_stopwords() or []
+            # Union of english and custom when possible
+            stop_words = "english"
+            if custom_sw:
+                try:
+                    from sklearn.feature_extraction.text import ENGLISH_STOP_WORDS  # type: ignore
+                    stop_words = list(set(ENGLISH_STOP_WORDS).union(set(custom_sw)))
+                except Exception:
+                    stop_words = list(set(custom_sw))
+            vec = TfidfVectorizer(max_features=4096, stop_words=stop_words, ngram_range=(1, 2))
+            X = vec.fit_transform(texts)
+            _TFIDF_CACHE[namespace] = (vec, X, items_mtime, len(texts))
+            # Persist to disk best-effort
+            try:
+                import joblib  # type: ignore
+                ns_dir = self._ns_dir(namespace)
+                joblib.dump(vec, ns_dir / "tfidf.joblib")
+                joblib.dump(X, ns_dir / "tfidf_X.joblib")
+            except Exception:
+                pass
+        except Exception:
+            # On any failure, drop cache entry
+            _TFIDF_CACHE.pop(namespace, None)
+
+    def _load_tfidf_cache_from_disk(self, namespace: str, items_mtime: float) -> bool:
+        # Attempt to load TF-IDF cache from disk if memory cache is empty or stale
+        try:
+            if namespace in _TFIDF_CACHE:
+                _, _, cached_mtime, _ = _TFIDF_CACHE[namespace]
+                if abs(cached_mtime - items_mtime) < 1e-6:
+                    return True
+            import joblib  # type: ignore
+            ns_dir = self._ns_dir(namespace)
+            vec_path = ns_dir / "tfidf.joblib"
+            X_path = ns_dir / "tfidf_X.joblib"
+            if vec_path.exists() and X_path.exists():
+                vec = joblib.load(vec_path)
+                X = joblib.load(X_path)
+                # We cannot know n_docs from X without importing scipy, but X has shape
+                n_docs = getattr(X, "shape", (0, 0))[0] if hasattr(X, "shape") else 0
+                _TFIDF_CACHE[namespace] = (vec, X, items_mtime, int(n_docs))
+                return True
+        except Exception:
+            pass
+        return False
+
+    def _simple_query(self, namespace: str, query: str, k: int, model: str, *, retriever: str = "auto") -> Dict[str, Any]:
+        ns_dir = self._ns_dir(namespace)
+        items_path = ns_dir / "items.json"
+        if not items_path.exists():
+            return {"namespace": namespace, "results": []}
+
+        items, mtime = self._get_items_and_mtime(items_path)
+        if not items:
             return {"namespace": namespace, "results": []}
 
         texts = [it.get("text", "") for it in items]
-        try:
-            from sklearn.feature_extraction.text import TfidfVectorizer  # type: ignore
-            import math
-            import re
-            # Fit vectorizer on corpus
-            vec = TfidfVectorizer(max_features=4096, stop_words='english', ngram_range=(1, 2))
-            X = vec.fit_transform(texts)  # shape: (n_docs, n_terms)
-            q = vec.transform([query])    # shape: (1, n_terms)
-            # Compute cosine similarity: (X * q.T).toarray().ravel()
-            sims = (X @ q.T).toarray().ravel()
-            # Down-rank exercise/appendix/noise content
-            noise_re = re.compile(r"(exercise|suggested\s+additional\s+activities|work\s+(these|this)\s+out|short\s*answer|very\s*short|fill\s*in|choose\s*the\s*correct|objective\s*type|match\s*the|give\s+reasons|identify\s+the\s+major|prepare\s+a\s+list|compare\s+it\s+with|on\s+a\s+map\s+of\s+india)", re.I)
-            for i, t in enumerate(texts):
-                if noise_re.search(t):
-                    sims[i] *= 0.2
-            # Build top-k indices
-            top_idx = sorted(range(len(sims)), key=lambda i: sims[i], reverse=True)[:k]
-            out = []
-            for i in top_idx:
-                it = items[i]
-                score = float(sims[i])
-                # Distance as 1 - normalized score best-effort
-                out.append({
-                    "text": it.get("text", ""),
-                    "metadata": it.get("metadata", {}),
-                    "distance": float(1.0 - score),
-                })
-            return {"namespace": namespace, "results": out}
-        except Exception:
-            # Fallback to BM25-like similarity (pure Python)
-            def toks(s: str) -> list[str]:
-                return [t.lower() for t in s.split() if t]
+        import re
+
+        def tfidf_rank() -> Dict[str, Any]:
+            # Try to use cached vectorizer/matrix for speed
+            try:
+                loaded = self._load_tfidf_cache_from_disk(namespace, mtime)
+                if not loaded:
+                    self._ensure_tfidf_cache(namespace, texts, mtime)
+                vec, X, _, _ = _TFIDF_CACHE.get(namespace, (None, None, 0.0, 0))
+                if vec is None or X is None:
+                    raise RuntimeError("tfidf_cache_unavailable")
+                q = vec.transform([query])
+                sims = (X @ q.T).toarray().ravel()
+                noise_re = re.compile(r"(exercise|suggested\s+additional\s+activities|work\s+(these|this)\s+out|short\s*answer|very\s*short|fill\s*in|choose\s*the\s*correct|objective\s*type|match\s*the|give\s+reasons|identify\s+the\s+major|prepare\s+a\s+list|compare\s+it\s+with|on\s+a\s+map\s+of\s+india)", re.I)
+                for i, t in enumerate(texts):
+                    if noise_re.search(t):
+                        sims[i] *= 0.2
+                top_idx = sorted(range(len(sims)), key=lambda i: sims[i], reverse=True)[:k]
+                out = []
+                for i in top_idx:
+                    it = items[i]
+                    score = float(sims[i])
+                    out.append({
+                        "text": it.get("text", ""),
+                        "metadata": it.get("metadata", {}),
+                        "distance": float(1.0 - score),
+                    })
+                return {"namespace": namespace, "results": out}
+            except Exception:
+                # If anything fails, fall back to BM25-like
+                return bm25_rank()
+
+        def toks(s: str) -> list[str]:
+            return [t.lower() for t in re.split(r"\W+", s) if t]
+
+        def bm25_rank() -> Dict[str, Any]:
+            # BM25-like similarity (pure Python)
             q_terms = toks(query)
             if not q_terms:
                 return {"namespace": namespace, "results": []}
@@ -164,7 +258,6 @@ class DiskIndex:
             # Document frequency for query terms
             import math
             from collections import Counter
-            import re
             dfs = {}
             for qt in set(q_terms):
                 df = sum(1 for dt in doc_tokens if qt in set(dt))
@@ -208,6 +301,15 @@ class DiskIndex:
                 })
             return {"namespace": namespace, "results": out}
 
+        # Route based on desired retriever
+        retriever = (retriever or "auto").lower()
+        if retriever == "bm25":
+            return bm25_rank()
+        if retriever == "tfidf":
+            return tfidf_rank()
+        # auto: attempt tf-idf; if it fails, tfidf_rank falls back to BM25 internally
+        return tfidf_rank()
+
     def upsert(self, chunks: List[Chunk], *, subject: Optional[str], chapter: Optional[str], model: str = "all-MiniLM-L6-v2", reset: bool = False) -> Dict[str, Any]:
         ns = self._ns(subject, chapter)
         try:
@@ -234,9 +336,12 @@ class DiskIndex:
                 return self._simple_upsert(ns, chunks, model, reset=reset)
             raise
 
-    def query(self, *, subject: Optional[str], chapter: Optional[str], query: str, k: int = 5, model: str = "all-MiniLM-L6-v2") -> Dict[str, Any]:
+    def query(self, *, subject: Optional[str], chapter: Optional[str], query: str, k: int = 5, model: str = "all-MiniLM-L6-v2", retriever: str = "auto") -> Dict[str, Any]:
         ns = self._ns(subject, chapter)
         try:
+            # If user explicitly selects non-chroma retriever, use simple_query path
+            if (retriever or "auto").lower() in {"tfidf", "bm25"}:
+                raise RuntimeError("chromadb_unavailable")
             client = self._client(ns)
             coll = self._collection(client, name="chunks", model=model)
             res = coll.query(query_texts=[query], n_results=k, include=["documents", "metadatas", "distances"])
@@ -253,5 +358,6 @@ class DiskIndex:
             return {"namespace": ns, "results": out}
         except RuntimeError as e:
             if str(e) == "chromadb_unavailable":
-                return self._simple_query(ns, query, k, model)
+                # If explicit retriever was requested, use it; else auto
+                return self._simple_query(ns, query, k, model, retriever=retriever)
             raise

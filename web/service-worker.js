@@ -1,18 +1,31 @@
-const CACHE_NAME = 'commerce-gpt5-shell-v2';
+const CACHE_NAME = 'commerce-gpt5-shell-v4';
 const SHELL_ASSETS = [
   '/web/index.html',
   '/web/assets/css/styles.css',
   '/web/assets/js/config.js',
   '/web/assets/js/upload.js',
   '/web/assets/js/ask.js',
+  '/web/assets/js/pwa.js',
   '/web/manifest.webmanifest',
-  '/web/offline.html'
+  '/web/offline.html',
+  '/web/assets/icons/icon.svg',
+  '/web/assets/icons/icon-maskable.svg'
+];
+
+// Try to cache a lightweight data index if present (best effort)
+const OPTIONAL_ASSETS = [
+  '/web/data/index.json'
 ];
 
 self.addEventListener('install', (event) => {
-  event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => cache.addAll(SHELL_ASSETS))
-  );
+  event.waitUntil((async () => {
+    const cache = await caches.open(CACHE_NAME);
+    await cache.addAll(SHELL_ASSETS);
+    // Best-effort optional assets
+    for (const url of OPTIONAL_ASSETS) {
+      try { await cache.add(url); } catch {}
+    }
+  })());
 });
 
 self.addEventListener('activate', (event) => {

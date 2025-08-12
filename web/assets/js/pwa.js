@@ -30,14 +30,24 @@ window.addEventListener('beforeinstallprompt', (e) => {
 });
 
 installBtn?.addEventListener('click', async () => {
-  if (!deferredPrompt) return;
-  deferredPrompt.prompt();
-  const { outcome } = await deferredPrompt.userChoice;
-  // Hide button after user's choice
+  if (!deferredPrompt) {
+    // Fallback guidance for Edge/Chrome when prompt is throttled/not fired yet
+    installMsg.textContent = 'If no prompt appears, use Edge menu: … > Apps > Install this site as an app (or the install icon in the address bar).';
+    return;
+  }
+  try {
+    deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
+    installMsg.textContent = outcome === 'accepted' ? 'Installed' : 'Installation dismissed';
+  } finally {
+    installBtn.classList.add('hidden');
+    deferredPrompt = null;
+  }
+});
+
+window.addEventListener('appinstalled', () => {
   installBtn.classList.add('hidden');
-  deferredPrompt = null;
-  installMsg.textContent = outcome === 'accepted' ? 'Installed' : 'Installation dismissed';
-  console.log('PWA install:', outcome);
+  installMsg.textContent = 'App installed';
 });
 
 // If the button is visible but click does nothing, surface a hint
