@@ -43,6 +43,14 @@
         <label>Subject <input id="askSubject" name="subject" value="Economics" /></label>
         <label>Chapter <input id="askChapter" name="chapter" value="1" /></label>
         <label>Question <input id="askQ" name="q" placeholder="Ask a question..." /></label>
+        <label>Retriever
+          <select id="askRetriever" name="retriever">
+            <option value="auto" selected>auto</option>
+            <option value="tfidf">tfidf</option>
+            <option value="bm25">bm25</option>
+            <option value="chroma">chroma</option>
+          </select>
+        </label>
         <label>K
           <input id="askK" name="k" type="range" min="3" max="15" value="10" oninput="document.getElementById('askKVal').textContent=this.value" />
           <span id="askKVal">10</span>
@@ -57,6 +65,7 @@
     </section>
   </main>
   <script src="/web/assets/js/config.js" type="module"></script>
+  <script src="/web/assets/js/ui.js" type="module"></script>
   <script src="/web/assets/js/upload.js" type="module"></script>
   <script src="/web/assets/js/ask.js" type="module"></script>
   <script src="/web/assets/js/pwa.js" type="module"></script>

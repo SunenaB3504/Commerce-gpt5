@@ -1,4 +1,5 @@
 import { API_BASE } from './config.js';
+import { showToast, setBusy } from './ui.js';
 
 const form = document.getElementById('uploadForm');
 const out = document.getElementById('uploadResult');
@@ -7,9 +8,14 @@ form.addEventListener('submit', async (e) => {
   e.preventDefault();
   const fd = new FormData(form);
   out.textContent = 'Uploading...';
+  const btn = form.querySelector('button[type="submit"]');
+  setBusy(btn, true, 'Uploading...');
   try {
     const res = await fetch(`${API_BASE}/data/upload`, { method: 'POST', body: fd });
-    if (!res.ok) throw new Error(await res.text());
+    if (!res.ok) {
+      const msg = await res.text().catch(() => `${res.status}`);
+      throw new Error(msg || `HTTP ${res.status}`);
+    }
     const json = await res.json();
     const lines = [
       `id: ${json.id}`,
@@ -24,7 +30,11 @@ form.addEventListener('submit', async (e) => {
       if (json.chunks_path) lines.push(`chunks_path: ${json.chunks_path}`);
     }
     out.textContent = lines.join('\n');
+    showToast('Upload complete', 'success');
   } catch (err) {
     out.textContent = `Error: ${err}`;
+    showToast(`Upload failed: ${err}`, 'error');
+  } finally {
+    setBusy(btn, false);
   }
 });

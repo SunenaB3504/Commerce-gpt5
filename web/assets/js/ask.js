@@ -1,4 +1,5 @@
 import { API_BASE } from './config.js';
+import { showToast, setBusy } from './ui.js';
 
 const form = document.getElementById('askForm');
 const ans = document.getElementById('askAnswer');
@@ -13,9 +14,12 @@ form.addEventListener('submit', async (e) => {
   const k = document.getElementById('askK')?.value || '10';
   const filter = document.getElementById('askFilter')?.checked;
   const stream = document.getElementById('askStream')?.checked;
+  const retriever = document.getElementById('askRetriever')?.value || 'auto';
   ans.textContent = 'Thinking...';
   citesEl.textContent = '';
   passagesEl.textContent = '';
+  const btn = form.querySelector('button[type="submit"]');
+  setBusy(btn, true, 'Asking...');
   try {
     const base = stream ? `${API_BASE}/ask/stream` : `${API_BASE}/ask`;
     const url = new URL(base);
@@ -25,6 +29,7 @@ form.addEventListener('submit', async (e) => {
   url.searchParams.set('k', String(k));
     url.searchParams.set('answer_synthesis', 'true');
     if (filter) url.searchParams.set('filter_noise', 'true');
+    if (retriever) url.searchParams.set('retriever', retriever);
 
     if (stream) {
       const es = new EventSource(url);
@@ -51,7 +56,7 @@ form.addEventListener('submit', async (e) => {
         es.close();
       };
     } else {
-      const res = await fetch(url);
+  const res = await fetch(url);
       if (!res.ok) throw new Error(await res.text());
       const json = await res.json();
       ans.textContent = json.answer || '(no answer)';
@@ -70,5 +75,8 @@ form.addEventListener('submit', async (e) => {
     }
   } catch (err) {
     ans.textContent = `Error: ${err}`;
+    showToast(`Ask failed: ${err}`, 'error');
+  } finally {
+    setBusy(btn, false);
   }
 });
