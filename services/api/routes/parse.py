@@ -28,6 +28,7 @@ async def parse_pdf(
     path: Optional[str] = Form(None),
     subject: Optional[str] = Form(None),
     chapter: Optional[str] = Form(None),
+    ocr: bool = Form(False, description="Enable OCR fallback for low-text pages"),
 ):
     # Input contract: either provide a PDF file or path to an uploaded file
     source_path: Optional[Path] = None
@@ -51,7 +52,7 @@ async def parse_pdf(
         raise HTTPException(status_code=400, detail="Provide either a file or a path")
 
     try:
-        pages_list: List[Tuple[int, str]] = extract_text(str(source_path))
+        pages_list: List[Tuple[int, str]] = extract_text(str(source_path), ocr=ocr)
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Parse failed: {e}")
 

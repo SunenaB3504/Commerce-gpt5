@@ -35,6 +35,7 @@ async def upload_pdf(
     chunk_size: int = Form(1200),
     chunk_overlap: int = Form(200),
     model: str = Form("all-MiniLM-L6-v2"),
+    ocr: bool = Form(False, description="Enable OCR fallback for low-text pages"),
 ):
     # Validate extension
     if not file.filename or not file.filename.lower().endswith(".pdf"):
@@ -61,7 +62,7 @@ async def upload_pdf(
     if auto_index:
         try:
             # Parse PDF pages
-            pages_list: List[Tuple[int, str]] = extract_text(str(out_path))
+            pages_list: List[Tuple[int, str]] = extract_text(str(out_path), ocr=ocr)
             # Chunk
             chunks = chunk_pages(
                 pages_list,

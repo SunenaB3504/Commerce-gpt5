@@ -11,7 +11,10 @@ form.addEventListener('submit', async (e) => {
   const btn = form.querySelector('button[type="submit"]');
   setBusy(btn, true, 'Uploading...');
   try {
-    const res = await fetch(`${API_BASE}/data/upload`, { method: 'POST', body: fd });
+    const ac = new AbortController();
+    const t = setTimeout(() => ac.abort('timeout'), 60000);
+    const res = await fetch(`${API_BASE}/data/upload`, { method: 'POST', body: fd, signal: ac.signal });
+    clearTimeout(t);
     if (!res.ok) {
       const msg = await res.text().catch(() => `${res.status}`);
       throw new Error(msg || `HTTP ${res.status}`);

@@ -37,6 +37,7 @@ async def build_index(
     chunk_overlap: int = Form(200),
     model: str = Form("all-MiniLM-L6-v2"),
     reset: bool = Form(False, description="If true, clear existing index for this namespace before upserting"),
+    ocr: bool = Form(False, description="Enable OCR fallback for low-text pages"),
 ):
     # Resolve source path
     source_path: Optional[Path] = None
@@ -60,7 +61,7 @@ async def build_index(
 
     # Parse pages
     try:
-        pages_list: List[Tuple[int, str]] = extract_text(str(source_path))
+        pages_list: List[Tuple[int, str]] = extract_text(str(source_path), ocr=ocr)
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Parse failed: {e}")
 

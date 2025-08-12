@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from .utils.middleware import ContentLengthLimitMiddleware, RequestTimeoutMiddleware
 from fastapi.staticfiles import StaticFiles
 
 from .routes.health import router as health_router
@@ -18,6 +19,10 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Global middlewares for Day 8 hardening
+app.add_middleware(ContentLengthLimitMiddleware)
+app.add_middleware(RequestTimeoutMiddleware)
 
 app.include_router(health_router)
 app.include_router(upload_router, prefix="/data", tags=["data"])

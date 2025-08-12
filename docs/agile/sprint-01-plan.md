@@ -13,10 +13,10 @@ Out of scope
 - Teach me v1 (US-005) — next sprint
 
 Deliverables
-- Backend: /upload, /parse, /index, /ask (streaming tokens; retriever toggle; TF‑IDF cache)
+- Backend: /upload, /parse, /index, /ask (streaming tokens; retriever toggle; TF‑IDF cache; runtime guards for size/timeout)
 - Frontend: index.html with upload; ask UI with mobile layout; installable PWA
 - Tests: unit for parsing/chunking; simple E2E ask
-- Tooling: scripts/eval_retrieval.py; custom stopwords at docs/data/stopwords.txt
+- Tooling: scripts/eval_retrieval.py; custom stopwords at docs/data/stopwords.txt; scripts/smoke-day8.ps1
 
 Risks
 - PDF parsing variance; fallback path documented
@@ -36,6 +36,8 @@ Sprint dates
 Status checkpoint (2025-08-12)
 - Day 5: Completed + backlog cleared (TF‑IDF caching, custom stopwords, retriever toggle, eval script); tests green.
 - Day 6: Completed (PWA shell + Ask UI). App is installable; shell cached; offline fallback served.
+- Day 7: Completed (Upload UI wiring end-to-end, UI toasts/busy states, retriever selector on Ask, improved errors). Tests remain green.
+- Day 8: Completed (server upload size limit 413; request timeout 504; client fetch timeouts; Day 8 smoke script). Tests remain green.
 
 Team & roles
 - Product/QA: Validates ACs, demo, and coverage on sample PDFs
@@ -92,7 +94,7 @@ QA mapping to SRS
 
 Environments & config
 - Local dev: Windows, Python 3.11+; simple static server for /web
-- Env vars: API_BASE, INDEX_PATH, EMBEDDING_MODEL, CHUNK_SIZE, CHUNK_OVERLAP, RETRIEVAL_K, USE_MMR
+- Env vars: API_BASE, INDEX_PATH, EMBEDDING_MODEL, CHUNK_SIZE, CHUNK_OVERLAP, RETRIEVAL_K, USE_MMR, MAX_UPLOAD_MB (default 16), REQUEST_TIMEOUT_SEC (default 45)
 
 Risks & mitigations
 - PDF variance → fallback parser; cleanup rules; test multiple samples
@@ -214,3 +216,26 @@ Day 6 status (done)
 	- index.html registers SW; includes install button, network status dot, cache clear; links manifest and icons.
 	- Ask and Upload forms present with basic mobile layout; JS modules (config/upload/ask/pwa) loaded.
 - Result: App passes manual install and offline fallback checks. Lighthouse pass optional.
+
+Day 7 status (done)
+- Upload UI wired end-to-end:
+	- Frontend form posts to `/data/upload` with `auto_index` and `reset` flags.
+	- On success, shows id/filename/path and, if indexed, namespace, index_count, and chunks_path.
+- UX and error handling polish:
+	- Added toasts and disabled/busy states for Upload and Ask flows; clearer error messages surfaced.
+	- Minor layout tweaks to keep forms compact and mobile-friendly.
+- Ask page improvements:
+	- Added retriever selector (auto|tfidf|bm25|chroma) passed to `/ask` and `/ask/stream`.
+	- Preserves existing options (K slider, filter, stream) with better feedback.
+- Quality: All tests passing (unit + E2E). No backend breaking changes required.
+- Optional: A one-click smoke script for Day 7 (upload→index→ask) can be added next if desired.
+
+Day 8 status (done)
+- Backend hardening:
+	- Global Content-Length limit middleware → returns 413 when payload exceeds MAX_UPLOAD_MB.
+	- Global request timeout middleware → returns 504 when request exceeds REQUEST_TIMEOUT_SEC.
+- Frontend resilience:
+	- Client-side fetch timeouts for Upload (60s) and Ask (45s) to avoid hanging UI.
+- Tooling:
+	- Added scripts/smoke-day8.ps1 to exercise upload→index→ask (params: -Base, -Subject, -Chapter, -PdfPath, -K, -Retriever).
+- Quality: All tests passing (unit + E2E); no breaking API changes.

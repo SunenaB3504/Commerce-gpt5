@@ -56,9 +56,12 @@ form.addEventListener('submit', async (e) => {
         es.close();
       };
     } else {
-  const res = await fetch(url);
+      const ac = new AbortController();
+      const t = setTimeout(() => ac.abort('timeout'), 45000);
+      const res = await fetch(url, { signal: ac.signal });
       if (!res.ok) throw new Error(await res.text());
       const json = await res.json();
+      clearTimeout(t);
       ans.textContent = json.answer || '(no answer)';
       if (json.citations && json.citations.length) {
         const lines = json.citations.map(c => `p${c.page_start}-${c.page_end}  ${c.filename || ''}`);
