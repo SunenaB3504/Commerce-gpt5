@@ -44,3 +44,66 @@ Public question bank (mcq.json)
 ]
 
 Note: Do not host full copyrighted chapter text publicly unless you have rights. Keep sensitive/raw text private or behind the backend.
+
+## API contracts (Sprint 02)
+
+Teach (POST /teach)
+Request
+{
+	"subject": "Economics",
+	"chapter": "3",
+	"topics": ["Division of labour"],
+	"depth": "standard",
+	"retriever": "auto",
+	"k": 8
+}
+Response
+{
+	"outline": [
+		{"sectionId": "overview", "title": "Chapter 3 overview", "bullets": ["..."], "pageAnchors": [5,6], "citations": [{"page_start":5,"filename":"..."}]}
+	],
+	"glossary": [],
+	"readingList": [{"page":5,"filename":"..."}],
+	"coverage": {"requiredTopics": ["Division of labour"], "covered": [], "gaps": ["Division of labour"]},
+	"meta": {"retrieverUsed": "auto"}
+}
+
+Short answer validate (POST /answer/validate)
+Request
+{
+	"question": "...",
+	"userAnswer": "...",
+	"subject": "Economics",
+	"chapter": "3",
+	"k": 8,
+	"retriever": "auto"
+}
+Response
+{
+	"result": "partial",
+	"score": 72.5,
+	"rubric": [{"name":"Key point coverage","got":35.0,"max":50}],
+	"feedback": ["..."],
+	"missingPoints": ["..."],
+	"citations": [{"page_start":5,"filename":"..."}],
+	"recommendations": [{"topic":"...","pages":[5]}]
+}
+
+MCQ validate (POST /mcq/validate)
+Request
+{
+	"questionId": "eco3-m-001",
+	"question": "...",
+	"options": ["A","B","C","D"],
+	"correctIndex": 2,
+	"selectedIndex": 1,
+	"subject": "Economics",
+	"chapter": "3"
+}
+Response
+{
+	"result": "incorrect",
+	"correctIndex": 2,
+	"explanation": "The correct answer is option 3 ...",
+	"citations": []
+}

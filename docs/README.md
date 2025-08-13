@@ -5,6 +5,7 @@ Purpose: Keep product, technical, and operational decisions aligned before and d
 - prd.md — Product Requirements (what and why)
 - functional-spec.md — User flows, features, acceptance criteria
 - technical-design.md — Architecture, components, data & sequence flows
+- adr/ — Architecture Decision Records (key decisions outside sprint scope)
 - api/openapi.yaml — HTTP API contract
 - data/schema.md — Storage schemas and retention
 - content/coverage-matrix.md — Exam-ready coverage tracking per chapter
@@ -18,4 +19,5 @@ Purpose: Keep product, technical, and operational decisions aligned before and d
 How to use
 - Treat these as living docs; update per milestone.
 - Link PRs to doc sections that change.
+- For changes outside a sprint, record an ADR and update CHANGELOG.md.
 - Keep decisions in technical-design.md or dedicated ADRs (if added later).

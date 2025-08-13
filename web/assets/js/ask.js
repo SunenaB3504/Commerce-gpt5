@@ -1,4 +1,4 @@
-import { API_BASE } from './config.js';
+import { API_BASE } from './config.js?v=5';
 import { showToast, setBusy } from './ui.js';
 
 const form = document.getElementById('askForm');

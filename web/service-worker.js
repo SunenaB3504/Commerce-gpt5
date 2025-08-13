@@ -38,7 +38,15 @@ self.addEventListener('fetch', (event) => {
   const { request } = event;
   if (request.method !== 'GET') return;
   const url = new URL(request.url);
-  const isAPI = url.pathname.startsWith('/ask') || url.pathname.startsWith('/data/') || url.pathname.startsWith('/health');
+  const isAPI = (
+    url.pathname.startsWith('/ask') ||
+    url.pathname.startsWith('/teach') ||
+    url.pathname.startsWith('/mcq') ||
+    url.pathname.startsWith('/answer') ||
+    url.pathname.startsWith('/validate') ||
+    url.pathname.startsWith('/data/') ||
+    url.pathname.startsWith('/health')
+  );
   // Never cache API requests; try network, fallback offline page for navigations
   if (isAPI) {
     event.respondWith(

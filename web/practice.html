@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Practice • Commerce GPT5</title>
+  <link rel="manifest" href="/web/manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="/web/assets/icons/icon.svg" />
+  <link rel="icon" href="/web/assets/icons/icon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="/web/assets/css/styles.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script type="module" src="/web/assets/js/config.js?v=5"></script>
+  <script>
+    tailwind.config = { theme: { extend: { colors: { brand: '#0b5ed7' } } } }
+  </script>
+  <meta name="color-scheme" content="light dark" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="msapplication-TileColor" content="#0b5ed7" />
+</head>
+<body class="bg-gray-50 text-gray-900">
+  <header class="bg-gradient-to-r from-blue-600 to-indigo-600 text-white">
+    <div class="mx-auto max-w-7xl px-4 py-3 flex items-center justify-between gap-4">
+      <a href="/web/index.html" class="text-white/90 hover:text-white">← Home</a>
+      <h1 class="text-xl font-semibold tracking-tight">Practice</h1>
+      <div></div>
+    </div>
+  </header>
+  <main class="mx-auto max-w-3xl px-4 py-6">
+    <section class="bg-white rounded-xl shadow-sm ring-1 ring-gray-200 p-5">
+      <h2 class="text-lg font-semibold text-gray-800 mb-3">Coming soon</h2>
+      <p class="text-sm text-gray-700">This page will host MCQ and short-answer practice sessions. Backend endpoints are scaffolded:</p>
+      <ul class="list-disc pl-6 text-sm text-gray-700 mt-2">
+        <li>POST /mcq/validate</li>
+        <li>POST /answer/validate</li>
+        <li>POST /teach</li>
+      </ul>
+      <p class="text-sm text-gray-700 mt-3">We will wire the UI in the next steps.</p>
+    </section>
+  </main>
+  <script>
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker.register("/web/service-worker.js").catch(console.error);
+      });
+    }
+  </script>
+</body>
+</html>

@@ -1,4 +1,4 @@
-import { API_BASE } from './config.js';
+import { API_BASE } from './config.js?v=5';
 import { showToast, setBusy } from './ui.js';
 
 const form = document.getElementById('uploadForm');
@@ -12,8 +12,15 @@ form.addEventListener('submit', async (e) => {
   setBusy(btn, true, 'Uploading...');
   try {
     const ac = new AbortController();
-    const t = setTimeout(() => ac.abort('timeout'), 60000);
-    const res = await fetch(`${API_BASE}/data/upload`, { method: 'POST', body: fd, signal: ac.signal });
+  const t = setTimeout(() => ac.abort('timeout'), 180000);
+    let res;
+    const url1 = `${API_BASE}/data/upload`;
+    try {
+      res = await fetch(url1, { method: 'POST', body: fd, signal: ac.signal });
+    } catch (e) {
+      // Fallback to same-origin
+      res = await fetch('/data/upload', { method: 'POST', body: fd, signal: ac.signal });
+    }
     clearTimeout(t);
     if (!res.ok) {
       const msg = await res.text().catch(() => `${res.status}`);
@@ -35,8 +42,12 @@ form.addEventListener('submit', async (e) => {
     out.textContent = lines.join('\n');
     showToast('Upload complete', 'success');
   } catch (err) {
-    out.textContent = `Error: ${err}`;
-    showToast(`Upload failed: ${err}`, 'error');
+  const msg = String(err && err.message ? err.message : err);
+  let hint = '';
+  if (msg === 'timeout' || /AbortError/i.test(msg)) hint = ' (request timed out)';
+  if (/Failed to fetch/i.test(msg)) hint = ' (server not reachable — is API running?)';
+  out.textContent = `Error: ${msg}${hint}`;
+  showToast(`Upload failed: ${msg}${hint}`, 'error');
   } finally {
     setBusy(btn, false);
   }

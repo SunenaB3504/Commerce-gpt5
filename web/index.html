@@ -8,64 +8,121 @@
   <link rel="apple-touch-icon" href="/web/assets/icons/icon.svg" />
   <link rel="icon" href="/web/assets/icons/icon.svg" type="image/svg+xml" />
   <link rel="stylesheet" href="/web/assets/css/styles.css" />
-</head>
-<body>
-  <header>
-    <h1>Commerce GPT5</h1>
-    <div class="header-tools">
-      <span id="netStatus" class="net-dot" title="Network status">● online</span>
-  <button id="installBtn">Install app</button>
-  <span id="installMsg" class="note"></span>
-  <button id="clearCacheBtn" title="Clear service worker caches and reload">Clear cache</button>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: { extend: { colors: { brand: '#0b5ed7' } } }
+    }
+  </script>
+  <!-- Use platform-specific fallbacks; omit theme-color to avoid unsupported browsers warning -->
+  <meta name="color-scheme" content="light dark" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="msapplication-TileColor" content="#0b5ed7" />
+  <style> .sr-only { position: absolute; width: 1px; height: 1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; } </style>
+  </head>
+<body class="bg-gray-50 text-gray-900">
+  <header class="bg-gradient-to-r from-blue-600 to-indigo-600 text-white">
+    <div class="mx-auto max-w-7xl px-4 py-3 flex items-center justify-between gap-4">
+      <h1 class="text-xl font-semibold tracking-tight">Commerce GPT5</h1>
+      <div class="header-tools flex items-center gap-2">
+        <span id="netStatus" class="net-dot text-xs rounded-full px-2 py-1 bg-white/10" title="Network status">● online</span>
+        <button id="installBtn" class="rounded-md bg-white/10 hover:bg-white/20 px-3 py-1.5 text-sm">Install app</button>
+        <span id="installMsg" class="note text-xs"></span>
+        <button id="clearCacheBtn" class="rounded-md bg-white/10 hover:bg-white/20 px-3 py-1.5 text-sm" title="Clear service worker caches and reload">Clear cache</button>
+      </div>
     </div>
   </header>
-  <main>
-  <aside id="updateBanner" class="hidden update-banner">
-      A new version is available. <button id="reloadBtn">Reload</button>
+  <main class="mx-auto max-w-7xl px-4 py-6">
+    <aside id="updateBanner" class="hidden update-banner bg-amber-50 border border-amber-300 text-amber-900 rounded-md p-3 mb-4">
+      <div class="flex items-center justify-between gap-3">
+        <span>A new version is available.</span>
+        <button id="reloadBtn" class="inline-flex items-center rounded-md bg-amber-600 hover:bg-amber-700 text-white px-3 py-1.5 text-sm">Reload</button>
+      </div>
     </aside>
-    <section>
-      <h2>Upload PDFs</h2>
-      <form id="uploadForm">
-        <label>Subject <input id="uploadSubject" name="subject" value="Economics" required /></label>
-        <label>Chapter <input id="uploadChapter" name="chapter" value="1" required /></label>
-  <label for="pdfFile">PDF File</label>
-  <input id="pdfFile" type="file" name="file" accept="application/pdf" aria-label="PDF File" required />
-  <label><input type="checkbox" name="auto_index" checked /> Auto-index after upload</label>
-  <label><input type="checkbox" name="reset" /> Reset chapter index</label>
-    <label><input type="checkbox" name="ocr" /> Enable OCR fallback (slower)</label>
-        <button type="submit">Upload</button>
-      </form>
-      <pre id="uploadResult"></pre>
-    </section>
-    <hr />
-    <section>
-      <h2>Ask</h2>
-      <form id="askForm">
-        <label>Subject <input id="askSubject" name="subject" value="Economics" /></label>
-        <label>Chapter <input id="askChapter" name="chapter" value="1" /></label>
-        <label>Question <input id="askQ" name="q" placeholder="Ask a question..." /></label>
-        <label>Retriever
-          <select id="askRetriever" name="retriever">
-            <option value="auto" selected>auto</option>
-            <option value="tfidf">tfidf</option>
-            <option value="bm25">bm25</option>
-            <option value="chroma">chroma</option>
-          </select>
-        </label>
-        <label>K
-          <input id="askK" name="k" type="range" min="3" max="15" value="10" oninput="document.getElementById('askKVal').textContent=this.value" />
-          <span id="askKVal">10</span>
-        </label>
-  <label><input id="askFilter" type="checkbox" checked /> Filter exercise/instruction text</label>
-  <label><input id="askStream" type="checkbox" /> Stream</label>
-        <button type="submit">Ask</button>
-      </form>
-      <div id="askAnswer" class="answer"></div>
-      <pre id="askCitations"></pre>
-      <pre id="askPassages"></pre>
-    </section>
+
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+  <section class="bg-white rounded-xl shadow-sm ring-1 ring-gray-200 p-5">
+        <h2 class="text-lg font-semibold text-gray-800 mb-4">Upload PDFs</h2>
+        <form id="uploadForm" class="space-y-3">
+          <label class="text-sm font-medium text-gray-700">Subject
+            <input id="uploadSubject" name="subject" value="Economics" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" />
+          </label>
+          <label class="text-sm font-medium text-gray-700">Chapter
+            <input id="uploadChapter" name="chapter" value="1" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" />
+          </label>
+          <label for="pdfFile" class="text-sm font-medium text-gray-700">PDF File</label>
+          <input id="pdfFile" type="file" name="file" accept="application/pdf" aria-label="PDF File" required class="block w-full text-sm text-gray-900 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100" />
+          <label class="inline-flex items-center gap-2 text-sm text-gray-700"><input type="checkbox" name="auto_index" checked class="rounded border-gray-300 text-blue-600 focus:ring-blue-500" /> Auto-index after upload</label>
+          <label class="inline-flex items-center gap-2 text-sm text-gray-700"><input type="checkbox" name="reset" class="rounded border-gray-300 text-blue-600 focus:ring-blue-500" /> Reset chapter index</label>
+          <label class="inline-flex items-center gap-2 text-sm text-gray-700"><input type="checkbox" name="ocr" class="rounded border-gray-300 text-blue-600 focus:ring-blue-500" /> Enable OCR fallback (slower)</label>
+          <button type="submit" class="inline-flex items-center justify-center rounded-md bg-blue-600 hover:bg-blue-700 text-white px-4 py-2">Upload</button>
+        </form>
+        <pre id="uploadResult" class="mt-4 bg-gray-100 rounded-md p-3 text-sm"></pre>
+  </section>
+
+  <section class="bg-white rounded-xl shadow-sm ring-1 ring-gray-200 p-5">
+        <div class="flex items-center justify-between mb-2">
+          <h2 class="text-lg font-semibold text-gray-800">Doubts</h2>
+          <span class="text-xs text-gray-500">Quick answers with citations</span>
+        </div>
+        <form id="askForm" class="space-y-3">
+          <label class="text-sm font-medium text-gray-700">Subject
+            <input id="askSubject" name="subject" value="Economics" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" />
+          </label>
+          <label class="text-sm font-medium text-gray-700">Chapter
+            <input id="askChapter" name="chapter" value="1" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" />
+          </label>
+          <label class="text-sm font-medium text-gray-700">Question
+            <input id="askQ" name="q" placeholder="Ask a question..." class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" />
+          </label>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <label class="text-sm font-medium text-gray-700">Retriever
+              <select id="askRetriever" name="retriever" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                <option value="auto" selected>auto</option>
+                <option value="tfidf">tfidf</option>
+                <option value="bm25">bm25</option>
+                <option value="chroma">chroma</option>
+              </select>
+            </label>
+            <label class="text-sm font-medium text-gray-700">K
+              <div class="mt-2 flex items-center gap-3">
+                <input id="askK" name="k" type="range" min="3" max="15" value="10" oninput="document.getElementById('askKVal').textContent=this.value" class="w-full" />
+                <span id="askKVal" class="inline-flex w-8 justify-center text-sm text-gray-700">10</span>
+              </div>
+            </label>
+          </div>
+          <div class="flex flex-wrap items-center gap-4">
+            <label class="inline-flex items-center gap-2 text-sm text-gray-700"><input id="askFilter" type="checkbox" checked class="rounded border-gray-300 text-blue-600 focus:ring-blue-500" /> Filter exercise/instruction text</label>
+            <label class="inline-flex items-center gap-2 text-sm text-gray-700"><input id="askStream" type="checkbox" class="rounded border-gray-300 text-blue-600 focus:ring-blue-500" /> Stream</label>
+          </div>
+          <button type="submit" class="inline-flex items-center justify-center rounded-md bg-blue-600 hover:bg-blue-700 text-white px-4 py-2">Ask</button>
+        </form>
+        <div id="askAnswer" class="answer mt-4 prose prose-sm max-w-none"></div>
+        <pre id="askCitations" class="mt-3 bg-gray-50 rounded-md p-3 text-xs"></pre>
+        <pre id="askPassages" class="mt-3 bg-gray-50 rounded-md p-3 text-xs"></pre>
+      </section>
+
+      <section class="bg-white rounded-xl shadow-sm ring-1 ring-gray-200 p-5">
+        <div class="flex items-center justify-between mb-2">
+          <h2 class="text-lg font-semibold text-gray-800">Teach me</h2>
+          <span class="text-xs text-gray-500">Chapter outline & key points</span>
+        </div>
+        <p class="text-sm text-gray-600 mb-3">Generate a structured outline for a chapter with key terms and definitions.</p>
+        <a href="/web/teach.html" class="inline-flex items-center justify-center rounded-md bg-blue-600 hover:bg-blue-700 text-white px-4 py-2">Open Teach me</a>
+      </section>
+
+      <section class="bg-white rounded-xl shadow-sm ring-1 ring-gray-200 p-5">
+        <div class="flex items-center justify-between mb-2">
+          <h2 class="text-lg font-semibold text-gray-800">Practice</h2>
+          <span class="text-xs text-gray-500">MCQ and short-answer assessment</span>
+        </div>
+        <p class="text-sm text-gray-600 mb-3">Start a practice session with MCQs and short answers. Voice mode coming soon.</p>
+        <a href="/web/practice.html" class="inline-flex items-center justify-center rounded-md bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2">Open Practice</a>
+      </section>
+    </div>
   </main>
-  <script src="/web/assets/js/config.js" type="module"></script>
+  <script src="/web/assets/js/config.js?v=5" type="module"></script>
   <script src="/web/assets/js/ui.js" type="module"></script>
   <script src="/web/assets/js/upload.js" type="module"></script>
   <script src="/web/assets/js/ask.js" type="module"></script>

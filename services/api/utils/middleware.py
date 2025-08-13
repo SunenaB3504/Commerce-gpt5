@@ -22,7 +22,7 @@ class ContentLengthLimitMiddleware(BaseHTTPMiddleware):
 
     def __init__(self, app, max_mb: int | None = None) -> None:
         super().__init__(app)
-        self.max_bytes = (max_mb or _get_int_env("MAX_UPLOAD_MB", 16)) * 1024 * 1024
+        self.max_bytes = (max_mb or _get_int_env("MAX_UPLOAD_MB", 64)) * 1024 * 1024
 
     async def dispatch(self, request: Request, call_next: Callable[[Request], Response]):
         try:
@@ -45,7 +45,7 @@ class RequestTimeoutMiddleware(BaseHTTPMiddleware):
 
     def __init__(self, app, seconds: int | None = None) -> None:
         super().__init__(app)
-        self.seconds = seconds or _get_int_env("REQUEST_TIMEOUT_SEC", 45)
+        self.seconds = seconds or _get_int_env("REQUEST_TIMEOUT_SEC", 180)
 
     async def dispatch(self, request: Request, call_next: Callable[[Request], Response]):
         try:

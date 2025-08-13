@@ -32,21 +32,27 @@ Definition of Done
 
 ## Day-by-day plan (10 working days)
 
-- Day 1: Kickoff and scaffolding
+- Day 1: Kickoff and scaffolding — Completed (2025-08-13)
 	- Define contracts for /teach and /mcq/validate (request/response schemas).
 	- Create stubs for routes, service utilities, and minimal tests.
 	- Draft data shapes for Teach outline sections and MCQ store.
 	- Apply Option A UX rename: “Ask” → “Doubts”; add “Practice” entry point in nav.
+	- Done: Implemented POST /answer/validate (short-answer rubric), added POST /teach and POST /mcq/validate stubs, registered routers, added Practice page link, updated schema docs, and added tests. All tests passing.
 
 - Day 2: Teach me v1 — extractive outline
-	- Implement outline synthesis using existing retrieval + curated fallback.
-	- Sections: key terms, short answers, long answers, formulae, page anchors.
-	- Unit tests for outline structure and citation presence.
+	- Completed (2025-08-13)
+	- Done: Implemented outline synthesis using retrieval with depth-based caps (basic/standard/deep).
+	- Done: Sections shipped — overview, key terms, short answers, long answers, formulae; with citations and page anchors.
+	- Done: Glossary extraction from “Term: definition” patterns; glossary highlighting in UI.
+	- Done: Curated fallback to supplement overview and short answers when retrieval is sparse.
+	- Done: Teach page in PWA with depth selector, per-section show/hide citations, page badges, copy/print actions, and print stylesheet.
+	- Done: Tests updated for outline structure, citations, glossary key presence, and depth-cap behavior.
 
 - Day 3: Teach me v1 — coverage and UI
-	- Hook coverage matrix (docs/content) to ensure required sections present.
-	- Build a simple Teach page in the PWA that calls /teach and renders sections.
-	- Add loading/error states; verify on mobile.
+	- Completed (2025-08-13)
+	- Done: Backend computes coverage (required vs covered/gaps) using docs/content/subjects/<subject>/chapters/<chapter>/coverage.json when present, with fallback to request topics.
+	- Done: readingList aggregated from citations across sections, de-duplicated by (page, filename) and sorted.
+	- Done: Teach UI shows coverage summary and a lightweight loading skeleton.
 
 - Day 4: MCQ ingestion and schema
 	- Define MCQ schema (question, options A–D, correct, explanation, sources).
@@ -62,7 +68,7 @@ Definition of Done
 	- Extend eval scripts for hit@k, citation presence, answer length, latency.
 	- Add a small YAML/JSON suite of test prompts per chapter.
 	- Store results to JSON; summarize in console and docs.
-	- Implement /answer/validate (short-answer) with rubric scoring (coverage, cosine, structure, terminology) and unit tests.
+	- Refine /answer/validate thresholds and feedback based on samples; add additional unit tests and small calibration set.
 
 - Day 7: Practice sessions (text) + Readiness dashboard (initial)
 	- Implement /practice/start|next|submit with in-memory session store (subject/chapter/topic filters).
