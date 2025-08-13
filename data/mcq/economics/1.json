@@ -1,0 +1,32 @@
+[
+  {
+    "id": "eco1-m-001",
+    "question": "Which of the following best defines inflation?",
+    "options": [
+      "A general rise in the prices of goods and services over time",
+      "A decrease in the money supply",
+      "An increase in the unemployment rate",
+      "A fall in government spending"
+    ],
+    "answerIndex": 0,
+    "explanation": "Inflation refers to a sustained increase in the general price level, reducing the purchasing power of money.",
+    "citations": [
+      {"filename": "Economics_ch1.pdf", "page_start": 12, "page_end": 13}
+    ]
+  },
+  {
+    "id": "eco1-m-002",
+    "question": "CPI stands for:",
+    "options": [
+      "Consumer Price Index",
+      "Cost of Production Index",
+      "Capital Price Indicator",
+      "Commodity Price Index"
+    ],
+    "answerIndex": 0,
+    "explanation": "CPI is the Consumer Price Index, a measure of average change over time in prices paid by consumers.",
+    "citations": [
+      {"filename": "Economics_ch1.pdf", "page_start": 20, "page_end": 20}
+    ]
+  }
+]

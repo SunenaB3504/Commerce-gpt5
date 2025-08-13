@@ -55,14 +55,16 @@ Definition of Done
 	- Done: Teach UI shows coverage summary and a lightweight loading skeleton.
 
 - Day 4: MCQ ingestion and schema
-	- Define MCQ schema (question, options A–D, correct, explanation, sources).
-	- Implement parser for MCQs from existing markdown/JSON content.
-	- Seed a small MCQ set per chapter; add unit tests for parsing.
+	- Completed (2025-08-13)
+	- Done: MCQ schema and store added (JSON at data/mcq/<subject>/<chapter>.json; fields id, question, options, answerIndex, explanation, citations).
+	- Done: Utilities to load MCQs and query by id; in-memory cache with file-backed source.
+	- Done: Seeded Economics chapter 1 MCQs and added unit tests for ingestion and /mcq/validate using store.
 
 - Day 5: MCQ validation API and UX
-	- Implement /mcq/validate (checks selected option, returns result + explanation + citations).
-	- Add a minimal UI form to submit MCQ and visualize feedback.
-	- E2E test covering happy/negative cases.
+	- Completed (2025-08-13)
+	- Done: Added POST /mcq/get to fetch question/options by id (no answer leak) and enhanced /mcq/validate to use store.
+	- Done: Practice UI wired to load question/options and validate answer; shows result, explanation, and sources.
+	- Done: Tests for /mcq/get and /mcq/validate (correct and incorrect paths) passing.
 
 - Day 6: Eval harness
 	- Extend eval scripts for hit@k, citation presence, answer length, latency.

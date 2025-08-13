@@ -28,16 +28,39 @@
   </header>
   <main class="mx-auto max-w-3xl px-4 py-6">
     <section class="bg-white rounded-xl shadow-sm ring-1 ring-gray-200 p-5">
-      <h2 class="text-lg font-semibold text-gray-800 mb-3">Coming soon</h2>
-      <p class="text-sm text-gray-700">This page will host MCQ and short-answer practice sessions. Backend endpoints are scaffolded:</p>
-      <ul class="list-disc pl-6 text-sm text-gray-700 mt-2">
-        <li>POST /mcq/validate</li>
-        <li>POST /answer/validate</li>
-        <li>POST /teach</li>
-      </ul>
-      <p class="text-sm text-gray-700 mt-3">We will wire the UI in the next steps.</p>
+      <h2 class="text-lg font-semibold text-gray-800 mb-3">MCQ Validator</h2>
+  <form id="mcqForm" class="space-y-3">
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <label class="block">
+            <span class="text-xs text-gray-600">Subject</span>
+            <input id="mcqSubject" class="mt-1 w-full rounded border-gray-300 shadow-sm" placeholder="economics" value="economics" />
+          </label>
+          <label class="block">
+            <span class="text-xs text-gray-600">Chapter</span>
+            <input id="mcqChapter" class="mt-1 w-full rounded border-gray-300 shadow-sm" placeholder="1" value="1" />
+          </label>
+          <label class="block sm:col-span-1">
+            <span class="text-xs text-gray-600">Question ID</span>
+            <input id="mcqId" class="mt-1 w-full rounded border-gray-300 shadow-sm" placeholder="eco1-m-001" value="eco1-m-001" />
+          </label>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <button type="button" id="loadMcqBtn" class="px-2 py-1 bg-gray-100 rounded border">Load question</button>
+            <span id="loadStatus" class="text-xs text-gray-600"></span>
+          </div>
+          <div id="mcqText" class="mt-3 text-sm text-gray-900"></div>
+          <div id="mcqOptions" class="mt-2 space-y-1"></div>
+        </div>
+        <div class="flex items-center gap-3">
+          <button type="submit" class="px-3 py-2 bg-blue-600 text-white rounded">Validate</button>
+          <span id="mcqStatus" class="text-sm text-gray-700"></span>
+        </div>
+      </form>
+      <div id="mcqResult" class="mt-4 text-sm text-gray-800"></div>
     </section>
   </main>
+  <script type="module" src="/web/assets/js/practice.js?v=2"></script>
   <script>
     if ("serviceWorker" in navigator) {
       window.addEventListener("load", () => {
