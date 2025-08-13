@@ -67,10 +67,10 @@ Definition of Done
 	- Done: Tests for /mcq/get and /mcq/validate (correct and incorrect paths) passing.
 
 - Day 6: Eval harness
-	- Extend eval scripts for hit@k, citation presence, answer length, latency.
-	- Add a small YAML/JSON suite of test prompts per chapter.
-	- Store results to JSON; summarize in console and docs.
-	- Refine /answer/validate thresholds and feedback based on samples; add additional unit tests and small calibration set.
+	- Completed (2025-08-13)
+	- Done: Added QnA eval script (scripts/eval_qna.py) to compute hit@k, answer/citation rates, answer length, latency; writes JSON results.
+	- Done: Seed prompts at docs/evaluation/prompts/econ_ch3_sample.json and documented usage in docs/evaluation/test-plan.md.
+	- Note: Threshold refinement for /answer/validate can be iterated after collecting sample outputs.
 
 - Day 7: Practice sessions (text) + Readiness dashboard (initial)
 	- Implement /practice/start|next|submit with in-memory session store (subject/chapter/topic filters).

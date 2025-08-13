@@ -6,6 +6,7 @@ from typing import List, Dict, Any, Optional
 
 from ..utils.indexer import DiskIndex
 from ..utils.answerer import _split_sentences
+from ..utils.config import load_validate_scoring_config
 from ..utils.curated_qa import match_curated_answer
 
 
@@ -151,6 +152,7 @@ def _terminology_score(question: str, answer: str) -> float:
 
 @router.post("/answer/validate", response_model=ShortAnswerResponse)
 def validate_short_answer(req: ShortAnswerRequest):
+    cfg = load_validate_scoring_config()
     q = req.question.strip()
     ua = req.userAnswer.strip()
     if not q or not ua:
@@ -170,7 +172,7 @@ def validate_short_answer(req: ShortAnswerRequest):
         if not p_tokens:
             continue
         overlap = len(ua_tokens & p_tokens) / max(len(p_tokens), 1)
-        if overlap >= 0.6:
+        if overlap >= cfg.coverage_point_overlap:
             matched.append(p)
         else:
             missing.append(p)
@@ -180,12 +182,17 @@ def validate_short_answer(req: ShortAnswerRequest):
     structure = _structure_score(q, ua)
     terminology = _terminology_score(q, ua)
 
-    score = 100.0 * (0.50 * coverage + 0.25 * cosine + 0.15 * structure + 0.10 * terminology)
+    score = 100.0 * (
+        cfg.w_coverage * coverage
+        + cfg.w_cosine * cosine
+        + cfg.w_structure * structure
+        + cfg.w_terminology * terminology
+    )
     score = max(0.0, min(score, 100.0))
 
-    if score >= 80.0:
+    if score >= cfg.correct_min:
         result = "correct"
-    elif score >= 50.0:
+    elif score >= cfg.partial_min:
         result = "partial"
     else:
         result = "incorrect"
@@ -201,11 +208,11 @@ def validate_short_answer(req: ShortAnswerRequest):
     if result != "correct":
         if missing:
             feedback.append(f"You missed {min(3, len(missing))} key point(s).")
-        if structure < 0.5:
+        if structure < cfg.structure_min_hint:
             feedback.append("Improve structure: use bullets/numbering or be concise for definitions.")
-        if terminology < 0.4:
+        if terminology < cfg.terminology_min_hint:
             feedback.append("Use the correct terms from the chapter in your answer.")
-        if cosine < 0.3 and coverage < 0.3:
+        if cosine < cfg.off_topic_cosine_max and coverage < cfg.off_topic_coverage_max:
             feedback.append("Your answer seems off-topic. Revisit the chapter section.")
 
     # Citations: use gold citations if any; else derive from retrieval on the question
