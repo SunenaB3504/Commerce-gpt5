@@ -59,8 +59,58 @@
       </form>
       <div id="mcqResult" class="mt-4 text-sm text-gray-800"></div>
     </section>
+
+    <section class="bg-white rounded-xl shadow-sm ring-1 ring-gray-200 p-5 mt-6">
+      <h2 class="text-lg font-semibold text-gray-800 mb-3">Practice Session</h2>
+      <div class="space-y-3">
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <label class="block">
+            <span class="text-xs text-gray-600">Subject</span>
+            <input id="psSubject" class="mt-1 w-full rounded border-gray-300 shadow-sm" placeholder="economics" value="economics" />
+          </label>
+          <label class="block">
+            <span class="text-xs text-gray-600">Chapter</span>
+            <input id="psChapter" class="mt-1 w-full rounded border-gray-300 shadow-sm" placeholder="1" value="1" />
+          </label>
+          <label class="block">
+            <span class="text-xs text-gray-600">Mix (MCQ/Short)</span>
+            <input id="psMix" class="mt-1 w-full rounded border-gray-300 shadow-sm" placeholder="3/3" value="3/3" />
+          </label>
+        </div>
+        <div class="flex items-center gap-2">
+          <button type="button" id="psStart" class="px-3 py-2 bg-emerald-600 text-white rounded">Start session</button>
+          <span id="psStatus" class="text-sm text-gray-700"></span>
+        </div>
+        <div class="flex items-center gap-2 text-xs text-gray-600">
+          <label class="inline-flex items-center gap-2">
+            <input type="checkbox" id="psVoiceToggle" class="rounded border-gray-300" /> Enable voice (beta)
+          </label>
+          <button type="button" id="psSpeak" class="px-2 py-1 bg-gray-100 rounded border">Speak question</button>
+          <button type="button" id="psListen" class="px-2 py-1 bg-gray-100 rounded border">Listen</button>
+          <span id="psVoiceStatus"></span>
+        </div>
+        <div class="grid grid-cols-1">
+          <div class="flex items-center justify-between">
+            <label class="text-xs text-gray-600">Voice transcript</label>
+            <button type="button" id="psTranscriptUse" class="px-2 py-1 bg-gray-100 rounded border text-xs">Use as answer</button>
+          </div>
+          <textarea id="psTranscript" class="mt-1 w-full border rounded p-2 text-sm" rows="2" placeholder="Voice input will appear here..."></textarea>
+        </div>
+        <div id="psCard" class="hidden border rounded p-4">
+          <div class="text-xs text-gray-500" id="psProgress"></div>
+          <div class="mt-1 font-medium" id="psQuestion"></div>
+          <div class="mt-2 space-y-1" id="psOptions"></div>
+          <div class="mt-2" id="psShort"></div>
+          <div class="mt-3 flex items-center gap-2">
+            <button id="psSubmit" class="px-3 py-2 bg-blue-600 text-white rounded">Submit</button>
+            <button id="psNext" class="px-3 py-2 bg-gray-100 rounded border" disabled>Next</button>
+          </div>
+          <div class="mt-2 text-sm" id="psFeedback"></div>
+        </div>
+      </div>
+    </section>
   </main>
-  <script type="module" src="/web/assets/js/practice.js?v=2"></script>
+  <script type="module" src="/web/assets/js/practice.js?v=6"></script>
   <script>
     if ("serviceWorker" in navigator) {
       window.addEventListener("load", () => {

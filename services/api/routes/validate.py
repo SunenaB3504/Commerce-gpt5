@@ -8,6 +8,10 @@ from ..utils.indexer import DiskIndex
 from ..utils.answerer import _split_sentences
 from ..utils.config import load_validate_scoring_config
 from ..utils.curated_qa import match_curated_answer
+from ..utils.metrics import record as record_metric
+
+# Simple in-process cache for tfidf similarities keyed by (gold_text_hash, user_answer_hash)
+_SIM_CACHE: Dict[tuple[str, str], float] = {}
 
 
 router = APIRouter()
@@ -110,13 +114,23 @@ def _build_gold_points(question: str, subject: Optional[str], chapter: Optional[
     return {"points": points, "citations": citations, "text": gold_text}
 
 
+def _hash_text(s: str) -> str:
+    import hashlib
+    return hashlib.sha1(s.encode('utf-8', errors='ignore')).hexdigest()  # nosec - non-crypto usage
+
+
 def _tfidf_cosine(a: str, b: str) -> float:
     try:
+        key = (_hash_text(a), _hash_text(b))
+        cached = _SIM_CACHE.get(key)
+        if cached is not None:
+            return cached
         from sklearn.feature_extraction.text import TfidfVectorizer  # type: ignore
         from sklearn.metrics.pairwise import cosine_similarity  # type: ignore
         vec = TfidfVectorizer(max_features=2048, ngram_range=(1, 2), stop_words="english")
         X = vec.fit_transform([a, b])
         sim = float(cosine_similarity(X[0], X[1])[0, 0])
+        _SIM_CACHE[key] = sim
         return max(0.0, min(sim, 1.0))
     except Exception:
         return 0.0
@@ -152,6 +166,8 @@ def _terminology_score(question: str, answer: str) -> float:
 
 @router.post("/answer/validate", response_model=ShortAnswerResponse)
 def validate_short_answer(req: ShortAnswerRequest):
+    import time as _time
+    _t0 = _time.perf_counter()
     cfg = load_validate_scoring_config()
     q = req.question.strip()
     ua = req.userAnswer.strip()
@@ -243,7 +259,7 @@ def validate_short_answer(req: ShortAnswerRequest):
     for mp in missing[:2]:
         recommendations.append({"topic": mp, "pages": [c.get("page_start") for c in citations if c.get("page_start")]})
 
-    return ShortAnswerResponse(
+    resp = ShortAnswerResponse(
         result=result,
         score=round(score, 1),
         rubric=rubric,
@@ -252,3 +268,9 @@ def validate_short_answer(req: ShortAnswerRequest):
         citations=citations,
         recommendations=recommendations,
     )
+    dt_ms = (_time.perf_counter() - _t0) * 1000.0
+    try:
+        record_metric("validate_latency_ms", dt_ms, {"points": len(points)})
+    except Exception:
+        pass
+    return resp

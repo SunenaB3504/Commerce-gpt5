@@ -73,21 +73,34 @@ Definition of Done
 	- Note: Threshold refinement for /answer/validate can be iterated after collecting sample outputs.
 
 - Day 7: Practice sessions (text) + Readiness dashboard (initial)
-	- Implement /practice/start|next|submit with in-memory session store (subject/chapter/topic filters).
-	- Practice UI: question card, MCQ selector or short-answer textarea, feedback view.
-	- Backend route to serve aggregated eval metrics; basic web dashboard (table/cards) and link to rerun eval.
+	- Completed (2025-08-13)
+	- Done: Implemented /practice/start, /practice/next, /practice/submit with an in-memory session store (subject/chapter mix; MCQ + short-answer). 
+	- Done: Practice UI wired for sessions — question card, MCQ options or short-answer textarea, submit/next flow, and feedback rendering. Fixed submit bug (radio selection + feedback element) and cache-busted script.
+	- Done: Added /eval/summary to aggregate evaluation JSON; created Readiness page to display headline metrics and file list.
+	- Done: Added smoke script scripts/smoke-day7.ps1 to exercise Practice and Readiness endpoints.
 
-- Day 8: Voice mode for Practice + Admin hot-reload
-	- Voice: integrate Web Speech API (STT) and SpeechSynthesis (TTS) with Practice UI; commands (repeat/next/skip/A–D/stop); captions.
-	- Admin hot-reload: endpoints to reload curated Q&A and stopwords; developer-only toggle in PWA; unit tests for reload behavior.
+- Day 8: Voice mode for Practice + Admin hot-reload — Completed (2025-08-13)
+	- Done: Practice voice mode (beta) — Web Speech API recognition and speechSynthesis; commands: repeat/again, next/skip, option A–D, submit; short-answer dictation via “answer …”.
+	- Done: Added transcript box and “Use as answer” to review and insert captured speech.
+	- Done: Admin endpoints — POST /admin/reload/curated, /admin/reload/stopwords, and /admin/reload/all with optional x-admin-token (env ADMIN_TOKEN). Stopwords reload clears TF‑IDF caches.
+	- Done: Seeded short-answer curated entries for Economics Chapter 1 to ensure mixed MCQ/short sessions.
 
 - Day 9: Content scaling and perf pass
-	- Expand curated entries for top chapters (batch import from docs/data).
-	- Calibrate short-answer thresholds with sample answers; refine stopwords and matcher.
-	- Perf checks on /teach, /mcq/validate, /answer/validate; caching or memoization where safe.
-	- Update docs and smoke scripts.
+	- Completed (2025-08-14)
+	- Done: Expanded curated Q&A (Economics Ch1 + new Ch2 concepts: GDP, nominal vs real, demand law, determinants, shifts) to improve short-answer coverage.
+	- Done: Extended domain stopwords to down-rank instructional noise and generic verbs.
+	- Done: Added calibration script scripts/calibrate_short_answer.py to analyze scored answers and suggest threshold env vars.
+	- Done: Added in-memory TF-IDF similarity cache in /answer/validate to reduce repeated vectorizations.
+	- Done: Added smoke-day9-validate.ps1 for quick /answer/validate health (good vs partial answer).
+	- Pending (future): deeper retrieval perf profiling & session persistence.
 
-- Day 10: Demo prep and retro
-	- Polish UX copy and error states; finalize docs and demo script.
-	- Run full eval; export snapshot for dashboard.
-	- Sprint 02 review and retrospective; outline Sprint 03.
+- Day 10: Demo prep and retro — Completed (2025-08-14)
+	- Added practice session persistence (JSON with 6h TTL) so sessions survive restarts.
+	- Added POST /eval/run to trigger evaluation harness and update readiness metrics on demand.
+	- Added calibration API: POST /admin/calibration/short-answer (suggest thresholds from scored rows) + runtime threshold override endpoints GET/POST /admin/validate/thresholds.
+	- Enhanced readiness dashboard: run eval button, refresh, thresholds panel, suggestion & apply workflow (placeholder rows for now).
+	- Implemented live threshold overrides without restart (in-memory) layered over env defaults.
+	- Voice UX polish: auto-stop after 5s silence, live word count during dictation.
+	- Added tests for persistence, threshold override, and eval run endpoint (with subprocess mock).
+	- Updated documentation (this plan) to reflect Day 10 scope & completion; pending README additions for new admin endpoints.
+	- Prepared for Sprint 02 demo: evaluation can be triggered in UI; runtime calibration pipeline sketched.

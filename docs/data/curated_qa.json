@@ -2,6 +2,78 @@
   "entries": [
     {
       "subject": "Economics",
+      "chapter": "1",
+      "q": "what is inflation",
+      "aliases": ["define inflation", "meaning of inflation"],
+      "a": "Inflation is a sustained rise in the general price level of goods and services in an economy over time, which reduces the purchasing power of money.",
+      "pages": "p4-5"
+    },
+    {
+      "subject": "Economics",
+      "chapter": "1",
+      "q": "state two causes of inflation",
+      "aliases": ["causes of inflation", "reasons for inflation"],
+      "a": "Common causes include: (i) Demand-pull factors (aggregate demand exceeds aggregate supply), (ii) Cost-push factors (higher input costs like wages or import prices).",
+      "pages": "p6-7"
+    },
+    {
+      "subject": "Economics",
+      "chapter": "1",
+      "q": "how can inflation be controlled",
+      "aliases": ["control measures for inflation", "measures to control inflation"],
+      "a": "Key measures: Monetary policy tightening (raise policy rates, reduce money supply), Fiscal consolidation (reduce deficits), and supply-side steps (remove bottlenecks, import essentials).",
+      "pages": "p8-9"
+    },
+    {
+      "subject": "Economics",
+      "chapter": "1",
+      "q": "define gdp",
+      "aliases": ["what is gdp", "meaning of gross domestic product"],
+      "a": "Gross Domestic Product (GDP) is the total monetary value of all final goods and services produced within a country's domestic territory during an accounting period (usually a year).",
+      "pages": "p10-11"
+    },
+    {
+      "subject": "Economics",
+      "chapter": "1",
+      "q": "difference between nominal gdp and real gdp",
+      "aliases": ["nominal vs real gdp"],
+      "a": "Nominal GDP is measured at current prices; Real GDP is measured at constant base-year prices. Real GDP removes the effect of price level changes allowing volume comparison over time.",
+      "pages": "p12-13"
+    },
+    {
+      "subject": "Economics",
+      "chapter": "2",
+      "q": "define demand",
+      "aliases": ["what is demand"],
+      "a": "Demand is the quantity of a good that consumers are willing and able to purchase at various prices during a given period, ceteris paribus.",
+      "pages": "p2-3"
+    },
+    {
+      "subject": "Economics",
+      "chapter": "2",
+      "q": "state law of demand",
+      "aliases": ["what is the law of demand"],
+      "a": "Law of Demand: Other things equal, quantity demanded of a good varies inversely with its price (higher price → lower quantity demanded, and vice versa).",
+      "pages": "p4-5"
+    },
+    {
+      "subject": "Economics",
+      "chapter": "2",
+      "q": "list determinants of demand",
+      "aliases": ["factors affecting demand"],
+      "a": "Main determinants: Price of the good, Consumers' income, Prices of related goods (substitutes & complements), Tastes and preferences, Population and demographics, Expectations about future prices/income.",
+      "pages": "p6-7"
+    },
+    {
+      "subject": "Economics",
+      "chapter": "2",
+      "q": "what causes a shift in demand curve",
+      "aliases": ["shifts in demand"],
+      "a": "Shifts occur due to non-price factors: changes in income, tastes, prices of related goods, expectations, population. A change in the good's own price causes movement along the curve, not a shift.",
+      "pages": "p8-9"
+    },
+    {
+      "subject": "Economics",
       "chapter": "3",
       "q": "distinguish between sacrificing ratio and gaining ratio",
       "aliases": [

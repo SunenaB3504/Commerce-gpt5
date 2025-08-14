@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Readiness • Commerce GPT5</title>
+  <link rel="manifest" href="/web/manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="/web/assets/icons/icon.svg" />
+  <link rel="icon" href="/web/assets/icons/icon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="/web/assets/css/styles.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script type="module" src="/web/assets/js/config.js?v=5"></script>
+  <script>
+    tailwind.config = { theme: { extend: { colors: { brand: '#0b5ed7' } } } }
+  </script>
+  <meta name="color-scheme" content="light dark" />
+</head>
+<body class="bg-gray-50 text-gray-900">
+  <header class="bg-gradient-to-r from-blue-600 to-indigo-600 text-white">
+    <div class="mx-auto max-w-7xl px-4 py-3 flex items-center justify-between gap-4">
+      <a href="/web/index.html" class="text-white/90 hover:text-white">← Home</a>
+      <h1 class="text-xl font-semibold tracking-tight">Readiness dashboard</h1>
+      <div></div>
+    </div>
+  </header>
+  <main class="mx-auto max-w-3xl px-4 py-6">
+    <section class="bg-white rounded-xl shadow-sm ring-1 ring-gray-200 p-5">
+      <h2 class="text-lg font-semibold text-gray-800 mb-3">Evaluation summary</h2>
+      <div class="flex flex-wrap gap-3 mb-4 items-center">
+        <button id="btnRunEval" class="px-3 py-1.5 text-sm rounded bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-40" title="Run evaluation prompts">Run Eval</button>
+        <button id="btnRefresh" class="px-3 py-1.5 text-sm rounded bg-gray-600 text-white hover:bg-gray-700" title="Refresh summary">Refresh</button>
+        <div id="runStatus" class="text-xs text-gray-500"></div>
+      </div>
+      <div id="evSummary" class="text-sm text-gray-800"></div>
+      <div id="evFiles" class="mt-3 text-xs text-gray-600"></div>
+      <div class="mt-4 text-xs text-gray-500">Tip: Re-run the eval harness and refresh this page to update the summary.</div>
+    </section>
+    <section class="bg-white rounded-xl shadow-sm ring-1 ring-gray-200 p-5 mt-6">
+      <h2 class="text-lg font-semibold text-gray-800 mb-3">Short-answer thresholds</h2>
+      <div id="thresholdInfo" class="text-sm text-gray-800 mb-3"></div>
+      <div class="flex flex-wrap gap-2 mb-3">
+        <button id="btnSuggest" class="px-3 py-1.5 text-sm rounded bg-indigo-600 text-white hover:bg-indigo-700" title="Compute suggestions from recent scored answers JSON">Suggest New</button>
+        <button id="btnApply" class="px-3 py-1.5 text-sm rounded bg-green-600 text-white hover:bg-green-700 disabled:opacity-40" disabled>Apply Suggested</button>
+      </div>
+      <div id="suggestions" class="text-xs text-gray-600"></div>
+    </section>
+  </main>
+  <script type="module" src="/web/assets/js/readiness.js?v=2"></script>
+</body>
+</html>

@@ -361,3 +361,23 @@ class DiskIndex:
                 # If explicit retriever was requested, use it; else auto
                 return self._simple_query(ns, query, k, model, retriever=retriever)
             raise
+
+
+def clear_tfidf_cache(namespace: Optional[str]) -> list[str]:
+    """Clear TF-IDF caches. If namespace is None, clear all; else clear specific.
+
+    Returns list of namespaces cleared.
+    """
+    cleared: list[str] = []
+    global _TFIDF_CACHE
+    try:
+        if namespace is None:
+            cleared = list(_TFIDF_CACHE.keys())
+            _TFIDF_CACHE = {}
+        else:
+            if namespace in _TFIDF_CACHE:
+                _TFIDF_CACHE.pop(namespace, None)
+                cleared = [namespace]
+    except Exception:
+        pass
+    return cleared

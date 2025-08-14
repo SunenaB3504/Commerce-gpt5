@@ -1,0 +1,104 @@
+{
+  "e2b8749b-7789-41a8-b5bf-4cda96d814a0": {
+    "session_id": "e2b8749b-7789-41a8-b5bf-4cda96d814a0",
+    "subject": "Economics",
+    "chapter": "1",
+    "created_at": 1755159994.6334763,
+    "index": 0,
+    "answers": [
+      {
+        "index": 0,
+        "question_id": "eco1-m-001",
+        "qtype": "mcq",
+        "answer": {
+          "type": "mcq",
+          "result": "correct",
+          "explanation": "Inflation refers to a sustained increase in the general price level, reducing the purchasing power of money.",
+          "citations": [
+            {
+              "filename": "Economics_ch1.pdf",
+              "page_start": 12,
+              "page_end": 13
+            }
+          ],
+          "correctIndex": 0
+        },
+        "ts": 1755159994.6446924
+      }
+    ],
+    "questions": [
+      {
+        "qtype": "mcq",
+        "id": "eco1-m-001",
+        "question": "Which of the following best defines inflation?",
+        "options": [
+          "A general rise in the prices of goods and services over time",
+          "A decrease in the money supply",
+          "An increase in the unemployment rate",
+          "A fall in government spending"
+        ],
+        "meta": {
+          "mcq_id": "eco1-m-001"
+        }
+      },
+      {
+        "qtype": "short",
+        "id": "short:5891620263289016330",
+        "question": "what is inflation",
+        "options": null,
+        "meta": {}
+      }
+    ]
+  },
+  "afca5f05-6ae1-4e95-afda-87fcaa02ef88": {
+    "session_id": "afca5f05-6ae1-4e95-afda-87fcaa02ef88",
+    "subject": "Economics",
+    "chapter": "1",
+    "created_at": 1755161925.7295926,
+    "index": 0,
+    "answers": [
+      {
+        "index": 0,
+        "question_id": "eco1-m-001",
+        "qtype": "mcq",
+        "answer": {
+          "type": "mcq",
+          "result": "correct",
+          "explanation": "Inflation refers to a sustained increase in the general price level, reducing the purchasing power of money.",
+          "citations": [
+            {
+              "filename": "Economics_ch1.pdf",
+              "page_start": 12,
+              "page_end": 13
+            }
+          ],
+          "correctIndex": 0
+        },
+        "ts": 1755161925.7414992
+      }
+    ],
+    "questions": [
+      {
+        "qtype": "mcq",
+        "id": "eco1-m-001",
+        "question": "Which of the following best defines inflation?",
+        "options": [
+          "A general rise in the prices of goods and services over time",
+          "A decrease in the money supply",
+          "An increase in the unemployment rate",
+          "A fall in government spending"
+        ],
+        "meta": {
+          "mcq_id": "eco1-m-001"
+        }
+      },
+      {
+        "qtype": "short",
+        "id": "short:2009678537906760583",
+        "question": "what is inflation",
+        "options": null,
+        "meta": {}
+      }
+    ]
+  }
+}

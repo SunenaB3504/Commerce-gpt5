@@ -4,6 +4,7 @@ from typing import Optional, List, Dict, Any
 
 from ..utils.indexer import DiskIndex
 from ..utils.answerer import build_answer
+from ..utils.metrics import record as record_metric
 
 
 class AskHit(BaseModel):
@@ -33,6 +34,8 @@ async def ask(
     answer_synthesis: bool = Query(True, description="Whether to synthesize an answer from top passages"),
     filter_noise: bool = Query(True, description="Filter exercise/instruction/headings in synthesis"),
 ):
+    import time as _time
+    t0 = _time.perf_counter()
     index = DiskIndex()
     try:
         res = index.query(subject=subject, chapter=chapter, query=q, k=k, model=model, retriever=retriever)
@@ -47,6 +50,8 @@ async def ask(
         built = build_answer(q, hits_dicts, mmr=True, max_passages=min(5, k), max_chars=900, filter_noise=filter_noise, subject=subject, chapter=chapter)
         out.answer = built.get("answer")
         out.citations = built.get("citations")
+    dt_ms = (_time.perf_counter() - t0) * 1000.0
+    record_metric("ask_latency_ms", dt_ms, {"k": k, "retriever": retriever})
     return out
 
 
