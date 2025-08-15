@@ -1,0 +1,99 @@
+{
+  "subject": "Accountancy",
+  "chapters": [
+    {
+      "chapter": "1",
+      "pdf_files": [
+        "leac101.pdf",
+        "leac201.pdf",
+        "leca101.pdf"
+      ],
+      "source_upload_ids": [
+        "C:\\Users\\Admin\\Sunil\\llm\\Commerce-gpt5\\uploads\\73c7369a-e49f-49dd-99b5-4bbeadf58c24",
+        "C:\\Users\\Admin\\Sunil\\llm\\Commerce-gpt5\\uploads\\7aebb026-ebd1-4913-88d9-74d2c0e40efe",
+        "C:\\Users\\Admin\\Sunil\\llm\\Commerce-gpt5\\uploads\\bef180f4-0665-45c1-94d3-0d0e04977b87"
+      ],
+      "chunks_file": "web/data/subjects/Accountancy/chapters/1/chunks-001.json",
+      "index_namespace": "Accountancy-ch1",
+      "chunk_count": 27,
+      "last_ingested": "2025-08-14T09:51:17.737117+00:00"
+    },
+    {
+      "chapter": "2",
+      "pdf_files": [
+        "leac102.pdf",
+        "leac202.pdf",
+        "leca102.pdf"
+      ],
+      "source_upload_ids": [
+        "C:\\Users\\Admin\\Sunil\\llm\\Commerce-gpt5\\uploads\\e4593999-7d3f-44ed-88f7-5694d9688578",
+        "C:\\Users\\Admin\\Sunil\\llm\\Commerce-gpt5\\uploads\\360dc920-680f-442b-9823-c22307e20598",
+        "C:\\Users\\Admin\\Sunil\\llm\\Commerce-gpt5\\uploads\\f1efc308-94fc-4baf-b20a-3640fab950b7"
+      ],
+      "chunks_file": "web/data/subjects/Accountancy/chapters/2/chunks-001.json",
+      "index_namespace": "Accountancy-ch2",
+      "chunk_count": 131,
+      "last_ingested": "2025-08-14T09:51:20.080206+00:00"
+    },
+    {
+      "chapter": "3",
+      "pdf_files": [
+        "leac103.pdf",
+        "leac203.pdf",
+        "leca103.pdf"
+      ],
+      "source_upload_ids": [
+        "C:\\Users\\Admin\\Sunil\\llm\\Commerce-gpt5\\uploads\\10c54499-9399-4720-a616-fd5ddc946e5b",
+        "C:\\Users\\Admin\\Sunil\\llm\\Commerce-gpt5\\uploads\\0aeecc81-80f6-4888-b647-b631ed47d68e",
+        "C:\\Users\\Admin\\Sunil\\llm\\Commerce-gpt5\\uploads\\17e047c9-668b-4c71-8f02-f93a47ca2ed8"
+      ],
+      "chunks_file": "web/data/subjects/Accountancy/chapters/3/chunks-001.json",
+      "index_namespace": "Accountancy-ch3",
+      "chunk_count": 32,
+      "last_ingested": "2025-08-14T09:51:20.752170+00:00"
+    },
+    {
+      "chapter": "4",
+      "pdf_files": [
+        "leac104.pdf",
+        "leac204.pdf",
+        "leca104.pdf"
+      ],
+      "source_upload_ids": [
+        "C:\\Users\\Admin\\Sunil\\llm\\Commerce-gpt5\\uploads\\536ae1df-ddf1-4fb0-9a82-f2b068edb696",
+        "C:\\Users\\Admin\\Sunil\\llm\\Commerce-gpt5\\uploads\\4ac5eb21-ccd6-43f1-9b35-e11c82cf6452",
+        "C:\\Users\\Admin\\Sunil\\llm\\Commerce-gpt5\\uploads\\9e0c279d-4acb-4b23-a2dd-00d8aae7c8e4"
+      ],
+      "chunks_file": "web/data/subjects/Accountancy/chapters/4/chunks-001.json",
+      "index_namespace": "Accountancy-ch4",
+      "chunk_count": 30,
+      "last_ingested": "2025-08-14T09:51:23.860673+00:00"
+    },
+    {
+      "chapter": "5",
+      "pdf_files": [
+        "leac205.pdf"
+      ],
+      "source_upload_ids": [
+        "C:\\Users\\Admin\\Sunil\\llm\\Commerce-gpt5\\uploads\\6421c245-4862-4357-84e0-b4d136e34fb6"
+      ],
+      "chunks_file": "web/data/subjects/Accountancy/chapters/5/chunks-001.json",
+      "index_namespace": "Accountancy-ch5",
+      "chunk_count": 79,
+      "last_ingested": "2025-08-14T09:51:14.876137+00:00"
+    },
+    {
+      "chapter": "6",
+      "pdf_files": [
+        "leac206.pdf"
+      ],
+      "source_upload_ids": [
+        "C:\\Users\\Admin\\Sunil\\llm\\Commerce-gpt5\\uploads\\4f913a57-25c2-406f-9aef-7536df90fbdf"
+      ],
+      "chunks_file": "web/data/subjects/Accountancy/chapters/6/chunks-001.json",
+      "index_namespace": "Accountancy-ch6",
+      "chunk_count": 74,
+      "last_ingested": "2025-08-14T09:51:16.415905+00:00"
+    }
+  ]
+}

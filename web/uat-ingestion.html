@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>UAT: Syllabus Content Ingestion</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2em; background: #f8f9fa; }
+    h1 { color: #2c3e50; }
+    table { border-collapse: collapse; width: 100%; margin-bottom: 2em; }
+    th, td { border: 1px solid #ccc; padding: 0.5em; text-align: left; }
+    th { background: #e9ecef; }
+    tr:nth-child(even) { background: #f2f2f2; }
+    .step { font-weight: bold; color: #2980b9; }
+    .feedback { width: 100%; min-width: 120px; }
+    .status { font-size: 1.2em; }
+    .manual { color: #e67e22; font-weight: bold; }
+    .ok { color: #27ae60; font-weight: bold; }
+    .fail { color: #c0392b; font-weight: bold; }
+    .notes { font-size: 0.95em; color: #555; }
+    .save-btn { background: #2980b9; color: #fff; border: none; padding: 0.5em 1em; border-radius: 4px; cursor: pointer; }
+    .save-btn:hover { background: #1a5a7a; }
+  </style>
+</head>
+<body>
+  <h1>User Acceptance Testing: Syllabus Content Ingestion</h1>
+  <p>Review each file and process step. Mark status, add feedback, and submit your notes for each PDF. Manual edits are flagged for extra review.</p>
+
+  <div style="margin-bottom:1em;">
+    <button class="save-btn" onclick="saveFeedback()">Save Feedback</button>
+    <button class="save-btn" onclick="clearFeedback()" style="background:#e67e22;">Clear Feedback</button>
+    <button class="save-btn" onclick="copyAllFeedback()" style="background:#16a085;">Copy All Feedback</button>
+    <button class="save-btn" onclick="jumpToNextIssue()" style="background:#8e44ad;">Jump to Next Issue</button>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Subject</th>
+        <th>PDF Filename</th>
+        <th class="step">Upload</th>
+        <th class="step">Parse/Chunk</th>
+        <th class="step">Chunk JSON</th>
+        <th class="step">Index</th>
+        <th class="step">Manifest</th>
+        <th class="step">Log</th>
+        <th>Notes</th>
+        <th>Feedback</th>
+      </tr>
+    </thead>
+    <tbody id="uat-table-body">
+      <!-- Rows will be injected by JS -->
+    </tbody>
+  </table>
+
+  <div id="save-status"></div>
+
+  <script>
+    // Example data (replace with dynamic fetch if needed)
+    const files = [
+      {subject: 'Economics', pdf: 'keec101.pdf', chunkCount: 28, manual: false},
+      {subject: 'Economics', pdf: 'leec101.pdf', chunkCount: 22, manual: true},
+      {subject: 'Economics', pdf: 'keec102.pdf', chunkCount: 47, manual: false},
+      {subject: 'Economics', pdf: 'leec102.pdf', chunkCount: 81, manual: false},
+      {subject: 'Economics', pdf: 'keec103.pdf', chunkCount: 43, manual: false},
+      {subject: 'Economics', pdf: 'leec103.pdf', chunkCount: 47, manual: false},
+      {subject: 'Economics', pdf: 'keec104.pdf', chunkCount: 35, manual: false},
+      {subject: 'Economics', pdf: 'leec104.pdf', chunkCount: 34, manual: false},
+      {subject: 'Economics', pdf: 'keec105.pdf', chunkCount: 38, manual: false},
+      {subject: 'Economics', pdf: 'leec105.pdf', chunkCount: 53, manual: false},
+      {subject: 'Economics', pdf: 'keec106.pdf', chunkCount: 45, manual: false},
+      {subject: 'Economics', pdf: 'leec106.pdf', chunkCount: 53, manual: false},
+      {subject: 'Economics', pdf: 'keec107.pdf', chunkCount: 39, manual: false},
+      {subject: 'Economics', pdf: 'keec108.pdf', chunkCount: 35, manual: false},
+      // Add Accountancy and Business Studies files here...
+    ];
+    const steps = ['Upload', 'Parse/Chunk', 'Chunk JSON', 'Index', 'Manifest', 'Log'];
+    function statusCell(ok=true, manual=false) {
+      if (manual) return '<span class="manual">⚠️ Manual</span>';
+      return ok ? '<span class="ok">✅</span>' : '<span class="fail">❌</span>';
+    }
+    function notesCell(file) {
+      if (file.manual) return 'Manual edits detected in chunk JSON';
+      return '';
+    }
+    function renderTable() {
+      const tbody = document.getElementById('uat-table-body');
+      tbody.innerHTML = '';
+      files.forEach((file, idx) => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${file.subject}</td>
+          <td>${file.pdf}</td>
+          <td>${statusCell()}</td>
+          <td>${statusCell()}</td>
+          <td>${statusCell(true, file.manual)}</td>
+          <td>${statusCell()}</td>
+          <td>${statusCell()}</td>
+          <td>${statusCell()}</td>
+          <td class="notes">${notesCell(file)}</td>
+          <td><textarea class="feedback" rows="2" placeholder="Your feedback..."></textarea></td>
+        `;
+        // Highlight row when feedback is entered
+        const textarea = row.querySelector('textarea');
+        textarea.addEventListener('input', function() {
+          if (this.value.trim()) {
+            row.style.background = '#fffbe6';
+          } else {
+            row.style.background = '';
+          }
+        });
+        tbody.appendChild(row);
+      });
+    }
+    function saveFeedback() {
+      const rows = document.querySelectorAll('#uat-table-body tr');
+      const feedback = [];
+      rows.forEach(row => {
+        const cells = row.querySelectorAll('td');
+        feedback.push({
+          subject: cells[0].innerText,
+          pdf: cells[1].innerText,
+          upload: cells[2].innerText,
+          parse: cells[3].innerText,
+          chunk: cells[4].innerText,
+          index: cells[5].innerText,
+          manifest: cells[6].innerText,
+          log: cells[7].innerText,
+          notes: cells[8].innerText,
+          feedback: cells[9].querySelector('textarea').value
+        });
+      });
+      localStorage.setItem('uat-ingestion-feedback', JSON.stringify(feedback));
+      document.getElementById('save-status').innerText = 'Feedback saved locally. You can copy/paste or export as needed.';
+    }
+    function clearFeedback() {
+      document.querySelectorAll('#uat-table-body textarea').forEach(t => {
+        t.value = '';
+        t.dispatchEvent(new Event('input'));
+      });
+      document.getElementById('save-status').innerText = 'All feedback fields cleared.';
+    }
+    function copyAllFeedback() {
+      const rows = document.querySelectorAll('#uat-table-body tr');
+      let text = '';
+      rows.forEach(row => {
+        const cells = row.querySelectorAll('td');
+        text += `Subject: ${cells[0].innerText}\nPDF: ${cells[1].innerText}\nUpload: ${cells[2].innerText}\nParse: ${cells[3].innerText}\nChunk: ${cells[4].innerText}\nIndex: ${cells[5].innerText}\nManifest: ${cells[6].innerText}\nLog: ${cells[7].innerText}\nNotes: ${cells[8].innerText}\nFeedback: ${cells[9].querySelector('textarea').value}\n---\n`;
+      });
+      navigator.clipboard.writeText(text).then(() => {
+        document.getElementById('save-status').innerText = 'All feedback copied to clipboard.';
+      });
+    }
+    function jumpToNextIssue() {
+      const rows = document.querySelectorAll('#uat-table-body tr');
+      let found = false;
+      for (let i = 0; i < rows.length; i++) {
+        const notes = rows[i].querySelector('.notes').innerText;
+        const feedback = rows[i].querySelector('textarea').value.trim();
+        if (notes || !feedback) {
+          rows[i].scrollIntoView({behavior:'smooth', block:'center'});
+          rows[i].style.outline = '2px solid #8e44ad';
+          setTimeout(() => { rows[i].style.outline = ''; }, 2000);
+          found = true;
+          break;
+        }
+      }
+      if (!found) {
+        document.getElementById('save-status').innerText = 'No issues or empty feedback found.';
+      }
+    }
+    renderTable();
+  </script>
+</body>
+</html>

@@ -117,3 +117,10 @@ Day 10: Hardening, performance re-test, documentation, retro prep, stretch tasks
 - Added tests for threshold persistence and metrics invocation.
 - Next (Day 2 target): Implement adaptive selection algorithm (point-gap & MCQ correctness weighting) and session persistence refinement.
 
+### Day 2 Progress (2025-08-14 Early Content Ingestion)
+- Added bulk ingestion script `scripts/bulk_ingest.py` to process syllabus PDFs chapter-wise.
+- Generated initial chunk JSON files and manifests under `web/data/subjects/*/chapters/*` (dry-run verified parsing & chunk counts for 39 PDFs).
+- Created `docs/ingestion.md` with usage & architecture details.
+- Established ingestion log & cache for idempotent rebuilds.
+- Next: Integrate adaptive selection logic (original Day 2 plan) and expose metrics endpoint (/metrics/runtime) later in week.
+

@@ -1,0 +1,353 @@
+[
+  {
+    "timestamp": "2025-08-14T09:51:01.189389+00:00",
+    "subject": "Accountancy",
+    "chapter": "1",
+    "pdf": "leac101.pdf",
+    "chunks": 97,
+    "namespace": "Accountancy-ch1",
+    "chunks_file": "web/data/subjects/Accountancy/chapters/1/chunks-001.json"
+  },
+  {
+    "timestamp": "2025-08-14T09:51:03.082491+00:00",
+    "subject": "Accountancy",
+    "chapter": "2",
+    "pdf": "leac102.pdf",
+    "chunks": 102,
+    "namespace": "Accountancy-ch2",
+    "chunks_file": "web/data/subjects/Accountancy/chapters/2/chunks-001.json"
+  },
+  {
+    "timestamp": "2025-08-14T09:51:05.786445+00:00",
+    "subject": "Accountancy",
+    "chapter": "3",
+    "pdf": "leac103.pdf",
+    "chunks": 83,
+    "namespace": "Accountancy-ch3",
+    "chunks_file": "web/data/subjects/Accountancy/chapters/3/chunks-001.json"
+  },
+  {
+    "timestamp": "2025-08-14T09:51:07.185411+00:00",
+    "subject": "Accountancy",
+    "chapter": "4",
+    "pdf": "leac104.pdf",
+    "chunks": 67,
+    "namespace": "Accountancy-ch4",
+    "chunks_file": "web/data/subjects/Accountancy/chapters/4/chunks-001.json"
+  },
+  {
+    "timestamp": "2025-08-14T09:51:09.478082+00:00",
+    "subject": "Accountancy",
+    "chapter": "1",
+    "pdf": "leac201.pdf",
+    "chunks": 134,
+    "namespace": "Accountancy-ch1",
+    "chunks_file": "web/data/subjects/Accountancy/chapters/1/chunks-001.json"
+  },
+  {
+    "timestamp": "2025-08-14T09:51:11.643691+00:00",
+    "subject": "Accountancy",
+    "chapter": "2",
+    "pdf": "leac202.pdf",
+    "chunks": 114,
+    "namespace": "Accountancy-ch2",
+    "chunks_file": "web/data/subjects/Accountancy/chapters/2/chunks-001.json"
+  },
+  {
+    "timestamp": "2025-08-14T09:51:12.454075+00:00",
+    "subject": "Accountancy",
+    "chapter": "3",
+    "pdf": "leac203.pdf",
+    "chunks": 47,
+    "namespace": "Accountancy-ch3",
+    "chunks_file": "web/data/subjects/Accountancy/chapters/3/chunks-001.json"
+  },
+  {
+    "timestamp": "2025-08-14T09:51:13.337392+00:00",
+    "subject": "Accountancy",
+    "chapter": "4",
+    "pdf": "leac204.pdf",
+    "chunks": 37,
+    "namespace": "Accountancy-ch4",
+    "chunks_file": "web/data/subjects/Accountancy/chapters/4/chunks-001.json"
+  },
+  {
+    "timestamp": "2025-08-14T09:51:14.876144+00:00",
+    "subject": "Accountancy",
+    "chapter": "5",
+    "pdf": "leac205.pdf",
+    "chunks": 79,
+    "namespace": "Accountancy-ch5",
+    "chunks_file": "web/data/subjects/Accountancy/chapters/5/chunks-001.json"
+  },
+  {
+    "timestamp": "2025-08-14T09:51:16.415911+00:00",
+    "subject": "Accountancy",
+    "chapter": "6",
+    "pdf": "leac206.pdf",
+    "chunks": 74,
+    "namespace": "Accountancy-ch6",
+    "chunks_file": "web/data/subjects/Accountancy/chapters/6/chunks-001.json"
+  },
+  {
+    "timestamp": "2025-08-14T09:51:17.737129+00:00",
+    "subject": "Accountancy",
+    "chapter": "1",
+    "pdf": "leca101.pdf",
+    "chunks": 27,
+    "namespace": "Accountancy-ch1",
+    "chunks_file": "web/data/subjects/Accountancy/chapters/1/chunks-001.json"
+  },
+  {
+    "timestamp": "2025-08-14T09:51:20.080213+00:00",
+    "subject": "Accountancy",
+    "chapter": "2",
+    "pdf": "leca102.pdf",
+    "chunks": 131,
+    "namespace": "Accountancy-ch2",
+    "chunks_file": "web/data/subjects/Accountancy/chapters/2/chunks-001.json"
+  },
+  {
+    "timestamp": "2025-08-14T09:51:20.752179+00:00",
+    "subject": "Accountancy",
+    "chapter": "3",
+    "pdf": "leca103.pdf",
+    "chunks": 32,
+    "namespace": "Accountancy-ch3",
+    "chunks_file": "web/data/subjects/Accountancy/chapters/3/chunks-001.json"
+  },
+  {
+    "timestamp": "2025-08-14T09:51:23.860679+00:00",
+    "subject": "Accountancy",
+    "chapter": "4",
+    "pdf": "leca104.pdf",
+    "chunks": 30,
+    "namespace": "Accountancy-ch4",
+    "chunks_file": "web/data/subjects/Accountancy/chapters/4/chunks-001.json"
+  },
+  {
+    "timestamp": "2025-08-14T09:51:25.661569+00:00",
+    "subject": "Busness Studies",
+    "chapter": "1",
+    "pdf": "lebs101.pdf",
+    "chunks": 66,
+    "namespace": "Busness_Studies-ch1",
+    "chunks_file": "web/data/subjects/Busness_Studies/chapters/1/chunks-001.json"
+  },
+  {
+    "timestamp": "2025-08-14T09:51:27.932658+00:00",
+    "subject": "Busness Studies",
+    "chapter": "2",
+    "pdf": "lebs102.pdf",
+    "chunks": 83,
+    "namespace": "Busness_Studies-ch2",
+    "chunks_file": "web/data/subjects/Busness_Studies/chapters/2/chunks-001.json"
+  },
+  {
+    "timestamp": "2025-08-14T09:51:29.287415+00:00",
+    "subject": "Busness Studies",
+    "chapter": "3",
+    "pdf": "lebs103.pdf",
+    "chunks": 46,
+    "namespace": "Busness_Studies-ch3",
+    "chunks_file": "web/data/subjects/Busness_Studies/chapters/3/chunks-001.json"
+  },
+  {
+    "timestamp": "2025-08-14T09:51:30.394295+00:00",
+    "subject": "Busness Studies",
+    "chapter": "4",
+    "pdf": "lebs104.pdf",
+    "chunks": 40,
+    "namespace": "Busness_Studies-ch4",
+    "chunks_file": "web/data/subjects/Busness_Studies/chapters/4/chunks-001.json"
+  },
+  {
+    "timestamp": "2025-08-14T09:51:32.312386+00:00",
+    "subject": "Busness Studies",
+    "chapter": "5",
+    "pdf": "lebs105.pdf",
+    "chunks": 63,
+    "namespace": "Busness_Studies-ch5",
+    "chunks_file": "web/data/subjects/Busness_Studies/chapters/5/chunks-001.json"
+  },
+  {
+    "timestamp": "2025-08-14T09:51:34.127890+00:00",
+    "subject": "Busness Studies",
+    "chapter": "6",
+    "pdf": "lebs106.pdf",
+    "chunks": 67,
+    "namespace": "Busness_Studies-ch6",
+    "chunks_file": "web/data/subjects/Busness_Studies/chapters/6/chunks-001.json"
+  },
+  {
+    "timestamp": "2025-08-14T09:51:36.180696+00:00",
+    "subject": "Busness Studies",
+    "chapter": "7",
+    "pdf": "lebs107.pdf",
+    "chunks": 72,
+    "namespace": "Busness_Studies-ch7",
+    "chunks_file": "web/data/subjects/Busness_Studies/chapters/7/chunks-001.json"
+  },
+  {
+    "timestamp": "2025-08-14T09:51:37.016215+00:00",
+    "subject": "Busness Studies",
+    "chapter": "8",
+    "pdf": "lebs108.pdf",
+    "chunks": 25,
+    "namespace": "Busness_Studies-ch8",
+    "chunks_file": "web/data/subjects/Busness_Studies/chapters/8/chunks-001.json"
+  },
+  {
+    "timestamp": "2025-08-14T09:51:38.863023+00:00",
+    "subject": "Busness Studies",
+    "chapter": "1",
+    "pdf": "lebs201.pdf",
+    "chunks": 65,
+    "namespace": "Busness_Studies-ch1",
+    "chunks_file": "web/data/subjects/Busness_Studies/chapters/1/chunks-001.json"
+  },
+  {
+    "timestamp": "2025-08-14T09:51:41.585543+00:00",
+    "subject": "Busness Studies",
+    "chapter": "2",
+    "pdf": "lebs202.pdf",
+    "chunks": 111,
+    "namespace": "Busness_Studies-ch2",
+    "chunks_file": "web/data/subjects/Busness_Studies/chapters/2/chunks-001.json"
+  },
+  {
+    "timestamp": "2025-08-14T09:51:42.571090+00:00",
+    "subject": "Busness Studies",
+    "chapter": "3",
+    "pdf": "lebs203.pdf",
+    "chunks": 34,
+    "namespace": "Busness_Studies-ch3",
+    "chunks_file": "web/data/subjects/Busness_Studies/chapters/3/chunks-001.json"
+  },
+  {
+    "timestamp": "2025-08-14T09:51:44.395121+00:00",
+    "subject": "Economics",
+    "chapter": "1",
+    "pdf": "keec101.pdf",
+    "chunks": 28,
+    "namespace": "Economics-ch1",
+    "chunks_file": "web/data/subjects/Economics/chapters/1/chunks-001.json"
+  },
+  {
+    "timestamp": "2025-08-14T09:51:46.366954+00:00",
+    "subject": "Economics",
+    "chapter": "2",
+    "pdf": "keec102.pdf",
+    "chunks": 47,
+    "namespace": "Economics-ch2",
+    "chunks_file": "web/data/subjects/Economics/chapters/2/chunks-001.json"
+  },
+  {
+    "timestamp": "2025-08-14T09:51:48.356358+00:00",
+    "subject": "Economics",
+    "chapter": "3",
+    "pdf": "keec103.pdf",
+    "chunks": 43,
+    "namespace": "Economics-ch3",
+    "chunks_file": "web/data/subjects/Economics/chapters/3/chunks-001.json"
+  },
+  {
+    "timestamp": "2025-08-14T09:51:50.354656+00:00",
+    "subject": "Economics",
+    "chapter": "4",
+    "pdf": "keec104.pdf",
+    "chunks": 35,
+    "namespace": "Economics-ch4",
+    "chunks_file": "web/data/subjects/Economics/chapters/4/chunks-001.json"
+  },
+  {
+    "timestamp": "2025-08-14T09:51:51.798974+00:00",
+    "subject": "Economics",
+    "chapter": "5",
+    "pdf": "keec105.pdf",
+    "chunks": 38,
+    "namespace": "Economics-ch5",
+    "chunks_file": "web/data/subjects/Economics/chapters/5/chunks-001.json"
+  },
+  {
+    "timestamp": "2025-08-14T09:51:53.496828+00:00",
+    "subject": "Economics",
+    "chapter": "6",
+    "pdf": "keec106.pdf",
+    "chunks": 45,
+    "namespace": "Economics-ch6",
+    "chunks_file": "web/data/subjects/Economics/chapters/6/chunks-001.json"
+  },
+  {
+    "timestamp": "2025-08-14T09:51:54.760810+00:00",
+    "subject": "Economics",
+    "chapter": "7",
+    "pdf": "keec107.pdf",
+    "chunks": 39,
+    "namespace": "Economics-ch7",
+    "chunks_file": "web/data/subjects/Economics/chapters/7/chunks-001.json"
+  },
+  {
+    "timestamp": "2025-08-14T09:51:56.078015+00:00",
+    "subject": "Economics",
+    "chapter": "8",
+    "pdf": "keec108.pdf",
+    "chunks": 35,
+    "namespace": "Economics-ch8",
+    "chunks_file": "web/data/subjects/Economics/chapters/8/chunks-001.json"
+  },
+  {
+    "timestamp": "2025-08-14T09:51:56.625693+00:00",
+    "subject": "Economics",
+    "chapter": "1",
+    "pdf": "leec101.pdf",
+    "chunks": 22,
+    "namespace": "Economics-ch1",
+    "chunks_file": "web/data/subjects/Economics/chapters/1/chunks-001.json"
+  },
+  {
+    "timestamp": "2025-08-14T09:51:58.278677+00:00",
+    "subject": "Economics",
+    "chapter": "2",
+    "pdf": "leec102.pdf",
+    "chunks": 81,
+    "namespace": "Economics-ch2",
+    "chunks_file": "web/data/subjects/Economics/chapters/2/chunks-001.json"
+  },
+  {
+    "timestamp": "2025-08-14T09:51:59.189557+00:00",
+    "subject": "Economics",
+    "chapter": "3",
+    "pdf": "leec103.pdf",
+    "chunks": 47,
+    "namespace": "Economics-ch3",
+    "chunks_file": "web/data/subjects/Economics/chapters/3/chunks-001.json"
+  },
+  {
+    "timestamp": "2025-08-14T09:52:00.311471+00:00",
+    "subject": "Economics",
+    "chapter": "4",
+    "pdf": "leec104.pdf",
+    "chunks": 34,
+    "namespace": "Economics-ch4",
+    "chunks_file": "web/data/subjects/Economics/chapters/4/chunks-001.json"
+  },
+  {
+    "timestamp": "2025-08-14T09:52:01.674288+00:00",
+    "subject": "Economics",
+    "chapter": "5",
+    "pdf": "leec105.pdf",
+    "chunks": 53,
+    "namespace": "Economics-ch5",
+    "chunks_file": "web/data/subjects/Economics/chapters/5/chunks-001.json"
+  },
+  {
+    "timestamp": "2025-08-14T09:52:02.778670+00:00",
+    "subject": "Economics",
+    "chapter": "6",
+    "pdf": "leec106.pdf",
+    "chunks": 53,
+    "namespace": "Economics-ch6",
+    "chunks_file": "web/data/subjects/Economics/chapters/6/chunks-001.json"
+  }
+]

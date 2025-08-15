@@ -1,0 +1,121 @@
+{
+  "subject": "Economics",
+  "chapters": [
+    {
+      "chapter": "1",
+      "pdf_files": [
+        "keec101.pdf",
+        "leec101.pdf"
+      ],
+      "source_upload_ids": [
+        "C:\\Users\\Admin\\Sunil\\llm\\Commerce-gpt5\\uploads\\681ede10-6409-418f-80a5-0a7a3a1969e6",
+        "C:\\Users\\Admin\\Sunil\\llm\\Commerce-gpt5\\uploads\\f8e2c458-a580-495d-86d1-d25b67baabb2"
+      ],
+      "chunks_file": "web/data/subjects/Economics/chapters/1/chunks-001.json",
+      "index_namespace": "Economics-ch1",
+      "chunk_count": 22,
+      "last_ingested": "2025-08-14T09:51:56.625687+00:00"
+    },
+    {
+      "chapter": "2",
+      "pdf_files": [
+        "keec102.pdf",
+        "leec102.pdf"
+      ],
+      "source_upload_ids": [
+        "C:\\Users\\Admin\\Sunil\\llm\\Commerce-gpt5\\uploads\\455035d3-2794-4b04-a45c-7407e3d79684",
+        "C:\\Users\\Admin\\Sunil\\llm\\Commerce-gpt5\\uploads\\e2a7c8ef-a106-4f54-ab81-030ce05f748b"
+      ],
+      "chunks_file": "web/data/subjects/Economics/chapters/2/chunks-001.json",
+      "index_namespace": "Economics-ch2",
+      "chunk_count": 81,
+      "last_ingested": "2025-08-14T09:51:58.278671+00:00"
+    },
+    {
+      "chapter": "3",
+      "pdf_files": [
+        "keec103.pdf",
+        "leec103.pdf"
+      ],
+      "source_upload_ids": [
+        "C:\\Users\\Admin\\Sunil\\llm\\Commerce-gpt5\\uploads\\a9a9ed26-4af4-4471-bc7b-74c9fa8e4caf",
+        "C:\\Users\\Admin\\Sunil\\llm\\Commerce-gpt5\\uploads\\3787c1d9-da37-4584-9428-51201a493722"
+      ],
+      "chunks_file": "web/data/subjects/Economics/chapters/3/chunks-001.json",
+      "index_namespace": "Economics-ch3",
+      "chunk_count": 47,
+      "last_ingested": "2025-08-14T09:51:59.189551+00:00"
+    },
+    {
+      "chapter": "4",
+      "pdf_files": [
+        "keec104.pdf",
+        "leec104.pdf"
+      ],
+      "source_upload_ids": [
+        "C:\\Users\\Admin\\Sunil\\llm\\Commerce-gpt5\\uploads\\623c97a1-7411-4875-a05d-0a86b92b0533",
+        "C:\\Users\\Admin\\Sunil\\llm\\Commerce-gpt5\\uploads\\5890c792-f137-446b-bc86-dc993cf7be02"
+      ],
+      "chunks_file": "web/data/subjects/Economics/chapters/4/chunks-001.json",
+      "index_namespace": "Economics-ch4",
+      "chunk_count": 34,
+      "last_ingested": "2025-08-14T09:52:00.311466+00:00"
+    },
+    {
+      "chapter": "5",
+      "pdf_files": [
+        "keec105.pdf",
+        "leec105.pdf"
+      ],
+      "source_upload_ids": [
+        "C:\\Users\\Admin\\Sunil\\llm\\Commerce-gpt5\\uploads\\ff61f8c4-ec84-447b-bbdf-660a0fc639c5",
+        "C:\\Users\\Admin\\Sunil\\llm\\Commerce-gpt5\\uploads\\6c6812a3-b892-4177-912e-43775b4ee835"
+      ],
+      "chunks_file": "web/data/subjects/Economics/chapters/5/chunks-001.json",
+      "index_namespace": "Economics-ch5",
+      "chunk_count": 53,
+      "last_ingested": "2025-08-14T09:52:01.674277+00:00"
+    },
+    {
+      "chapter": "6",
+      "pdf_files": [
+        "keec106.pdf",
+        "leec106.pdf"
+      ],
+      "source_upload_ids": [
+        "C:\\Users\\Admin\\Sunil\\llm\\Commerce-gpt5\\uploads\\2ad3ea1a-a178-4f18-bebf-e32926f2fa2a",
+        "C:\\Users\\Admin\\Sunil\\llm\\Commerce-gpt5\\uploads\\935f4922-62a0-4082-a691-f5d0fdeeb56b"
+      ],
+      "chunks_file": "web/data/subjects/Economics/chapters/6/chunks-001.json",
+      "index_namespace": "Economics-ch6",
+      "chunk_count": 53,
+      "last_ingested": "2025-08-14T09:52:02.778664+00:00"
+    },
+    {
+      "chapter": "7",
+      "pdf_files": [
+        "keec107.pdf"
+      ],
+      "source_upload_ids": [
+        "C:\\Users\\Admin\\Sunil\\llm\\Commerce-gpt5\\uploads\\e9c91ef5-5296-435f-82eb-b8ae64d4a2a7"
+      ],
+      "chunks_file": "web/data/subjects/Economics/chapters/7/chunks-001.json",
+      "index_namespace": "Economics-ch7",
+      "chunk_count": 39,
+      "last_ingested": "2025-08-14T09:51:54.760804+00:00"
+    },
+    {
+      "chapter": "8",
+      "pdf_files": [
+        "keec108.pdf"
+      ],
+      "source_upload_ids": [
+        "C:\\Users\\Admin\\Sunil\\llm\\Commerce-gpt5\\uploads\\20eec555-4132-44a2-8217-11e904ae7c27"
+      ],
+      "chunks_file": "web/data/subjects/Economics/chapters/8/chunks-001.json",
+      "index_namespace": "Economics-ch8",
+      "chunk_count": 35,
+      "last_ingested": "2025-08-14T09:51:56.078008+00:00"
+    }
+  ]
+}

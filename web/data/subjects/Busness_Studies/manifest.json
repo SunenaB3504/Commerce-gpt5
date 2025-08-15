@@ -1,0 +1,115 @@
+{
+  "subject": "Busness Studies",
+  "chapters": [
+    {
+      "chapter": "1",
+      "pdf_files": [
+        "lebs101.pdf",
+        "lebs201.pdf"
+      ],
+      "source_upload_ids": [
+        "C:\\Users\\Admin\\Sunil\\llm\\Commerce-gpt5\\uploads\\284683c6-d6d4-407d-98c4-0953c1968fcf",
+        "C:\\Users\\Admin\\Sunil\\llm\\Commerce-gpt5\\uploads\\cc68d121-ca53-48d9-ae83-adfc9b617c7c"
+      ],
+      "chunks_file": "web/data/subjects/Busness_Studies/chapters/1/chunks-001.json",
+      "index_namespace": "Busness_Studies-ch1",
+      "chunk_count": 65,
+      "last_ingested": "2025-08-14T09:51:38.863017+00:00"
+    },
+    {
+      "chapter": "2",
+      "pdf_files": [
+        "lebs102.pdf",
+        "lebs202.pdf"
+      ],
+      "source_upload_ids": [
+        "C:\\Users\\Admin\\Sunil\\llm\\Commerce-gpt5\\uploads\\a4044521-7ee5-4e15-93c7-0cf81d79d002",
+        "C:\\Users\\Admin\\Sunil\\llm\\Commerce-gpt5\\uploads\\e7d283fc-24fd-49d8-b597-bbe4f5cbde59"
+      ],
+      "chunks_file": "web/data/subjects/Busness_Studies/chapters/2/chunks-001.json",
+      "index_namespace": "Busness_Studies-ch2",
+      "chunk_count": 111,
+      "last_ingested": "2025-08-14T09:51:41.585537+00:00"
+    },
+    {
+      "chapter": "3",
+      "pdf_files": [
+        "lebs103.pdf",
+        "lebs203.pdf"
+      ],
+      "source_upload_ids": [
+        "C:\\Users\\Admin\\Sunil\\llm\\Commerce-gpt5\\uploads\\104a91fa-78b6-47e3-839b-aeb0dd945b13",
+        "C:\\Users\\Admin\\Sunil\\llm\\Commerce-gpt5\\uploads\\a5cd596c-9261-4322-9178-22b0bfdc773b"
+      ],
+      "chunks_file": "web/data/subjects/Busness_Studies/chapters/3/chunks-001.json",
+      "index_namespace": "Busness_Studies-ch3",
+      "chunk_count": 34,
+      "last_ingested": "2025-08-14T09:51:42.571084+00:00"
+    },
+    {
+      "chapter": "4",
+      "pdf_files": [
+        "lebs104.pdf"
+      ],
+      "source_upload_ids": [
+        "C:\\Users\\Admin\\Sunil\\llm\\Commerce-gpt5\\uploads\\9a04ff85-347e-426e-b9f8-9868bfbb4729"
+      ],
+      "chunks_file": "web/data/subjects/Busness_Studies/chapters/4/chunks-001.json",
+      "index_namespace": "Busness_Studies-ch4",
+      "chunk_count": 40,
+      "last_ingested": "2025-08-14T09:51:30.394288+00:00"
+    },
+    {
+      "chapter": "5",
+      "pdf_files": [
+        "lebs105.pdf"
+      ],
+      "source_upload_ids": [
+        "C:\\Users\\Admin\\Sunil\\llm\\Commerce-gpt5\\uploads\\738e3bc2-a67e-4e52-a7c0-839361d32ded"
+      ],
+      "chunks_file": "web/data/subjects/Busness_Studies/chapters/5/chunks-001.json",
+      "index_namespace": "Busness_Studies-ch5",
+      "chunk_count": 63,
+      "last_ingested": "2025-08-14T09:51:32.312380+00:00"
+    },
+    {
+      "chapter": "6",
+      "pdf_files": [
+        "lebs106.pdf"
+      ],
+      "source_upload_ids": [
+        "C:\\Users\\Admin\\Sunil\\llm\\Commerce-gpt5\\uploads\\0bc90fbd-1491-402f-b3a7-bb86df9fbe11"
+      ],
+      "chunks_file": "web/data/subjects/Busness_Studies/chapters/6/chunks-001.json",
+      "index_namespace": "Busness_Studies-ch6",
+      "chunk_count": 67,
+      "last_ingested": "2025-08-14T09:51:34.127870+00:00"
+    },
+    {
+      "chapter": "7",
+      "pdf_files": [
+        "lebs107.pdf"
+      ],
+      "source_upload_ids": [
+        "C:\\Users\\Admin\\Sunil\\llm\\Commerce-gpt5\\uploads\\8e5501b5-6e4f-4038-8392-6ece6d255e21"
+      ],
+      "chunks_file": "web/data/subjects/Busness_Studies/chapters/7/chunks-001.json",
+      "index_namespace": "Busness_Studies-ch7",
+      "chunk_count": 72,
+      "last_ingested": "2025-08-14T09:51:36.180691+00:00"
+    },
+    {
+      "chapter": "8",
+      "pdf_files": [
+        "lebs108.pdf"
+      ],
+      "source_upload_ids": [
+        "C:\\Users\\Admin\\Sunil\\llm\\Commerce-gpt5\\uploads\\8deebb9b-281d-4256-831b-227e1ea4bccc"
+      ],
+      "chunks_file": "web/data/subjects/Busness_Studies/chapters/8/chunks-001.json",
+      "index_namespace": "Busness_Studies-ch8",
+      "chunk_count": 25,
+      "last_ingested": "2025-08-14T09:51:37.016210+00:00"
+    }
+  ]
+}
