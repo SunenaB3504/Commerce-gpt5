@@ -111,16 +111,48 @@ Day 10: Hardening, performance re-test, documentation, retro prep, stretch tasks
 
 ---
 ### Day 1 Progress (2025-08-14)
-- Implemented threshold overrides persistence to `data/runtime/threshold_overrides.json` (US-022).
-- Added metrics scaffold (`services/api/utils/metrics.py`) and instrumented `/ask` & `/answer/validate` latency collection.
-- Added adaptive flag & rationale placeholder fields in Practice start/next responses (US-020 scaffold).
-- Added tests for threshold persistence and metrics invocation.
-- Next (Day 2 target): Implement adaptive selection algorithm (point-gap & MCQ correctness weighting) and session persistence refinement.
 
 ### Day 2 Progress (2025-08-14 Early Content Ingestion)
-- Added bulk ingestion script `scripts/bulk_ingest.py` to process syllabus PDFs chapter-wise.
-- Generated initial chunk JSON files and manifests under `web/data/subjects/*/chapters/*` (dry-run verified parsing & chunk counts for 39 PDFs).
-- Created `docs/ingestion.md` with usage & architecture details.
-- Established ingestion log & cache for idempotent rebuilds.
-- Next: Integrate adaptive selection logic (original Day 2 plan) and expose metrics endpoint (/metrics/runtime) later in week.
+
+
+### Day 3 Progress (2025-08-18)
+- UAT web interface (`web/uat-ingestion.html`) created for syllabus content ingestion checklist and feedback collection.
+- All Economics syllabus PDFs parsed, chunked, indexed, and reported; manual edits flagged in chunk JSON.
+- Markdown ingestion report generated for audit trail.
+- Session file rotation logic implemented for persistence reliability.
+- Adaptive question selection API extended: `/practice/start` now accepts answer history and returns rationale; backend ready for adaptive prioritization.
+- Next: Expand UAT coverage for Accountancy and Business Studies, update report symbols for consistency, wire up frontend for adaptive practice.
+
+---
+## Remaining Day-wise Action Items (Sprint 3)
+
+**Day 3 (2025-08-18):**
+- Expand UAT checklist to include Accountancy and Business Studies PDFs/chapters.
+- Review and update UAT report symbols for consistency (e.g., green check for chunk JSON).
+- Validate all syllabus PDFs are present in the UAT interface.
+
+**Day 4 (2025-08-19):**
+- Integrate and test admin endpoints for ingestion and retrieval management.
+- Document API usage and admin workflows.
+
+**Day 5 (2025-08-20):**
+- Run retrieval smoke tests on indexed content.
+- Fix any issues found during testing.
+- Update documentation for retrieval validation.
+
+**Day 6 (2025-08-21):**
+- Collect and review feedback from UAT web interface.
+- Address any reported issues or manual edit flags.
+- Finalize UAT documentation.
+
+**Day 7 (2025-08-22):**
+- Sprint review and retrospective.
+- Prepare release notes and summary of completed work.
+- Plan next sprint activities if needed.
+
+---
+## Current Status Summary
+- Bulk ingestion, chunking, indexing, manifest/log/report generation completed for Economics.
+- UAT web interface live and functional; UI actions enhanced for feedback and review.
+- Pending: UAT expansion, admin endpoint integration, retrieval smoke tests, documentation updates, final review.
 

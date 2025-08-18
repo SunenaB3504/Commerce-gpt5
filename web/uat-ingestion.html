@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>UAT: Syllabus Content Ingestion</title>
   <style>
     body { font-family: Arial, sans-serif; margin: 2em; background: #f8f9fa; }
@@ -17,19 +18,27 @@
     .ok { color: #27ae60; font-weight: bold; }
     .fail { color: #c0392b; font-weight: bold; }
     .notes { font-size: 0.95em; color: #555; }
-    .save-btn { background: #2980b9; color: #fff; border: none; padding: 0.5em 1em; border-radius: 4px; cursor: pointer; }
-    .save-btn:hover { background: #1a5a7a; }
+    .save-btn { color: #fff; border: none; padding: 0.5em 1em; border-radius: 4px; cursor: pointer; margin-right: 0.5em; }
+    .save-btn.save { background: #2980b9; }
+    .save-btn.save:hover { background: #1a5a7a; }
+    .save-btn.clear { background: #e67e22; }
+    .save-btn.clear:hover { background: #b95c00; }
+    .save-btn.copy { background: #16a085; }
+    .save-btn.copy:hover { background: #117864; }
+    .save-btn.jump { background: #8e44ad; }
+    .save-btn.jump:hover { background: #5e3370; }
+    .action-bar { margin-bottom: 1em; }
   </style>
 </head>
 <body>
   <h1>User Acceptance Testing: Syllabus Content Ingestion</h1>
   <p>Review each file and process step. Mark status, add feedback, and submit your notes for each PDF. Manual edits are flagged for extra review.</p>
 
-  <div style="margin-bottom:1em;">
-    <button class="save-btn" onclick="saveFeedback()">Save Feedback</button>
-    <button class="save-btn" onclick="clearFeedback()" style="background:#e67e22;">Clear Feedback</button>
-    <button class="save-btn" onclick="copyAllFeedback()" style="background:#16a085;">Copy All Feedback</button>
-    <button class="save-btn" onclick="jumpToNextIssue()" style="background:#8e44ad;">Jump to Next Issue</button>
+  <div class="action-bar">
+    <button class="save-btn save" onclick="saveFeedback()">Save Feedback</button>
+    <button class="save-btn clear" onclick="clearFeedback()">Clear Feedback</button>
+    <button class="save-btn copy" onclick="copyAllFeedback()">Copy All Feedback</button>
+    <button class="save-btn jump" onclick="jumpToNextIssue()">Jump to Next Issue</button>
   </div>
 
   <table>

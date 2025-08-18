@@ -19,6 +19,7 @@ class PracticeStartRequest(BaseModel):
     mcq: int = 3
     short: int = 3
     adaptive: bool = False
+    answerHistory: Optional[List[Dict[str, Any]]] = None
 
 
 class PracticeQuestionResponse(BaseModel):
@@ -45,7 +46,14 @@ class PracticeSubmitRequest(BaseModel):
 
 @router.post("/practice/start", response_model=PracticeQuestionResponse)
 def practice_start(req: PracticeStartRequest):
-    sess = start_session(req.subject.strip(), req.chapter.strip(), total=req.total, mix=(req.mcq, req.short))
+    sess = start_session(
+        req.subject.strip(),
+        req.chapter.strip(),
+        total=req.total,
+        mix=(req.mcq, req.short),
+        adaptive=req.adaptive,
+        answer_history=req.answerHistory,
+    )
     q = sess.current()
     if not q:
         raise HTTPException(status_code=400, detail="No questions available")
@@ -60,7 +68,7 @@ def practice_start(req: PracticeStartRequest):
         subject=sess.subject,
         chapter=sess.chapter,
         adaptive=req.adaptive or None,
-        rationale=("adaptive placeholder rationale" if req.adaptive else None),
+        rationale=getattr(sess, "rationale", None),
     )
 
 
