@@ -64,23 +64,50 @@
   <div id="save-status"></div>
 
   <script>
-    // Example data (replace with dynamic fetch if needed)
+    // Expanded data: Economics, Accountancy, Business Studies
     const files = [
+      // Economics
       {subject: 'Economics', pdf: 'keec101.pdf', chunkCount: 28, manual: false},
-      {subject: 'Economics', pdf: 'leec101.pdf', chunkCount: 22, manual: true},
       {subject: 'Economics', pdf: 'keec102.pdf', chunkCount: 47, manual: false},
-      {subject: 'Economics', pdf: 'leec102.pdf', chunkCount: 81, manual: false},
       {subject: 'Economics', pdf: 'keec103.pdf', chunkCount: 43, manual: false},
-      {subject: 'Economics', pdf: 'leec103.pdf', chunkCount: 47, manual: false},
       {subject: 'Economics', pdf: 'keec104.pdf', chunkCount: 35, manual: false},
-      {subject: 'Economics', pdf: 'leec104.pdf', chunkCount: 34, manual: false},
       {subject: 'Economics', pdf: 'keec105.pdf', chunkCount: 38, manual: false},
-      {subject: 'Economics', pdf: 'leec105.pdf', chunkCount: 53, manual: false},
       {subject: 'Economics', pdf: 'keec106.pdf', chunkCount: 45, manual: false},
-      {subject: 'Economics', pdf: 'leec106.pdf', chunkCount: 53, manual: false},
       {subject: 'Economics', pdf: 'keec107.pdf', chunkCount: 39, manual: false},
       {subject: 'Economics', pdf: 'keec108.pdf', chunkCount: 35, manual: false},
-      // Add Accountancy and Business Studies files here...
+      {subject: 'Economics', pdf: 'leec101.pdf', chunkCount: 22, manual: true},
+      {subject: 'Economics', pdf: 'leec102.pdf', chunkCount: 81, manual: false},
+      {subject: 'Economics', pdf: 'leec103.pdf', chunkCount: 47, manual: false},
+      {subject: 'Economics', pdf: 'leec104.pdf', chunkCount: 34, manual: false},
+      {subject: 'Economics', pdf: 'leec105.pdf', chunkCount: 53, manual: false},
+      {subject: 'Economics', pdf: 'leec106.pdf', chunkCount: 53, manual: false},
+      // Accountancy
+      {subject: 'Accountancy', pdf: 'leac101.pdf', chunkCount: 0, manual: false},
+      {subject: 'Accountancy', pdf: 'leac102.pdf', chunkCount: 0, manual: false},
+      {subject: 'Accountancy', pdf: 'leac103.pdf', chunkCount: 0, manual: false},
+      {subject: 'Accountancy', pdf: 'leac104.pdf', chunkCount: 0, manual: false},
+      {subject: 'Accountancy', pdf: 'leac201.pdf', chunkCount: 0, manual: false},
+      {subject: 'Accountancy', pdf: 'leac202.pdf', chunkCount: 0, manual: false},
+      {subject: 'Accountancy', pdf: 'leac203.pdf', chunkCount: 0, manual: false},
+      {subject: 'Accountancy', pdf: 'leac204.pdf', chunkCount: 0, manual: false},
+      {subject: 'Accountancy', pdf: 'leac205.pdf', chunkCount: 0, manual: false},
+      {subject: 'Accountancy', pdf: 'leac206.pdf', chunkCount: 0, manual: false},
+      {subject: 'Accountancy', pdf: 'leca101.pdf', chunkCount: 0, manual: false},
+      {subject: 'Accountancy', pdf: 'leca102.pdf', chunkCount: 0, manual: false},
+      {subject: 'Accountancy', pdf: 'leca103.pdf', chunkCount: 0, manual: false},
+      {subject: 'Accountancy', pdf: 'leca104.pdf', chunkCount: 0, manual: false},
+      // Business Studies
+      {subject: 'Business Studies', pdf: 'lebs101.pdf', chunkCount: 0, manual: false},
+      {subject: 'Business Studies', pdf: 'lebs102.pdf', chunkCount: 0, manual: false},
+      {subject: 'Business Studies', pdf: 'lebs103.pdf', chunkCount: 0, manual: false},
+      {subject: 'Business Studies', pdf: 'lebs104.pdf', chunkCount: 0, manual: false},
+      {subject: 'Business Studies', pdf: 'lebs105.pdf', chunkCount: 0, manual: false},
+      {subject: 'Business Studies', pdf: 'lebs106.pdf', chunkCount: 0, manual: false},
+      {subject: 'Business Studies', pdf: 'lebs107.pdf', chunkCount: 0, manual: false},
+      {subject: 'Business Studies', pdf: 'lebs108.pdf', chunkCount: 0, manual: false},
+      {subject: 'Business Studies', pdf: 'lebs201.pdf', chunkCount: 0, manual: false},
+      {subject: 'Business Studies', pdf: 'lebs202.pdf', chunkCount: 0, manual: false},
+      {subject: 'Business Studies', pdf: 'lebs203.pdf', chunkCount: 0, manual: false},
     ];
     const steps = ['Upload', 'Parse/Chunk', 'Chunk JSON', 'Index', 'Manifest', 'Log'];
     function statusCell(ok=true, manual=false) {

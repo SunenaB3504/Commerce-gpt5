@@ -115,13 +115,13 @@ Day 10: Hardening, performance re-test, documentation, retro prep, stretch tasks
 ### Day 2 Progress (2025-08-14 Early Content Ingestion)
 
 
+
 ### Day 3 Progress (2025-08-18)
-- UAT web interface (`web/uat-ingestion.html`) created for syllabus content ingestion checklist and feedback collection.
-- All Economics syllabus PDFs parsed, chunked, indexed, and reported; manual edits flagged in chunk JSON.
-- Markdown ingestion report generated for audit trail.
-- Session file rotation logic implemented for persistence reliability.
-- Adaptive question selection API extended: `/practice/start` now accepts answer history and returns rationale; backend ready for adaptive prioritization.
-- Next: Expand UAT coverage for Accountancy and Business Studies, update report symbols for consistency, wire up frontend for adaptive practice.
+- UAT web interface (`web/uat-ingestion.html`) now covers Economics, Accountancy, and Business Studies syllabus PDFs.
+- All ingestion, chunking, indexing, and reporting for these subjects are complete and included in the checklist.
+- Checklist is comprehensive and ready for feedback; manual edits flagged where detected.
+- Session file rotation and adaptive API logic are implemented and tested.
+- Day 3 deliverables are fully complete. Next: Continue with admin endpoint integration and retrieval smoke tests.
 
 ---
 ## Remaining Day-wise Action Items (Sprint 3)
