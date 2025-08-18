@@ -13,6 +13,8 @@ from .routes.teach import router as teach_router
 from .routes.mcq import router as mcq_router
 from .routes.practice import router as practice_router
 from .routes.eval import router as eval_router
+
+from .routes.metrics import router as metrics_router
 from .routes.admin import router as admin_router
 
 app = FastAPI(title="Commerce GPT5 API", version="0.1.0")
@@ -39,8 +41,8 @@ app.include_router(validate_router, tags=["validate"])
 app.include_router(teach_router, tags=["teach"]) 
 app.include_router(mcq_router, tags=["mcq"]) 
 app.include_router(practice_router, tags=["practice"]) 
-app.include_router(eval_router, tags=["eval"]) 
-app.include_router(admin_router)
+
+app.include_router(metrics_router)
 
 # Serve the web app statically at /web
 app.mount("/web", StaticFiles(directory="web", html=True), name="web")

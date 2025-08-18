@@ -1,3 +1,7 @@
+### Day 4 Progress (2025-08-19)
+- Admin endpoints for ingestion and calibration identified (`/admin/reload/curated`, `/admin/reload/stopwords`, `/admin/calibration/short-answer`, `/admin/validate/thresholds`).
+- Next: Integrate and test these endpoints for ingestion and retrieval management.
+- Begin documenting API usage and admin workflows in project docs.
 # Sprint 03 Plan (2 weeks)
 
 Sprint Goal: Adaptive learning & operational robustness — deliver adaptive practice recommendations, automated calibration pipeline, improved retrieval performance, richer readiness analytics, and admin workflow polish.

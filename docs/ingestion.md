@@ -80,7 +80,82 @@ The script stores a SHA256 keyed cache in `.ingestion_cache.json`. Without `--fo
 - Chapter collisions (multiple PDFs same chapter): chunks are appended; the manifest includes all contributing PDFs.
 
 ## Next Enhancements (Future)
-- Optional chapter title extraction (first heading on first page).
-- Embedding model selection per run.
-- Parallel ingestion for speed.
-- Deduplication across overlapping PDFs contributing to same chapter.
+
+## Admin Endpoints & Workflow
+
+## Retrieval Validation & Troubleshooting
+
+## Retrieval Benchmarking & Optimization
+
+### Benchmarking Harness
+To measure retrieval performance and quality:
+1. Use the test suite (`test_e2e_ask.py`, `test_chunker_and_retrieval.py`) to benchmark hit@k and latency.
+2. For manual benchmarking, use `/ask` API with representative queries and record response times and hit rates.
+
+### Initial Optimization: Stopword Refinement & Bigram Weighting
+- The indexer uses custom stopwords (from `docs/data/stopwords.txt`) and bigram weighting (`ngram_range=(1,2)`) in TF-IDF vectorizer.
+- To refine stopwords, update `docs/data/stopwords.txt` and reload via `/admin/reload/stopwords`.
+- Bigram weighting is enabled by default in the TF-IDF retriever for improved phrase matching.
+
+### Validation
+- After optimization, rerun retrieval tests and compare hit@k and latency to previous results.
+- Document improvements in the sprint plan and ingestion report.
+
+### Retrieval Smoke Test
+To validate that chunked content is indexed and retrievable:
+1. Run the test suite with pytest:
+  ```
+  pytest tests/test_chunker_and_retrieval.py
+  pytest tests/test_e2e_ask.py
+  ```
+2. Ensure tests pass for chunking, indexing, and retrieval (BM25 fallback, citation presence, answer synthesis).
+3. For API validation, use `/ask` endpoint with a known query and confirm expected answer and citations.
+
+### Troubleshooting
+- If tests are not discovered, ensure test files and functions are named with `test_` prefix and pytest is installed.
+- If retrieval returns no results, check that chunk JSONs and index directories are populated and match the subject/chapter.
+- For performance issues, review index size and chunk overlap settings.
+
+### Reload Curated Q&A
+Reloads the curated Q&A cache for all subjects.
+```
+POST /admin/reload/curated
+Headers: x-admin-token: <your_token>
+Response: {"status": "ok", "curated_count": <int>}
+```
+
+### Reload Stopwords
+Clears TF-IDF caches so updated stopwords take effect.
+```
+POST /admin/reload/stopwords
+Headers: x-admin-token: <your_token>
+Response: {"status": "ok", "cleared_namespaces": [...]}
+```
+
+### Calibration: Suggest Short-Answer Thresholds
+Suggests new scoring thresholds based on labeled sample answers.
+```
+POST /admin/calibration/short-answer
+Headers: x-admin-token: <your_token>
+Body: {"rows": [ ...scored samples... ]}
+Response: {"suggestions": {...}, "count": <int>}
+```
+
+### Get/Update Validation Thresholds
+Get or update the current scoring thresholds for short-answer validation.
+```
+GET /admin/validate/thresholds
+Headers: x-admin-token: <your_token>
+Response: {"partial_min": <float>, "correct_min": <float>, "overrides": {...}}
+
+POST /admin/validate/thresholds
+Headers: x-admin-token: <your_token>
+Body: {"partial_min": <float>, "correct_min": <float>}
+Response: {"status": "ok", "applied": {...}, "effective": {...}}
+```
+
+### Workflow Example
+1. After ingestion, reload curated Q&A and stopwords to refresh caches.
+2. Upload calibration samples and suggest new thresholds.
+3. Review and apply threshold overrides as needed.
+4. Validate changes via readiness dashboard and logs.
